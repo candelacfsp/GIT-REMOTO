@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	 //try{
+				 //candela.asociarTomo_Catalogo_Prod(codigoTomo, descripcion,catalogo,codigoProducto);
+			
+		 //	}catch(ProductoNoEncontradoException pne){
+			 //	pne.mensajeDialogo("Error al Asociar un producto a un tomo en memoria, el producto no se encontro!");
+			 //	System.exit(Constantes.ERROR);
+		 //	}
+			//2. Agregar el tomo a la Base de Datos
+		 //	try{
+		 //	 	catalogo.altaTomo(codigoTomo, descripcion);					
+		 //		System.out.println("Se dio de alta el tomo en la BD");
+		
+		 //	}catch(SQLException sql){
+		 //		System.out.println("Error al dar de alta el tomo en la BD: Error SQL");
+		 //		sql.printStackTrace();
+				//CORREGIR! Verificar que cuando se rediriga a esta pagina, las colecciones del sistema
+				//queden en un estado consistente.
+		  	%>
+				<jsp:forward page="errorAltaTomoBD.html"/>
+			<% 
+			
+		 //	}
+			 //try{
+		 //		candela.Almacenar_Cat_Tomo_Prod(codigoTomo, codigoProducto);
+		 //	}catch(TomoNoEncontradoException tne){
+		 //		System.out.println("Error al buscar el tomo para asignarlo con un producto");
+		 //		tne.mensajeDialogo("Error en Almacenar_Cat_Tomo_Prod, no se encontro el tomo requerido!");
+		 //		System.exit(Constantes.ERROR);
+		 //	}catch(SQLException sql){
+		 //		System.out.println("Error al leer los datos de la BD en metodo: Almacenar_Cat_Tomo_Prod");
+			
+			 //} 
+
+
+</body>
+</html>

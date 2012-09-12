@@ -1,0 +1,164 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>ventas.mxml</title>
+<link rel="stylesheet" type="text/css" href="../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="MXMLProcessing_Instruction">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="MXMLComment">&lt;!--</span><span class="MXMLComment"> charts/MultipleDataProviders.mxml </span><span class="MXMLComment">--&gt;</span>
+<span class="MXMLComponent_Tag">&lt;mx:Application</span><span class="MXMLDefault_Text"> xmlns:mx=&quot;</span><span class="MXMLString">http://www.adobe.com/2006/mxml</span><span class="MXMLDefault_Text">&quot; width=&quot;</span><span class="MXMLString">921.21216</span><span class="MXMLDefault_Text">&quot; height=&quot;</span><span class="MXMLString">737.42426</span><span class="MXMLDefault_Text">&quot; viewSourceURL=&quot;</span><span class="MXMLString">srcview/index.html</span><span class="MXMLDefault_Text">&quot;</span><span class="MXMLComponent_Tag">&gt;</span>
+
+ 
+ 
+
+  <span class="MXMLSpecial_Tag">&lt;mx:Script&gt;</span><span class="ActionScriptOperator">&lt;!</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">CDATA</span><span class="ActionScriptBracket/Brace">[</span>
+      <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">messaging</span>.<span class="ActionScriptDefault_Text">management</span>.<span class="ActionScriptDefault_Text">Attribute</span>;
+ 
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">mx</span>.<span class="ActionScriptDefault_Text">collections</span>.<span class="ActionScriptDefault_Text">ArrayCollection</span>;
+    
+
+           <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">ruta</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">String</span><span class="ActionScriptOperator">=</span><span class="ActionScriptString">&quot;ventas.xml&quot;</span>;
+           <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">xmlExterno</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span>;
+           <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">valorSlider</span>;
+           <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">meses</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptString">&apos;Enero&apos;</span>,<span class="ActionScriptString">&apos;Febrero&apos;</span>,<span class="ActionScriptString">&apos;Marzo&apos;</span>,<span class="ActionScriptString">&apos;Abril&apos;</span>,<span class="ActionScriptString">&apos;Mayo&apos;</span>,<span class="ActionScriptString">&apos;Junio&apos;</span>,<span class="ActionScriptString">&apos;Julio&apos;</span>,<span class="ActionScriptString">&apos;Agosto&apos;</span>,<span class="ActionScriptString">&apos;Septiembre&apos;</span>,<span class="ActionScriptString">&apos;Octubre&apos;</span>,<span class="ActionScriptString">&apos;Noviembre&apos;</span>,<span class="ActionScriptString">&apos;Diciembre&apos;</span><span class="ActionScriptBracket/Brace">)</span>;
+   
+       <span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptMetadata">Bindable</span><span class="ActionScriptBracket/Brace">]</span>
+     <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">tipo1</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ArrayCollection</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ArrayCollection</span><span class="ActionScriptBracket/Brace">()</span>;
+     <span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptMetadata">Bindable</span><span class="ActionScriptBracket/Brace">]</span>
+     <span class="ActionScriptReserved">public</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">tipo2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">ArrayCollection</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">ArrayCollection</span><span class="ActionScriptBracket/Brace">()</span>;
+     
+    <span class="ActionScriptComment">//esta funciòn es llamada cuando el slider es movido
+</span>      <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">actualizarB</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span><span class="ActionScriptBracket/Brace">{</span>
+          
+          <span class="ActionScriptDefault_Text">cargarXML</span><span class="ActionScriptBracket/Brace">()</span>;
+          
+      <span class="ActionScriptBracket/Brace">}</span>
+      
+      
+   <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">cargarXML</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span><span class="ActionScriptBracket/Brace">{</span>
+          <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">loader</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">URLLoader</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">URLLoader</span><span class="ActionScriptBracket/Brace">()</span>;
+          <span class="ActionScriptDefault_Text">ponerListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">loader</span><span class="ActionScriptBracket/Brace">)</span>;
+          <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">peticion</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">URLRequest</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">URLRequest</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">ruta</span><span class="ActionScriptBracket/Brace">)</span>;
+          <span class="ActionScriptDefault_Text">loader</span>.<span class="ActionScriptDefault_Text">load</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">peticion</span><span class="ActionScriptBracket/Brace">)</span>;
+      <span class="ActionScriptBracket/Brace">}</span>
+      
+       <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">ponerListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">dispatcher</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">IEventDispatcher</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span><span class="ActionScriptBracket/Brace">{</span>
+          <span class="ActionScriptDefault_Text">dispatcher</span>.<span class="ActionScriptDefault_Text">addEventListener</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">Event</span>.<span class="ActionScriptDefault_Text">COMPLETE</span>, <span class="ActionScriptDefault_Text">completeHandler</span><span class="ActionScriptBracket/Brace">)</span>;
+      <span class="ActionScriptBracket/Brace">}</span>
+      <span class="ActionScriptComment">//funcion que se ejecutan cuando se completo la carga del archivo XML
+</span>       <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">completeHandler</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">event</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Event</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span><span class="ActionScriptBracket/Brace">{</span>
+      <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">cargador</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">URLLoader</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">event</span>.<span class="ActionScriptDefault_Text">target</span> <span class="ActionScriptReserved">as</span> <span class="ActionScriptDefault_Text">URLLoader</span>;
+      <span class="ActionScriptDefault_Text">xmlExterno</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">XML</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">cargador</span>.<span class="ActionScriptDefault_Text">data</span><span class="ActionScriptBracket/Brace">)</span>;
+
+    
+      <span class="ActionScriptComment">//cada nodo apunta a un tipo de producto
+</span>      <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">topemin</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptOperator">=</span>1;
+      <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">topemax</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptOperator">=</span>12;
+      <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">esPrimero</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span> <span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">true</span>;
+      <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">nodo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">xmlExterno</span>.<span class="ActionScriptDefault_Text">elements</span><span class="ActionScriptBracket/Brace">()){</span>
+          <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">codigo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span><span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">int</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">nodo</span>.@<span class="ActionScriptDefault_Text">codigo</span><span class="ActionScriptBracket/Brace">)</span>;
+          <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">subnodo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">nodo</span>.<span class="ActionScriptDefault_Text">elements</span><span class="ActionScriptBracket/Brace">()){</span>
+              <span class="ActionScriptComment">//cada subnodo apunta a un mes
+</span>              <span class="ActionScriptReserved">switch</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">codigo</span><span class="ActionScriptBracket/Brace">){</span>
+                  <span class="ActionScriptReserved">case</span> 1<span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">tipo1</span>.<span class="ActionScriptDefault_Text">addItem</span><span class="ActionScriptBracket/Brace">({</span><span class="ActionScriptDefault_Text">Mes</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">meses</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">mes</span><span class="ActionScriptBracket/Brace">]</span>,<span class="ActionScriptDefault_Text">venta</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">ventas</span><span class="ActionScriptBracket/Brace">})</span>;
+                      
+                  <span class="ActionScriptReserved">break</span>;
+                  <span class="ActionScriptReserved">case</span> 2<span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">tipo2</span>.<span class="ActionScriptDefault_Text">addItem</span><span class="ActionScriptBracket/Brace">({</span><span class="ActionScriptDefault_Text">Mes</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">meses</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">mes</span><span class="ActionScriptBracket/Brace">]</span>,<span class="ActionScriptDefault_Text">venta</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">ventas</span><span class="ActionScriptBracket/Brace">})</span>;
+                  <span class="ActionScriptReserved">break</span>;
+                  
+              <span class="ActionScriptBracket/Brace">}</span>
+              <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">esPrimero</span><span class="ActionScriptBracket/Brace">){</span>
+                          <span class="ActionScriptDefault_Text">topemin</span><span class="ActionScriptOperator">=</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">mes</span>;
+                          <span class="ActionScriptDefault_Text">topemax</span><span class="ActionScriptOperator">=</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">mes</span>;
+                          <span class="ActionScriptDefault_Text">esPrimero</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">false</span>;
+                      <span class="ActionScriptBracket/Brace">}</span><span class="ActionScriptReserved">else</span><span class="ActionScriptBracket/Brace">{</span>
+                      <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">topemin</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">mes</span><span class="ActionScriptBracket/Brace">){</span>
+                          <span class="ActionScriptDefault_Text">topemin</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">mes</span>;
+                      <span class="ActionScriptBracket/Brace">}</span>
+                      <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">topemax</span> <span class="ActionScriptOperator">&lt;</span> <span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">mes</span><span class="ActionScriptBracket/Brace">){</span>
+                          <span class="ActionScriptDefault_Text">topemax</span><span class="ActionScriptOperator">=</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">mes</span>;
+                      <span class="ActionScriptBracket/Brace">}</span>    
+                      <span class="ActionScriptBracket/Brace">}</span>
+          <span class="ActionScriptBracket/Brace">}</span>
+          
+          
+          
+          <span class="ActionScriptBracket/Brace">}</span><span class="ActionScriptComment">//salgo del for nodo
+</span>          <span class="ActionScriptDefault_Text">slider</span>.<span class="ActionScriptDefault_Text">minimum</span><span class="ActionScriptOperator">=</span><span class="ActionScriptDefault_Text">topemin</span>;
+          <span class="ActionScriptDefault_Text">slider</span>.<span class="ActionScriptDefault_Text">maximum</span><span class="ActionScriptOperator">=</span><span class="ActionScriptDefault_Text">topemax</span>;
+          <span class="ActionScriptDefault_Text">slider</span>.<span class="ActionScriptDefault_Text">enabled</span><span class="ActionScriptOperator">=</span><span class="ActionScriptReserved">true</span>;
+          
+      <span class="ActionScriptBracket/Brace">}</span>
+      
+      <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">actualizarSlider</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">valor</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span><span class="ActionScriptBracket/Brace">{</span>
+      
+      <span class="ActionScriptDefault_Text">tipo1</span>.<span class="ActionScriptDefault_Text">removeAll</span><span class="ActionScriptBracket/Brace">()</span>;
+      <span class="ActionScriptDefault_Text">tipo2</span>.<span class="ActionScriptDefault_Text">removeAll</span><span class="ActionScriptBracket/Brace">()</span>;
+        <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">nodo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">xmlExterno</span>.<span class="ActionScriptDefault_Text">elements</span><span class="ActionScriptBracket/Brace">()){</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">codigo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Number</span><span class="ActionScriptOperator">=</span><span class="ActionScriptDefault_Text">nodo</span>.@<span class="ActionScriptDefault_Text">codigo</span>;
+          <span class="ActionScriptReserved">for</span> <span class="ActionScriptReserved">each</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">subnodo</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">XML</span> <span class="ActionScriptReserved">in</span> <span class="ActionScriptDefault_Text">nodo</span>.<span class="ActionScriptDefault_Text">elements</span><span class="ActionScriptBracket/Brace">()){</span>
+              <span class="ActionScriptComment">//debo cargar solamente el mes correspondiente
+</span>              
+              <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">mes</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">valor</span><span class="ActionScriptBracket/Brace">){</span>
+                  <span class="ActionScriptReserved">switch</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">codigo</span><span class="ActionScriptBracket/Brace">){</span>
+                  <span class="ActionScriptReserved">case</span> 1<span class="ActionScriptOperator">:</span>
+                  <span class="ActionScriptDefault_Text">tipo1</span>.<span class="ActionScriptDefault_Text">addItem</span><span class="ActionScriptBracket/Brace">({</span><span class="ActionScriptDefault_Text">Mes</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">meses</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">mes</span><span class="ActionScriptBracket/Brace">]</span>,<span class="ActionScriptDefault_Text">venta</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">ventas</span><span class="ActionScriptBracket/Brace">})</span>;
+                  
+                  <span class="ActionScriptReserved">break</span>;
+                  <span class="ActionScriptReserved">case</span> 2<span class="ActionScriptOperator">:</span>
+                  <span class="ActionScriptDefault_Text">tipo2</span>.<span class="ActionScriptDefault_Text">addItem</span><span class="ActionScriptBracket/Brace">({</span><span class="ActionScriptDefault_Text">Mes</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">meses</span><span class="ActionScriptBracket/Brace">[</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">mes</span><span class="ActionScriptBracket/Brace">]</span>,<span class="ActionScriptDefault_Text">venta</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">subnodo</span>.@<span class="ActionScriptDefault_Text">ventas</span><span class="ActionScriptBracket/Brace">})</span>;
+                  <span class="ActionScriptReserved">break</span>;
+              <span class="ActionScriptBracket/Brace">}</span>
+              
+              
+          <span class="ActionScriptBracket/Brace">}</span>
+      <span class="ActionScriptBracket/Brace">}</span>
+      <span class="ActionScriptBracket/Brace">}</span>
+      
+      <span class="ActionScriptBracket/Brace">}</span>
+ 
+     
+
+   
+
+      
+
+  <span class="ActionScriptBracket/Brace">]]</span><span class="ActionScriptOperator">&gt;</span>
+
+  <span class="MXMLSpecial_Tag">&lt;/mx:Script&gt;</span>
+  
+  <span class="MXMLComponent_Tag">&lt;mx:Panel</span><span class="MXMLDefault_Text"> title=&quot;</span><span class="MXMLString">Venta de Tipos de Productos</span><span class="MXMLDefault_Text">&quot;</span><span class="MXMLComponent_Tag">&gt;</span> 
+  
+     <span class="MXMLComponent_Tag">&lt;mx:ColumnChart</span><span class="MXMLDefault_Text"> id=&quot;</span><span class="MXMLString">miGrafico</span><span class="MXMLDefault_Text">&quot; dataProvider=&quot;</span><span class="MXMLString">{</span><span class="ActionScriptDefault_Text">tipo1</span><span class="MXMLString">}</span><span class="MXMLDefault_Text">&quot; showDataTips=&quot;</span><span class="MXMLString">true</span><span class="MXMLDefault_Text">&quot;</span><span class="MXMLComponent_Tag">&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;mx:horizontalAxis&gt;</span>
+           <span class="MXMLComponent_Tag">&lt;mx:CategoryAxis</span><span class="MXMLDefault_Text"> categoryField=&quot;</span><span class="MXMLString">Mes</span><span class="MXMLDefault_Text">&quot;</span><span class="MXMLComponent_Tag">/&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;/mx:horizontalAxis&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;mx:series&gt;</span>
+           <span class="MXMLComponent_Tag">&lt;mx:ColumnSeries</span><span class="MXMLDefault_Text"> 
+                dataProvider=&quot;</span><span class="MXMLString">{</span><span class="ActionScriptDefault_Text">tipo1</span><span class="MXMLString">}</span><span class="MXMLDefault_Text">&quot; 
+                yField=&quot;</span><span class="MXMLString">venta</span><span class="MXMLDefault_Text">&quot;
+                xField=&quot;</span><span class="MXMLString">Mes</span><span class="MXMLDefault_Text">&quot; 
+                displayName=&quot;</span><span class="MXMLString">Tipo1</span><span class="MXMLDefault_Text">&quot;
+           </span><span class="MXMLComponent_Tag">/&gt;</span>
+           <span class="MXMLComponent_Tag">&lt;mx:ColumnSeries</span><span class="MXMLDefault_Text"> 
+                dataProvider=&quot;</span><span class="MXMLString">{</span><span class="ActionScriptDefault_Text">tipo2</span><span class="MXMLString">}</span><span class="MXMLDefault_Text">&quot; 
+                yField=&quot;</span><span class="MXMLString">venta</span><span class="MXMLDefault_Text">&quot;
+                xField=&quot;</span><span class="MXMLString">Mes</span><span class="MXMLDefault_Text">&quot; 
+                displayName=&quot;</span><span class="MXMLString">Tipo2</span><span class="MXMLDefault_Text">&quot;
+           </span><span class="MXMLComponent_Tag">/&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;/mx:series&gt;</span>
+     <span class="MXMLComponent_Tag">&lt;/mx:ColumnChart&gt;</span>
+     <span class="MXMLComponent_Tag">&lt;mx:VBox</span><span class="MXMLDefault_Text"> height=&quot;</span><span class="MXMLString">100%</span><span class="MXMLDefault_Text">&quot; width=&quot;</span><span class="MXMLString">397</span><span class="MXMLDefault_Text">&quot;</span><span class="MXMLComponent_Tag">&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;mx:HBox</span><span class="MXMLDefault_Text"> width=&quot;</span><span class="MXMLString">100%</span><span class="MXMLDefault_Text">&quot;</span><span class="MXMLComponent_Tag">&gt;</span>
+           <span class="MXMLComponent_Tag">&lt;mx:Button</span><span class="MXMLDefault_Text"> label=&quot;</span><span class="MXMLString">Cargar</span><span class="MXMLDefault_Text">&quot; click=&quot;</span><span class="ActionScriptDefault_Text">actualizarB</span><span class="ActionScriptBracket/Brace">()</span><span class="MXMLDefault_Text">&quot;</span><span class="MXMLComponent_Tag">/&gt;</span>
+           <span class="MXMLComponent_Tag">&lt;mx:Label</span><span class="MXMLDefault_Text"> text=&quot;</span><span class="MXMLString">Seleccione el Mes</span><span class="MXMLDefault_Text">&quot;</span><span class="MXMLComponent_Tag">/&gt;</span>
+           <span class="MXMLComponent_Tag">&lt;mx:HSlider</span><span class="MXMLDefault_Text"> id=&quot;</span><span class="MXMLString">slider</span><span class="MXMLDefault_Text">&quot; minimum=&quot;</span><span class="MXMLString">1</span><span class="MXMLDefault_Text">&quot; maximum=&quot;</span><span class="MXMLString">12</span><span class="MXMLDefault_Text">&quot; snapInterval=&quot;</span><span class="MXMLString">1</span><span class="MXMLDefault_Text">&quot; enabled=&quot;</span><span class="MXMLString">false</span><span class="MXMLDefault_Text">&quot; change=&quot;</span><span class="ActionScriptDefault_Text">actualizarSlider</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">Math</span>.<span class="ActionScriptDefault_Text">round</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">slider</span>.<span class="ActionScriptDefault_Text">value</span><span class="ActionScriptBracket/Brace">))</span><span class="MXMLDefault_Text">&quot;</span><span class="MXMLComponent_Tag">/&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;/mx:HBox&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;mx:Legend</span><span class="MXMLDefault_Text"> dataProvider=&quot;</span><span class="MXMLString">{</span><span class="ActionScriptDefault_Text">miGrafico</span><span class="MXMLString">}</span><span class="MXMLDefault_Text">&quot;</span><span class="MXMLComponent_Tag">/&gt;</span>
+     <span class="MXMLComponent_Tag">&lt;/mx:VBox&gt;</span>
+  <span class="MXMLComponent_Tag">&lt;/mx:Panel&gt;</span>
+<span class="MXMLComponent_Tag">&lt;/mx:Application&gt;</span></pre></body>
+</html>
