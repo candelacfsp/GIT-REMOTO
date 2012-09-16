@@ -30,16 +30,16 @@
 					Integer.parseInt(codigo));
 		} catch (TipoProductoExcepcion tipo) {
 			tipo.mensajeDialogo("El Tipo de producto no existe");
-			response.sendRedirect("../Error-O.swf");
+			
 		} catch (ProductoNoExisteExcepcion prod) {
 			prod.mensajeDialogo("El producto no existe");
-			response.sendRedirect("../Error-O.swf");
+			
 		}
 		if (!response.isCommitted()) {
 			GeneradorXML xml = new GeneradorXML(candela);
 			xml.generarXMLProductos();
 			xml.generarXMLTipoDeProductos();
-			response.sendRedirect("../exito-O.swf");
+			response.sendRedirect("../vistaOpDatos.swf");
 		}
 	}
 %>

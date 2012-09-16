@@ -32,22 +32,27 @@
 					descripcion, Double.parseDouble(precio),
 					Integer.parseInt(cantidad));
 		} catch (SQLException s) {
-			panel.showMessageDialog(null,
-					"Error de base de datos:" + s.toString());
-		response.sendRedirect("../Error-O.swf");
-		} catch (ProductoExisteExcepcion p){
-			panel.showMessageDialog(null, "Error: el producto existe!, imposible dar alta");
-			response.sendRedirect("../Error-O.swf");
-			
-		}
-		if (!response.isCommitted()){
-		//Debo llamar al generador de XML
-		GeneradorXML xml = new GeneradorXML(candela);
-		xml.generarXMLProductos();
-		response.sendRedirect("../exito-O.swf");
-		}
-		
 
+			response.sendRedirect("../Error-O.swf");
+		} catch (ProductoExisteExcepcion p) {
+			panel.showMessageDialog(null,
+					"Error: el producto existe! imposible dar alta");
+			response.sendRedirect("altaProducto.swf");
+
+		}
+		if (!response.isCommitted()) {
+			//Debo llamar al generador de XML
+			GeneradorXML xml = new GeneradorXML(candela);
+			xml.generarXMLProductos();
+			JOptionPane panel2 = new JOptionPane();
+			int opc = panel2.showConfirmDialog(null, "¿Desea volver a cargar otro producto?",
+					"Carga de Producto", JOptionPane.YES_NO_OPTION);
+			if (opc == JOptionPane.YES_OPTION) {
+				response.sendRedirect("altaProducto.swf");
+			} else {
+				response.sendRedirect("../vistaOpDatos.swf");
+			}
+
+		}
 	}
-	
 %>

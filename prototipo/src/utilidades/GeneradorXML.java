@@ -573,6 +573,7 @@ public class GeneradorXML {
 		this.generarXMLProductosEnStock();
 		this.generarXMLPedidoFabrica();//Son pedidos Fabrica no recibidos.
 		this.generarProductosNoAsociados();
+		System.out.println("Directorio:"+this.directorioActual);
 	}
 
 
@@ -843,7 +844,7 @@ public class GeneradorXML {
 	private boolean buscarProductoAsociado(int codigo){
 		
 		ArrayList<Tomo>tomos=candela.getCatalogoVigente().getTomos();
-		
+		//TODO [DAMIAN] preguntar, porque tomos viene null, esta implementado el getcatalogovigente
 		boolean encontrado=false;
 		int i = 0;
 		//busco dentro de los tomos

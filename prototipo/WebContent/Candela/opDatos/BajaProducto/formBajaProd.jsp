@@ -26,21 +26,28 @@
 		try {
 			candela.bajaDeProducto(Integer.parseInt(codigo));
 		} catch (SQLException s) {
-			JOptionPane panel = new JOptionPane();
-			panel.showMessageDialog(null, "Error de base de datos");
+
 			response.sendRedirect("../Error-O.swf");
 		} catch (TomoAsignadoExcepcion tomo) {
-			tomo.mensajeDialogo("Error, imposible dar de baja el producto, si este se encuentra asignado");
-			response.sendRedirect("../Error-O.swf");
+			tomo.mensajeDialogo("Error, imposible dar de baja, el producto se encuentra asignado a un tomo");
+			response.sendRedirect("bajaProducto.swf");
 		} catch (ProductoNoExisteExcepcion prod) {
 			prod.mensajeDialogo("Error el producto no existe, imposible dar de baja");
-			response.sendRedirect("../Error-O.swf");
+			response.sendRedirect("bajaProducto.swf");
 		}
-		if (!response.isCommitted()){
-		GeneradorXML xml = new GeneradorXML(candela);
-		xml.generarProductosNoAsociados();
-		response.sendRedirect("../exito-O.swf");
-		}
+		if (!response.isCommitted()) {
+			GeneradorXML xml = new GeneradorXML(candela);
+			xml.generarProductosNoAsociados();
+			JOptionPane panel2= new JOptionPane();
+			int opc = panel2.showConfirmDialog(null,
+					"¿Desea volver a dar de baja otro producto?",
+					"Baja de Producto", JOptionPane.YES_NO_OPTION);
+			if (opc == JOptionPane.YES_OPTION) {
+				response.sendRedirect("bajaProducto.swf");
+			} else {
+				response.sendRedirect("../vistaOpDatos.swf");
+			}
 
+		}
 	}
 %>

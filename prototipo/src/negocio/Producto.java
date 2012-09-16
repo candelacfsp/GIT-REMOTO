@@ -148,7 +148,7 @@ public class Producto {
 				productonuevo.setDescripcion(descripcion);
 				productonuevo.setPrecio(precio);
 				productonuevo.setCantidadEnStock(cantidad);
-
+				
 
 
 				productonuevo.save();
@@ -159,6 +159,8 @@ public class Producto {
 				prod.setCodigo(codigo);
 				prod.setDescripcion(descripcion);
 				prod.setPrecio(precio);
+				prod.setTipoProducto(-1);
+				//TODO DAMIAN modificación, desde memoria para poder detectar en el flash sobre el generador.
 
 
 				colProductos.add(prod);

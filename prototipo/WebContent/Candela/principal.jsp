@@ -103,7 +103,9 @@
 
 				if (!encontrado) {
 
-					response.sendRedirect("errorUsuario.swf");
+					JOptionPane panel= new JOptionPane();
+					panel.showMessageDialog(null, "Usuario o contraseña incorrectas, vuelva a introducirlas...");
+					response.sendRedirect("Index.swf");
 				}
 			}
 

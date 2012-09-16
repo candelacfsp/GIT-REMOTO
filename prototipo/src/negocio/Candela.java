@@ -657,8 +657,25 @@ public class Candela {
 	public void asignarATipoDeProducto(int tipoProducto, int codigoproducto) throws ProductoNoExisteExcepcion, TipoProductoExcepcion, SQLException{
 
 		Producto productoasociar =new Producto(em);
+		//El siguiente método se encarga de JAVA<-->BD
 		productoasociar.asignarATipoProducto(tipoProducto, codigoproducto, getProductos(), getColTipoDeProducto());
-
+		//TODO [DAMIAN] falta actualizar a memoria rev 15-9-12
+		for (int i = 0; i < colProductos.size(); i++) {
+			if (colProductos.get(i).getCodigo()==codigoproducto){
+				//si lo encuentro lo agrego a memoria
+				//primero hago un resguardo
+				Producto prod= new Producto(getEm());
+				prod.setCantidadEnStock(colProductos.get(i).getCantidadEnStock());
+				prod.setCodigo(codigoproducto);
+				prod.setDescripcion(colProductos.get(i).getDescripcion());
+				prod.setPrecio(colProductos.get(i).getPrecio());
+				prod.setTipoProducto(tipoProducto);
+				
+				//saco el producto
+				colProductos.remove(i);
+				colProductos.add(prod);
+			}
+		}
 	}
 	/***
 	 * modificarDescripcionTipoProducto
