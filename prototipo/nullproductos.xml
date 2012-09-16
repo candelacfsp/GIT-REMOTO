@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Productos>
+  <Producto codigo="800" descripcion="Medias de Nailon" precio="15.0" cantidad="20" tipoProducto="2" />
+  <Producto codigo="1300" descripcion="Prueba" precio="12.3" cantidad="3" tipoProducto="1" />
+  <Producto codigo="96965" descripcion="555" precio="8585.0" cantidad="600" tipoProducto="1" />
+  <Producto codigo="1500" descripcion="Prueba" precio="12.3" cantidad="63" tipoProducto="1" />
+  <Producto codigo="1800" descripcion="Crema" precio="12.3" cantidad="63" tipoProducto="1" />
+  <Producto codigo="1818" descripcion="Agregame" precio="212.0" cantidad="36" tipoProducto="1" />
+  <Producto codigo="6585" descripcion="prueba de agregar" precio="125.0" cantidad="366" tipoProducto="2" />
+  <Producto codigo="5555" descripcion="555" precio="55.0" cantidad="55" tipoProducto="1" />
+  <Producto codigo="100" descripcion="Producto Obsoleto :( " precio="21.99" cantidad="100" tipoProducto="2" />
+  <Producto codigo="900" descripcion="Remera manga corta" precio="67.88" cantidad="0" tipoProducto="2" />
+  <Producto codigo="700" descripcion="Remera Gastada" precio="21.0" cantidad="1" tipoProducto="2" />
+  <Producto codigo="600" descripcion="Esmalte para u�as" precio="18.35" cantidad="11" tipoProducto="1" />
+  <Producto codigo="500" descripcion=" Crema exfoliante" precio="19.99" cantidad="10" tipoProducto="1" />
+  <Producto codigo="400" descripcion=" Crema para manos" precio="43.21" cantidad="23" tipoProducto="1" />
+  <Producto codigo="300" descripcion="Perfume LaCloaca" precio="600.99" cantidad="0" tipoProducto="1" />
+  <Producto codigo="200" descripcion="Pintalabios" precio="21.0" cantidad="5" tipoProducto="1" />
+  <Producto codigo="1000" descripcion=" Swetter" precio="90.0" cantidad="0" tipoProducto="2" />
+</Productos>

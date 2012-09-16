@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Usuarios>
+  <usuario nombre="Rodrigo" apellido="Huincalef" dni="35887888" userName="Rodrigo" />
+  <usuario nombre="Damian" apellido="Mansilla" dni="33345146" userName="Damian" />
+  <usuario nombre="Vader" apellido="Darth" dni="32000111" userName="Vader">
+    <facturasImpagas factura="2000" />
+  </usuario>
+  <usuario nombre="Luke" apellido="SkyWalker" dni="32222111" userName="Luke">
+    <facturasImpagas factura="2000" />
+  </usuario>
+</Usuarios>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tipos_De_Productos>
+  <TipoDeProducto codigo="1" descripcion="Cosmetico" />
+  <TipoDeProducto codigo="2" descripcion="Ropa" />
+</Tipos_De_Productos>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProductosEnStock>
+  <Producto codigo="800" descripcion="Medias de Nailon" precio="15.0" cantidad="20" />
+  <Producto codigo="1300" descripcion="Prueba" precio="12.3" cantidad="3" />
+  <Producto codigo="96965" descripcion="555" precio="8585.0" cantidad="600" />
+  <Producto codigo="1500" descripcion="Prueba" precio="12.3" cantidad="63" />
+  <Producto codigo="1800" descripcion="Crema" precio="12.3" cantidad="63" />
+  <Producto codigo="1818" descripcion="Agregame" precio="212.0" cantidad="36" />
+  <Producto codigo="6585" descripcion="prueba de agregar" precio="125.0" cantidad="366" />
+  <Producto codigo="5555" descripcion="555" precio="55.0" cantidad="55" />
+  <Producto codigo="100" descripcion="Producto Obsoleto :( " precio="21.99" cantidad="100" />
+  <Producto codigo="700" descripcion="Remera Gastada" precio="21.0" cantidad="1" />
+  <Producto codigo="600" descripcion="Esmalte para u�as" precio="18.35" cantidad="11" />
+  <Producto codigo="500" descripcion=" Crema exfoliante" precio="19.99" cantidad="10" />
+  <Producto codigo="400" descripcion=" Crema para manos" precio="43.21" cantidad="23" />
+  <Producto codigo="200" descripcion="Pintalabios" precio="21.0" cantidad="5" />
+</ProductosEnStock>
