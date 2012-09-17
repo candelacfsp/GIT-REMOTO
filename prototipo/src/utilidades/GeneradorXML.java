@@ -5,7 +5,9 @@ import java.io.*;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -32,12 +34,12 @@ import negocio.Usuario;
 public class GeneradorXML {
 	private Candela candela;
 	private String directorioActual;
-	
+
 	public GeneradorXML(Candela candela){
 		this.candela=candela;
 		this.directorioActual= candela.getDirectorio();
 	}
-	
+
 	//TODO el filtrado de los xmls se debe realizar desde AS2
 	public  void generarXMLProductos(){
 		ArrayList<Producto> colProductos = candela.getProductos();
@@ -842,7 +844,7 @@ public class GeneradorXML {
 	 * @return
 	 */
 	private boolean buscarProductoAsociado(int codigo){
-		
+
 		ArrayList<Tomo>tomos=candela.getCatalogoVigente().getTomos();
 		//TODO [DAMIAN] preguntar, porque tomos viene null, esta implementado el getcatalogovigente
 		boolean encontrado=false;
@@ -862,11 +864,11 @@ public class GeneradorXML {
 			}
 		}
 		return encontrado;
-		
+
 
 
 	}
-	
+
 
 	public class Lista{
 		int codigo;
@@ -917,17 +919,80 @@ public class GeneradorXML {
 		}
 	}
 
+	/***
+	 * Este método genera un xml con un snapshot de la tabla catalogovigente-->tomo-->producto que
+	 * se emplean para las estadisticas y es llamado cuando se crea un nuevo catalogo
+	 */
+	public void generarHistorico(){
+
+
+		Catalogo catalogo = candela.getCatalogoVigente();
+		Element root = new Element("Catalogo");
+		root.setAttribute("anio",Integer.toString(catalogo.getAnioVigencia()));
+		ArrayList<TipoDeProductoBD> tiposProducto = candela.getColTipoDeProducto();
+		ArrayList<Tomo> tomos = catalogo.getTomos();
+		//Recorro toda la memoria con todos los productos
+		for (int i = 0; i < tomos.size(); i++) {
+			Element tomo= new Element ("Tomo");
+			tomo.setAttribute("codigoTomo",Integer.toString(tomos.get(i).getCodigoTomo()));
+			tomo.setAttribute("descripcion",tomos.get(i).getDescripcion());
+
+			ArrayList<Producto> prod = tomos.get(i).getProductos();
+
+			for (int j = 0; j < prod.size(); j++) {
+				Element producto= new Element("Producto");
+				producto.setAttribute("codigo",
+						Integer.toString(prod.get(j).getCodigo()));
+				producto.setAttribute("descripcion", prod.get(j).getDescripcion());
+				producto.setAttribute("precio", Double.toString(prod.get(j).getPrecio()));
+				producto.setAttribute("cantidad", Integer.toString(prod.get(j).getCantidadEnStock()));
+				producto.setAttribute("tipoDeProducto", Integer.toString(prod.get(j).getTipoProducto()));
+				for (int k = 0; k < tiposProducto.size(); k++) {
+					if (tiposProducto.get(k).getCodTipoProd() == prod.get(j).getTipoProducto()){
+						producto.setAttribute("descripcionTipoProd",tiposProducto.get(k).getDescripcion());
+
+					}
+
+				}	
+				
+				tomo.addContent(producto);
+
+			}
+			root.addContent(tomo);
+		}
+		Document doc = new Document(root);//Creamos el documento
+
+		try {
+
+
+			XMLOutputter salida = new XMLOutputter(Format.getPrettyFormat());
+			Calendar cal =  GregorianCalendar.getInstance();
+		
+			FileOutputStream file = new FileOutputStream(directorioActual+"historico/historico-"+cal.getTime()+".xml");
+			salida.output(doc, file);
+
+			file.flush();
+			file.close();
+			salida.output(doc, System.out);
+
+		} catch (Exception e) {
+			System.out.println("Error al crear XML historico");
+			e.printStackTrace();
+		}
+
+
+	}
 
 	public static void main (String args[]) throws SQLException{
 		Candela candela= new Candela();
 		candela.iniciar();
 		GeneradorXML generador= new GeneradorXML(candela);
 		generador.generarTodo();
-	
-		
-		
+
+
+
 
 	}
-	
+
 }
 

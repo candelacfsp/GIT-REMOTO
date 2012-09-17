@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Usuarios>
+  <usuario nombre="damian" apellido="mansilla" dni="10" userName="damian" />
+  <usuario nombre="rodrigo" apellido="huncalef" dni="11" userName="rodrigo" />
+  <usuario nombre="jessica" apellido="jessica" dni="12" userName="jessica" />
+  <usuario nombre="vader" apellido="vader" dni="12" userName="vader" />
+</Usuarios>

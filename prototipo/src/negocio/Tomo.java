@@ -67,7 +67,7 @@ public class Tomo {
 
 	/**
 	 * setCodigoTomo
-	 * Setea el código de un determinado tomo.
+	 * Setea el cï¿½digo de un determinado tomo.
 	 * @param codigoTomo: codigo para un tomo determinado.
 	 */
 	public void setCodigoTomo(int codigoTomo) {
@@ -91,7 +91,7 @@ public class Tomo {
 	 * @param codigoDeTomo: numero del tomo.
 	 * @return: un numero que indica el resultado de la operacion.
 	 */
-	public void AsignarProdTomo(int codDeProd, int codigoDeTomo) throws SQLException{
+	public void AsignarProdTomo(int codDeProd, int codigoDeTomo, String descripcion) throws SQLException{
 		//1.Leer el Producto de la BD
 		ProductoBD prods[]=null;
 		
@@ -118,7 +118,16 @@ public class Tomo {
 		} */
 		
 		//3.Asignar el Producto persistente al tomo
-		prods[0].setTomoBD(tomo[0]);
+		if (tomo.length>0){ //Si es un alta tomo con un catVigente
+			prods[0].setTomoBD(tomo[0]);
+			
+		}else{ //SI es un alta Catalogo, y se pasa un nuevo tomo
+			TomoBD tomo1= em.create(TomoBD.class);
+			tomo1.setCodigoTomo(codigoDeTomo);
+			tomo1.setDescripcion(descripcion);
+			tomo1.save();
+			prods[0].setTomoBD(tomo1);
+		}
 		prods[0].save();
 		
 	//	return Constantes.PRODUCTO_ASIGNADO;
@@ -127,9 +136,9 @@ public class Tomo {
 	/**
 	 * desasignarProdTomo
 	 * Desasigna un producto de un tomo seleccionado.
-	 * @param codDeProd: número del producto a desasignar.
-	 * @param codDeTomo: número de tomo del que desasignara el producto.
-	 * @return: un numero indicando el resultado de la operación.
+	 * @param codDeProd: nï¿½mero del producto a desasignar.
+	 * @param codDeTomo: nï¿½mero de tomo del que desasignara el producto.
+	 * @return: un numero indicando el resultado de la operaciï¿½n.
 	 */
 	public void desasignarProdTomo(int codDeProd, int codDeTomo) throws SQLException{
 		// Buscar el ProductoBD y el tomoBD y desasignar el producto del tomoBD

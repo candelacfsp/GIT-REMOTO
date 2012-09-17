@@ -9,6 +9,7 @@
 <body>
 <%@page session="true" %>
 <%@page import="negocio.Candela" %>
+<%@page import="utilidades.GeneradorXML" %>
 <%
 	/*redirigir.jsp tiene como objetivo hacer las tareas finales de asignacion de catalogo, y
 		verifica si debe redirigir a un form de alta tomo o de alta catalogo, en funcion de si
@@ -24,6 +25,11 @@
 	boolean redirigirAAltaCatalogo;
 	if(candela.esCatalogoNuevo()==true){
 		redirigirAAltaCatalogo=true;
+		
+		//Generar un XML que guarda un snapshot del catalogo actual.
+		
+		GeneradorXML gen= new GeneradorXML(candela);
+		gen.generarHistorico();
 
 	}else{
 		redirigirAAltaCatalogo=false;
@@ -39,16 +45,9 @@
 	//Remover atributos de la sesion
 	candela_sesion.removeAttribute("descripTomo");
 	candela_sesion.removeAttribute("cdigoTomo");
+	response.sendRedirect("../vistaOpDatos.swf");
 	
-	if(redirigirAAltaCatalogo==true){
-		%>
-			<jsp:forward page="../AltaCatalogo/formAltaCatalogo.jsp"/>
-		<%
-	}else{
-		%>
-			<jsp:forward page="formAltaTomo.jsp"/>
-		<%
-	}
 %>
+
 </body>
 </html>

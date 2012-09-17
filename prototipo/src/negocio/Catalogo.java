@@ -359,7 +359,7 @@ public class Catalogo {
 	 * @param codigoTomo: codigo del tomo a al que sera asignado un producto.
 	 * @param colProductos: coleccion de TODOS los productos en Candela, donde se buscara el producto por medio de su codigo.
 	 */
-	public void AsignarProdTomo(int codigoProd,int codigoTomo,ArrayList<Producto> colProductosCand)throws TomoNoEncontradoException,SQLException{
+	public void AsignarProdTomo(int codigoProd,int codigoTomo,ArrayList<Producto> colProductosCand,boolean isCatNuevo, String descripcion)throws TomoNoEncontradoException,SQLException{
 	
 		int postomo=0;
 		//Se declara el i aca para que pueda ser usado luego para acceder directamente al tomo del CatVigente y a�adirle el ProductoNuevo
@@ -381,12 +381,21 @@ public class Catalogo {
 			
 			//Asigno el producto al tomo en memoria, y asocio el producto al tomo en la BD
 			tomos.get(postomo).getProductos().add(colProductosCand.get(posprod));
-			tomos.get(postomo).AsignarProdTomo(codigoProd,codigoTomo); 
+			tomos.get(postomo).AsignarProdTomo(codigoProd,codigoTomo,descripcion); 
 				
 			
 		}else{
+			if (!isCatNuevo){ //SI es un catalogo vigente, es un error ya que se llamo desde un alta de tomo
 			throw new TomoNoEncontradoException();
+			}else{ //Si es un catalogo nuevo, se crea y añade el tomo a la coleccion del catalogo.
+				Tomo tomo= new Tomo(em);
+				tomo.setCodigoTomo(codigoTomo);
+				tomo.setDescripcion(descripcion);
+				tomos.add(tomo);
+				tomo.AsignarProdTomo(codigoProd, codigoTomo,descripcion);
+			}
 		}
+
 	}
 	
 	/**

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProductosEnStock>
+  <Producto codigo="10" descripcion="Jabones" precio="5.0" cantidad="10" />
+  <Producto codigo="20" descripcion="Pinceles" precio="12.3" cantidad="36" />
+  <Producto codigo="30" descripcion="Mesa" precio="12.6" cantidad="25" />
+  <Producto codigo="100" descripcion="Lapiz labial" precio="52.0" cantidad="36" />
+</ProductosEnStock>

@@ -48,9 +48,8 @@
 			// por lo que si se quiere redireccionar a otra pagina que se encuentra mas arriba, se debe usar la sintaxis: ../, que sube un 
 			// directorio en el arbol de directorios, de lo contrario Tomcat no encontrara el recurso.
 		
-			%>
-				<jsp:forward page="../AltaTomo/formAltaTomo.swf" /> 	
-			<%
+			
+			response.sendRedirect("../AltaTomo/formAltaTomo.swf");
 		}catch(ParseException pe){
 			pe.printStackTrace();
 			%>

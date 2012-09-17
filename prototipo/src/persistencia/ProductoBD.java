@@ -19,7 +19,7 @@ public interface ProductoBD extends Entity {
 	
 	
 	public void setTomoBD(TomoBD tomoBD);
-	public int getTomoBD();
+	public TomoBD getTomoBD();
 	
 	public void setTipoDeProductoBD(TipoDeProductoBD tipoDeProductoBD);
 	

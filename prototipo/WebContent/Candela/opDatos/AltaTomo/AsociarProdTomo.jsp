@@ -196,7 +196,7 @@
 			
 			
 			//2. Se asocia el producto al tomo en memoria y en BD.
-			catalogo.AsignarProdTomo(codigoProducto, codigoTomo, candela.getColProductos());
+			catalogo.AsignarProdTomo(codigoProducto, codigoTomo, candela.getColProductos(),candela.esCatalogoNuevo(),descripcion);
 			
 	
 			
@@ -228,7 +228,7 @@
 }else{
 	%>
 		
-			<jsp:forward page="formaAsociarProdTomo.swf"/>
+			<jsp:forward page="formAsociarProdTomo.swf"/>
 		
 		
 <%	}	%>

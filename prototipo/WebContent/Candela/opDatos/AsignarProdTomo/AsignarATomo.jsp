@@ -36,7 +36,7 @@
 		//Añadir a la coleccion de productos del tomo la referencia de producto.
 		//Llamar al metodo asociarProdTomo(codigoTomo,CodigoProd) para hacer la asignacion en la BD.
 		try{
-			candela.getCatalogoVigente().AsignarProdTomo(codigo_prod, codigo_tomo,candela.getColProductos());
+			candela.getCatalogoVigente().AsignarProdTomo(codigo_prod, codigo_tomo,candela.getColProductos(),candela.esCatalogoNuevo(),"");
 		
 		}catch(TomoNoEncontradoException tne){
 			tne.printStackTrace();
