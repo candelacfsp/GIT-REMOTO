@@ -1,3 +1,4 @@
+<%@page import="javax.swing.JOptionPane"%>
 <%@page import="java.text.ParseException"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.text.ParsePosition"%>
@@ -18,8 +19,9 @@
 	if( fecha_fin!=null && (!fecha_fin.equals("")) ){
 	
 		SimpleDateFormat fechas= new SimpleDateFormat("yyyy-MM-dd");
-		
+			
 		Date fechaMayor=null;
+		
 		try{
 			fechaMayor=(Date) fechas.parse(fecha_fin);
 			
@@ -36,9 +38,10 @@
 				
 				boolean resultado=fechaMayor.before(diaActual);
 				if(resultado==true){
-					%>
-			   			<jsp:forward page="errorFInicMenorFActual.swf"/> 
-					<%
+					JOptionPane panel= new JOptionPane();
+					Date hoy= new Date();
+					panel.showMessageDialog(null, "Error! seleccione una fecha superior a hoy:"+hoy.getDay()+"/"+hoy.getMonth()+"/"+hoy.getYear());
+					response.sendRedirect("formAltaCatalogo.swf");
 				}
 		
 			//1.Se llama a candela que creara un  catalogoNuevo y lo mantendra en memoria, hasta que el registro del catalogo este completo con todos sus datos
@@ -51,10 +54,10 @@
 			
 			response.sendRedirect("../AltaTomo/formAltaTomo.swf");
 		}catch(ParseException pe){
-			pe.printStackTrace();
-			%>
-				<jsp:forward page="errorFormatoFechas.swf"/>
-			<%
+			
+			JOptionPane panel= new JOptionPane();
+			panel.showMessageDialog(null, "Error al capturar la fecga! vuelva a intentarlo");
+			response.sendRedirect("formAltaCatalogo.swf");
 		}
 		
 	}  %>

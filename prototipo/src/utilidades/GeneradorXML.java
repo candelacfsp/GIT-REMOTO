@@ -575,6 +575,7 @@ public class GeneradorXML {
 		this.generarXMLProductosEnStock();
 		this.generarXMLPedidoFabrica();//Son pedidos Fabrica no recibidos.
 		this.generarProductosNoAsociados();
+		this.generarTomosVigentes();
 		System.out.println("Directorio:"+this.directorioActual);
 	}
 
@@ -982,6 +983,7 @@ public class GeneradorXML {
 
 
 	}
+	
 
 	public static void main (String args[]) throws SQLException{
 		Candela candela= new Candela();

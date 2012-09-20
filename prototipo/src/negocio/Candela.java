@@ -857,7 +857,13 @@ public class Candela {
 						prod1.setDescripcion(prods[j].getDescripcion());
 						prod1.setPrecio(prods[j].getPrecio());
 						prod1.setCantidadEnStock(prods[j].getCantidadEnStock());
-						int tipoProducto= prods[j].getTipoDeProductoBD().getCodTipoProd(); //TODO MODIFICADO RODRIGO
+						int tipoProducto;
+						try{
+						 tipoProducto= prods[j].getTipoDeProductoBD().getCodTipoProd(); //TODO MODIFICADO RODRIGO
+						}catch (Exception e){
+							tipoProducto=-1;//TODO [DAMIAN] al leer un producto que no tiene seteado su tipo genera un nullpointer
+						}
+						
 						prod1.setTipoProducto(tipoProducto);							   //TODO MODIFICADO RODRIGO.
 						catalogoVigente.getTomos().get(i).getProductos().add(prod1);
 					}
