@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Pedidos_personal>
+  <pedido nroPedido="50" />
+  <pedido nroPedido="250" />
+  <pedido nroPedido="350" />
+  <pedido nroPedido="450" />
+</Pedidos_personal>

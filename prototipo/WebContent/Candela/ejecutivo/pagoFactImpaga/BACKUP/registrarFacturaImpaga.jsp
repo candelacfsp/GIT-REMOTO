@@ -72,11 +72,5 @@
 			<%		
 		}
 		
-	}else{
+	}
 %>
-<body>
-	<jsp:forward page="MostrarFacturaImpaga.jsp"/>
-	
-</body>
-</html>
-<%		}		%>

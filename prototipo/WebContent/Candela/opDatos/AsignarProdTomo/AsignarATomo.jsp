@@ -1,3 +1,4 @@
+<%@page import="javax.swing.JOptionPane"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="excepciones.TomoNoEncontradoException"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -25,7 +26,7 @@
 	Candela candela=(Candela)candela_sesion.getAttribute("candela");
 
 	String codTomo= request.getParameter("codigoTomo");
-	String codProd= request.getParameter("codigoProd");
+	String codProd= request.getParameter("codigoProducto");
 	
 	if(codTomo!=null && (!codTomo.equals(""))){
 		int codigo_tomo= Integer.parseInt(codTomo);
@@ -37,24 +38,22 @@
 		//Llamar al metodo asociarProdTomo(codigoTomo,CodigoProd) para hacer la asignacion en la BD.
 		try{
 			candela.getCatalogoVigente().AsignarProdTomo(codigo_prod, codigo_tomo,candela.getColProductos(),candela.esCatalogoNuevo(),"");
-		
+			JOptionPane panel = new JOptionPane();
+			panel.showMessageDialog(null, "Producto asignado correctamente al tomo");
+			GeneradorXML xml= new GeneradorXML(candela);
+			xml.generarProductosNoAsociados();
+			xml.generarTomosVigentes();
+			response.sendRedirect("../vistaOpDatos.swf");
 		}catch(TomoNoEncontradoException tne){
 			tne.printStackTrace();
-			tne.mensajeDialogo("Error, el tomo no se encontro en la coleccion de tomos del catalogo Vigente.");	
+			tne.mensajeDialogo("Error, el tomo no se encontro en la coleccion de tomos del catalogo Vigente");	
 		//Si no encontre el tomo redirijo a pagina de error
- 		%>
-			<jsp:forward page="ErrorTomoNoExiste.html"/> 
-		
-		<% 
+ 		response.sendRedirect("../vistaOpDatos.swf");
 		}catch(SQLException sql){
 				sql.printStackTrace();
-					%>
-					<jsp:forward page="errorSQL.html"/>
-					<%
+				response.sendRedirect("../Error-O.swf");
 		}
 		// Sino ocurrieron excepciones, se muestra mensaje de Exito.
-		%>
-			<jsp:forward page="productoAsingadoOK.swf"/>
-		<%		
+			
 	}
 %>

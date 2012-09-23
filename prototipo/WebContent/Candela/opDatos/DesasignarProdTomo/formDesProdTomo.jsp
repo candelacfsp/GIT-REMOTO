@@ -1,3 +1,4 @@
+<%@page import="javax.swing.JOptionPane"%>
 <%@page import="excepciones.ProductoNoEncontradoException"%>
 <%@page import="excepciones.TomoNoEncontradoException"%>
 <%@page import="java.sql.SQLException"%>
@@ -17,8 +18,9 @@
 	*/
 	HttpSession candela_sesion= request.getSession();
 	Candela candela=(Candela)candela_sesion.getAttribute("candela");
-	String cod= request.getParameter("codProducto");
+	String cod= request.getParameter("codigoProducto");
 	String nombre= request.getParameter("nombreProducto");
+	String tomo=request.getParameter("codigoTomo");
 	
 	if(cod!=null && (!cod.equals("")) || (nombre!=null && (!nombre.equals("")))){
 		//1. Verificar que el producto exista, obteniendo los productos de Candela.
@@ -42,44 +44,45 @@
 					//El metodo desasignarProdTomo esta sobrecargado para soportar buscar el producto en la coleccion de Candela
 					//por su codigo o su producto.
 					if(cod!=null){
-						candela.getCatalogoVigente().desasignarProdTomo(codigoProd);	
+						candela.getCatalogoVigente().desasignarProdTomo(codigoProd);
+						JOptionPane panel= new JOptionPane();
+						panel.showMessageDialog(null, "Producto desasignado correctamente!");
+						GeneradorXML xml = new GeneradorXML(candela);
+						xml.generarProductosNoAsociados();
+						xml.generarTomosVigentes();
+						response.sendRedirect("../vistaOpDatos.swf");
 					}else{
 				 			if(nombre!=null){
 								candela.getCatalogoVigente().desasignarProdTomo(nombre);
+								JOptionPane panel= new JOptionPane();
+								panel.showMessageDialog(null, "Producto desasignado correctamente!");
+								GeneradorXML xml = new GeneradorXML(candela);
+								xml.generarProductosNoAsociados();
+								xml.generarTomosVigentes();
+								response.sendRedirect("../vistaOpDatos.swf");
 				 			}
 
 					}
 					
 				}catch(SQLException sql){
-					System.out.println("Ocurrio un error con la BD al desasignar el tomo del Producto! ");
-					%>
-						<jsp:forward page="errorSQL.swf"/>
-						<!--<jsp:forward page="errorSQL.html"/> --> 
-					<%
+					response.sendRedirect("../vistaOpDatos.swf");
 				
 				}catch(ProductoNoAsocTomoException pne){
-					System.out.println("Error: el producto no se encuentra asignado a ningun tomo");
-					%>
-						<jsp:forward page="errorProdNoAsociado.swf"/>
-						<!--<jsp:forward page="errorProrNoAsociado.html"/>-->			
-					<%
+					pne.mensajeDialogo("El producto no se encuentra asignado a ningún tomo!");
+					response.sendRedirect("../vistaOpDatos.swf");
 				}
-				//Si la operacion tuvo exito se redirige a un HTML de exito
-						%>
-							<jsp:forward page="ProdDesasignadoOK.swf"/>
-							<!--<jsp:forward page="ProdDesasignadoOK.html"/> --> 
-						<%
+				
 						
 					 
 					
 			
 			
 		}else{
-			//SI EL PRODUCTO NO EXISTE
-			%>
-					<jsp:forward page="errorProdNoExiste.html"/>
-				
-			<%
+			if (!response.isCommitted()){
+				JOptionPane panel= new JOptionPane();
+				panel.showMessageDialog(null, "El producto no existe");
+				response.sendRedirect("../vistaOpDatos.swf");
+			}
 		}
 	}
 	%>

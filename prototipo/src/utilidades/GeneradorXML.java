@@ -469,7 +469,7 @@ public class GeneradorXML {
 
 
 			XMLOutputter salida = new XMLOutputter(Format.getPrettyFormat());
-			FileOutputStream file = new FileOutputStream(directorioActual+"ventas.xml");
+			FileOutputStream file = new FileOutputStream(directorioActual+"flex/estadistica/bin-debug/ventas.xml");
 			salida.output(doc, file);
 
 			file.flush();
@@ -730,6 +730,12 @@ public class GeneradorXML {
 		for (int i = 0; i < colTomos.size(); i++) {
 			Element tomo = new Element("tomo");
 			tomo.setAttribute("codigo", Integer.toString(colTomos.get(i).getCodigoTomo()));
+			 ArrayList<Producto> productos = colTomos.get(i).getProductos();
+			for (int j = 0; j < productos.size(); j++) {
+				Element producto = new Element("producto");
+				producto.setAttribute("codigoProducto",Integer.toString((productos.get(j).getCodigo())));
+				tomo.addContent(producto);
+			}
 			root.addContent(tomo);
 		}
 

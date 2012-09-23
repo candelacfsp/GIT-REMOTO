@@ -15,10 +15,6 @@
 
 
 <%
-	// MostrrFacturaImpaga.jsp muestra todas las facturas impagas del usuario (Facturas Personal) y
-	//solicita que el usuario ingrese un numero de factura  a pagar.
-	
-	
 	HttpSession candela_sesion= request.getSession();
 	Candela candela=(Candela)candela_sesion.getAttribute("candela"); 
 
@@ -28,30 +24,18 @@
 
 	//Se recupera el arrayList de facturasPersonalBD Impagas desde la session
 	
-	//ArrayList<FacturaPersonalBD> factImpagas=(ArrayList<FacturaPersonalBD>)candela_sesion.getAttribute("colFacturaImpaga");
+	ArrayList<FacturaPersonalBD> factImpagas=(ArrayList<FacturaPersonalBD>)candela_sesion.getAttribute("colFacturaImpaga");
 	
-	
+
 	//Recupero la posicion del usuario
-	//ArrayList<usuarioBD> usuarios= candela.getColUsuarios();
-	//String nroDni=(String)request.getAttribute("dni");
-	
-	
-	//Se obtiene el dni de la session de Candela.
-	Integer nroDni=(Integer)candela_sesion.getAttribute("dni");
-	int dni= nroDni.intValue();
-	
-	int posUsuario=candela.verificarUsuario(dni);
-	
-	//Se recupera la posicion de las facturasPersonal Impagas del usuario
-	ArrayList<FacturaPersonal> factImpagas=candela.getcolUSRSOFTWARE().get(posUsuario).obtenerFactImpagas();
-	
+	ArrayList<usuarioBD> usuarios= candela.getColUsuarios();
 	
 	//FacturaPersonalBD[] factImpaga=usuarios.get(posUsr).getColFacturas();
 	
 	//Se obtiene un objeto pw, qeu se encarga de generar el contenido HTML que sera visible por el usuario
 	PrintWriter pw= response.getWriter();
 	
-	for(FacturaPersonal fact1: factImpagas){
+	for(FacturaPersonalBD fact1: factImpagas){
 			System.out.println("datos de factura:"+fact1.getNumero()+fact1.getFecha());
 			
 			pw.println("<h1 align='center'><font color='blue'>Listado de Facturas Impagas:</font></h1>");
@@ -77,12 +61,10 @@
 			
 			//Se leen los detalles del pedido personal asociado a la factura, con el fin de tener el nombre del producto en la
 			//impresion de la factura
-			//DetallePedidoPersonalBD[] dets=fact1.getPedidoPersonalBD().getColDetallesPedidoPersonalBD();
-			ArrayList<DetallePedidoPersonal> dets=	fact1.getPedidoPers().getDetalles();
+			DetallePedidoPersonalBD[] dets=fact1.getPedidoPersonalBD().getColDetallesPedidoPersonalBD();
 			
-			for(int i=0; i<dets.size(); i++){
-
-				pw.println("<div align='center'>"+(i+1)+" "+dets.get(i).getProd().getDescripcion()+"	"+dets.get(i).getProd().getCodigo()+"	"+dets.get(i).getProd().getPrecio() +" "+dets.get(i).getCantidad()+"</div><br>");
+			for(int i=0; i<dets.length; i++){
+				pw.println("<div align='center'>"+(i+1)+" "+dets[i].getProductoBD().getDescripcion()+"	"+dets[i].getProductoBD().getCodigo()+"	"+dets[i].getProductoBD().getPrecio() +" "+dets[i].getCantidad()+"</div><br>");
 			}
 			pw.println("---------------------------------------------------------------------------------------------------------------------------------------------------<br>");
 			
@@ -95,7 +77,7 @@
 		Numero de factura a pagar: <input type="text" id="nroFacturaImpaga" name="nroFacturaImpaga"><br><br>
 		<input align="center" type="submit" value="Pagar Factura" name="Pagar Factura" >
 		<a href="formPagoFacturaImpaga.jsp" align="center" ><b>Cancelar</b></a>
-		</form>
+	</form>
 </body>
 </html>
 

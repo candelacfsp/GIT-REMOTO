@@ -52,6 +52,7 @@
 		candela_sesion.removeAttribute("nroFactImp");
 		candela_sesion.removeAttribute("dni");
 %>
-			<jsp:forward page="formPagoFacturaImpaga.jsp"/>
+			<!--<jsp:forward page="formPagoFacturaImpaga.jsp"/>-->
+			<jsp:forward page="facturaPagadaOK.swf"/>
 </body>
 </html>

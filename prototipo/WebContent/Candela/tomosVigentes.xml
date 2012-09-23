@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tomos>
+  <tomo codigo="20">
+    <producto codigoProducto="400" />
+    <producto codigoProducto="1100" />
+    <producto codigoProducto="800" />
+  </tomo>
+</Tomos>

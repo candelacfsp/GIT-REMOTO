@@ -24,7 +24,3 @@
 	gen.generarXMLFacturasFabrica();
 	response.sendRedirect("../vistaEjecutivo.swf");
 %>
-	<!--<jsp:forward page="../vistaEjecutivo.swf"/> -->
-
-</body>
-</html>

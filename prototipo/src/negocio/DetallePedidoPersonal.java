@@ -49,7 +49,7 @@ public class DetallePedidoPersonal {
 			e.printStackTrace();
 		}
 		if (detallePedidoBD!= null){
-			//deberia aqui actualizar la cantidad en stock de los productos
+			
 			
 			
 		
