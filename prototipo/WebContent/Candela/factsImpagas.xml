@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facturas_impagas>
+  <facturaImpaga numeroFact="2000" tipoFact="1" fechaFact="AM-01-09">
+    <detalle codigoProd="200" descrip="Pintalabios" cantProd="5.0" precio="30.99" />
+  </facturaImpaga>
+  <facturaImpaga numeroFact="1000" tipoFact="1" fechaFact="AM-01-06">
+    <detalle codigoProd="100" descrip="Producto Obsoleto :( " cantProd="13.0" precio="21.99" />
+  </facturaImpaga>
+  <facturaImpaga numeroFact="5" tipoFact="1" fechaFact="PM-09-26">
+    <detalle codigoProd="500" descrip=" Crema exfoliante" cantProd="7.0" precio="19.99" />
+  </facturaImpaga>
+</facturas_impagas>

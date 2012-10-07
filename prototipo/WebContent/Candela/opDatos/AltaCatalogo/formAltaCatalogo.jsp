@@ -25,7 +25,7 @@
 		if(fechaMayor.before(fechaMenor)){
 			
 			%>
-				<<jsp:forward page="errorFFinMenorFInicio.html" /> 
+				<jsp:forward page="errorFFinMenorFInicio.html" /> 
 			<% 
 		}else{
 			if(fechaMayor.equals(fechaMenor)){

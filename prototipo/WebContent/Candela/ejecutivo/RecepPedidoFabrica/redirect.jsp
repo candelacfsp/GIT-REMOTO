@@ -22,5 +22,5 @@
 	//Se generanlos pedidos fabrica marcados y sus facturas fabricas impagas
 	gen.generarXMLPedidoFabrica();
 	gen.generarXMLFacturasFabrica();
-	response.sendRedirect("../vistaEjecutivo.swf");
+	response.sendRedirect("../vistaEjecutivo-stock.jsp");
 %>

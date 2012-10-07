@@ -33,7 +33,7 @@
 					Integer.parseInt(cantidad));
 		} catch (SQLException s) {
 
-			response.sendRedirect("../Error-O.swf");
+			response.sendRedirect("../Error-O.jsp");
 		} catch (ProductoExisteExcepcion p) {
 			panel.showMessageDialog(null,
 					"Error: el producto existe! imposible dar alta");
@@ -44,13 +44,14 @@
 			//Debo llamar al generador de XML
 			GeneradorXML xml = new GeneradorXML(candela);
 			xml.generarXMLProductos();
+			xml.generarProductosNoAsociados();
 			JOptionPane panel2 = new JOptionPane();
 			int opc = panel2.showConfirmDialog(null, "¿Desea volver a cargar otro producto?",
 					"Carga de Producto", JOptionPane.YES_NO_OPTION);
 			if (opc == JOptionPane.YES_OPTION) {
-				response.sendRedirect("altaProducto.swf");
+				response.sendRedirect("altaProducto.jsp");
 			} else {
-				response.sendRedirect("../vistaOpDatos.swf");
+				response.sendRedirect("../vistaOpDatos-producto.jsp");
 			}
 
 		}

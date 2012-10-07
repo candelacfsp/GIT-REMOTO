@@ -43,9 +43,9 @@
 					"Modificación de Producto",
 					JOptionPane.YES_NO_OPTION);
 			if (opc == JOptionPane.YES_OPTION) {
-				response.sendRedirect("modificacionProducto.swf");
+				response.sendRedirect("modificacionProducto.jsp");
 			} else {
-				response.sendRedirect("../vistaOpDatos");
+				response.sendRedirect("../vistaOpDatos-producto.jsp");
 			}
 		}
 	}

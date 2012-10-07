@@ -48,7 +48,7 @@
 			JOptionPane panel = new JOptionPane();
 			panel.showMessageDialog(null,
 					"El tomo existe!, ingrese otro.");
-			response.sendRedirect("formAltaTomo.swf");
+			response.sendRedirect("formAltaTomo.jsp");
 		}
 
 		//Se da de alta el tomo y se lo asigna al catalogo nuevo o vigente.
@@ -66,10 +66,10 @@
 			//ver esto 9 - 9 -12
 			gen.generarProductosNoAsociados();
 
-			response.sendRedirect("formAsociarProdTomo.swf");
+			response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 		} else {//Sino se llama  al swf.	
 			if (!response.isCommitted()){
-				response.sendRedirect("formAltaTomo.swf");
+				response.sendRedirect("formAltaTomoEmbed.jsp");
 			}
 		}
 	}

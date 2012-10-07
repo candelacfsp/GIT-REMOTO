@@ -50,7 +50,7 @@
 						GeneradorXML xml = new GeneradorXML(candela);
 						xml.generarProductosNoAsociados();
 						xml.generarTomosVigentes();
-						response.sendRedirect("../vistaOpDatos.swf");
+						response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 					}else{
 				 			if(nombre!=null){
 								candela.getCatalogoVigente().desasignarProdTomo(nombre);
@@ -59,17 +59,17 @@
 								GeneradorXML xml = new GeneradorXML(candela);
 								xml.generarProductosNoAsociados();
 								xml.generarTomosVigentes();
-								response.sendRedirect("../vistaOpDatos.swf");
+								response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 				 			}
 
 					}
 					
 				}catch(SQLException sql){
-					response.sendRedirect("../vistaOpDatos.swf");
+					response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 				
 				}catch(ProductoNoAsocTomoException pne){
 					pne.mensajeDialogo("El producto no se encuentra asignado a ningún tomo!");
-					response.sendRedirect("../vistaOpDatos.swf");
+					response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 				}
 				
 						
@@ -81,7 +81,7 @@
 			if (!response.isCommitted()){
 				JOptionPane panel= new JOptionPane();
 				panel.showMessageDialog(null, "El producto no existe");
-				response.sendRedirect("../vistaOpDatos.swf");
+				response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 			}
 		}
 	}

@@ -48,7 +48,7 @@
 						colDetalles.add(detalle);
 					}
 					candela.actualizarColProdConDetalle(colDetalles);
-					response.sendRedirect("pedidoVentaLocal.swf");
+					response.sendRedirect("pedidoVentaLocal.jsp");
 
 				}
 			}
@@ -112,13 +112,13 @@
 							//debería vaciar colDetalles
 							colDetalles.clear();
 							}
-							response.sendRedirect("vistaEjecutivo.swf");
+							response.sendRedirect("vistaEjecutivo-stock.jsp");
 							
 						} catch (SQLException sql) {
 							JOptionPane panel = new JOptionPane();
 							panel.showMessageDialog(null,
 									"Error de base de datos");
-							response.sendRedirect("Error-E.swf");
+							response.sendRedirect("Error-E.jsp");
 						} //fin del catch
 
 					}// fin del si encuentro el usuario

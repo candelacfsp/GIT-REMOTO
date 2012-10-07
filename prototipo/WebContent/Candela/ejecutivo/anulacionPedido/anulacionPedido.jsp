@@ -31,22 +31,22 @@
 		} catch (SQLException sql) {
 			JOptionPane panel = new JOptionPane();
 			panel.showMessageDialog(null, "Error de base de datos");
-			response.sendRedirect("../Error-E.swf");
+			response.sendRedirect("../Error-E.jsp");
 		} catch (FacturaVencidaExcepcion vencida) {
 			vencida.mensajeDialogo("La factura se encuentra vencida, imposible anular");
-			response.sendRedirect("../vistaEjecutivo.swf");
+			response.sendRedirect("../vistaEjecutivo.jsp");
 
 		} catch (FacturaPagadaExcepcion pagada) {
 			pagada.mensajeDialogo("La factura se encuentra paga, imposible anular");
-			response.sendRedirect("../vistaEjecutivo.swf");
+			response.sendRedirect("../vistaEjecutivo.jsp");
 		} catch (ProductoNoExisteExcepcion noExiste) {
 			noExiste.mensajeDialogo("Error en actualizacion de stock de los productos, el producto a actualizar no existe!!!");
-			response.sendRedirect("../vistaEjecutivo.swf");
+			response.sendRedirect("../vistaEjecutivo.jsp");
 		}
 		if (!response.isCommitted()){
 			GeneradorXML xml = new GeneradorXML(candela);
 			xml.generarXMLUsuarios();
-			response.sendRedirect("../vistaEjecutivo.swf");
+			response.sendRedirect("../vistaEjecutivo.jsp");
 		}
 		
 	}

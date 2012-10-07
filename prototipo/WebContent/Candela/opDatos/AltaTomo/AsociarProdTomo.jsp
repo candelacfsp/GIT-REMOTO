@@ -87,7 +87,7 @@
 				panel.showMessageDialog(null,
 						"El producto no existe, vuelva a intentarlo...");
 				xml.generarProductosNoAsociados();
-				response.sendRedirect("formAsociarProdTomo.swf");
+				response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 			} else { //Si el producto existe
 
 				//TODO IMPORTANTE Si un producto esta asociado directamente a un tomo de un catalogo qeu no esta en vigencia, entonces
@@ -102,7 +102,7 @@
 					panel.showMessageDialog(null,
 							"El producto se encuentra asociado a otro tomo");
 					xml.generarProductosNoAsociados();
-					response.sendRedirect("formAsociarProdTomo.swf");
+					response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 
 				}
 			}
@@ -117,7 +117,7 @@
 					panel.showMessageDialog(null,
 							"El producto se encuentra asociado al tomo");
 					xml.generarProductosNoAsociados();
-					response.sendRedirect("formAsociarProdTomo.swf");
+					response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 				}
 			}
 
@@ -153,10 +153,10 @@
 							JOptionPane.YES_NO_OPTION);
 					if (opc == JOptionPane.YES_OPTION) {
 						xml.generarProductosNoAsociados();
-						response.sendRedirect("formAsociarProdTomo.swf");
+						response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 					} else {
 						xml.generarProductosNoAsociados();
-						response.sendRedirect("../vistaOpDatos.swf");
+						response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 					}
 				}
 
@@ -165,20 +165,20 @@
 						.println("Error al buscar el tomo para asignarlo con un producto");
 				tne.mensajeDialogo("Error al buscar el tomo para asignarle el producto...");
 
-				response.sendRedirect("formAltaTomo.swf");
+				response.sendRedirect("formAltaTomoEmbed.jsp");
 
 			} catch (SQLException sql) {
 
 				System.out
 						.println("Error al dar de alta el Tomo en la BD.");
-				response.sendRedirect("../Error-O.swf");
+				response.sendRedirect("../Error-O.jsp");
 			}
 			//Se creo correctamente el catalogo, con almenos un tomo y al menos un producto.
 
 		} catch (NumberFormatException nfe) {
 			panel.showMessageDialog(null,
 					"Error en el formato numérico");
-			response.sendRedirect("formAsociarProdTomo.swf");
+			response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 		}
 
 	}

@@ -45,7 +45,7 @@
 	//Remover atributos de la sesion
 	candela_sesion.removeAttribute("descripTomo");
 	candela_sesion.removeAttribute("cdigoTomo");
-	response.sendRedirect("../vistaOpDatos.swf");
+	response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 	
 %>
 

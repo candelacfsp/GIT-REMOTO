@@ -27,25 +27,26 @@
 			candela.bajaDeProducto(Integer.parseInt(codigo));
 		} catch (SQLException s) {
 
-			response.sendRedirect("../Error-O.swf");
+			response.sendRedirect("../Error-O.jsp");
 		} catch (TomoAsignadoExcepcion tomo) {
 			tomo.mensajeDialogo("Error, imposible dar de baja, el producto se encuentra asignado a un tomo");
-			response.sendRedirect("bajaProducto.swf");
+			response.sendRedirect("bajaProducto.jsp");
 		} catch (ProductoNoExisteExcepcion prod) {
 			prod.mensajeDialogo("Error el producto no existe, imposible dar de baja");
-			response.sendRedirect("bajaProducto.swf");
+			response.sendRedirect("bajaProducto.jsp");
 		}
 		if (!response.isCommitted()) {
 			GeneradorXML xml = new GeneradorXML(candela);
 			xml.generarProductosNoAsociados();
+			xml.generarXMLProductos();
 			JOptionPane panel2= new JOptionPane();
 			int opc = panel2.showConfirmDialog(null,
 					"¿Desea volver a dar de baja otro producto?",
 					"Baja de Producto", JOptionPane.YES_NO_OPTION);
 			if (opc == JOptionPane.YES_OPTION) {
-				response.sendRedirect("bajaProducto.swf");
+				response.sendRedirect("bajaProducto.jsp");
 			} else {
-				response.sendRedirect("../vistaOpDatos.swf");
+				response.sendRedirect("../vistaOpDatos-producto.jsp");
 			}
 
 		}

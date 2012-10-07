@@ -78,11 +78,11 @@
 					"La factura se registró correctamente");
 			response.sendRedirect("redirect.jsp");
 		} catch (SQLException sql) {
-			response.sendRedirect("../Error-E.swf");
+			response.sendRedirect("../Error-E.jsp");
 		} catch (ParseException pe) {
 			panel.showMessageDialog(null,
 					"Error al introducir la fecha, debe ser del estilo año-mes-dia:aaaa-mm-dd");
-			response.sendRedirect("../vistaEjecutivo.swf");
+			response.sendRedirect("../vistaEjecutivo-stock.jsp");
 		}
 	}
 %>

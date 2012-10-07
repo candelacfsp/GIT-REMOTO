@@ -34,5 +34,5 @@ Candela candela = (Candela) candela_sesion
 		.getAttribute("candela");
 Reportes reportar = new Reportes();
 String archivo=reportar.crearPDF(candela);
-response.sendRedirect("../reporte.pdf");
+response.sendRedirect("../reporteCatalogoVigente.pdf");
 %>

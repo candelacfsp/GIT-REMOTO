@@ -30,16 +30,20 @@
 
 
 <%
+	response.setHeader("Cache-Control",
+			"no-cache, no-store, must-revalidate");
+	response.setHeader("Pragma", "no-cache");
+	response.setDateHeader("Expires", 0);
+
 	String nombre = request.getParameter("usuario");
 	String contrasenia = request.getParameter("contrasenia");
-	String directorio= getServletContext().getRealPath("/");
-//Esto lo realice para obtener el path
-	
-	
+	String directorio = getServletContext().getRealPath("/");
+	//Esto lo realice para obtener el path
+
 	if ((nombre != null && contrasenia != null)
 			&& (!nombre.equals("") && !contrasenia.equals(""))) {
 		try {
-			candela.setDirectorio(directorio+"Candela/"); //TODO DAMIAN 11-9-12 agregue
+			candela.setDirectorio(directorio + "Candela/"); //TODO DAMIAN 11-9-12 agregue
 			candela.iniciar();
 		} catch (SQLException e) {
 			JOptionPane panel = new JOptionPane();
@@ -53,7 +57,7 @@
 			response.sendRedirect("Index.swf");
 		}
 		if (!response.isCommitted()) {
-			HttpSession candela_sesion = request.getSession();
+			HttpSession candela_sesion = request.getSession(true);
 			candela_sesion.setAttribute("candela", candela);
 			//Guardo en la sesion un arraylist de coldetalles para utilizarlo en venta en local
 			ArrayList<DetallePedidoPersonal> colDetalles = new ArrayList<DetallePedidoPersonal>();
@@ -80,20 +84,26 @@
 									.equals(contrasenia))) {
 						//si encuentro el usuario
 						encontrado = true;
+						//Se guarda el tipo de usuario y el nombre de usuario en la sesión de candela para que sea
+						//revalidado en cada una de las vistas en jsp
+						candela_sesion.setAttribute("nombreUsr", nombre);
+						candela_sesion.setAttribute("tipoUsr",(Integer) usuarios.get(i).getTipoDeUsrBD().getnroTipoUsr());
+						//se guarda el nombre de usuario para mostrar el nombre de usuario
+						
 						switch (usuarios.get(i).getTipoDeUsrBD()
-								.getID()) {
+								.getnroTipoUsr()) {
 
 						case Constantes.VENDEDOR:
-							response.sendRedirect("vendedor/vistaVendedor.swf");
+							response.sendRedirect("vendedor/vistaVendedor.jsp");
 							break;
 						case Constantes.DIRECTOR:
-							response.sendRedirect("director/vistaDirector.swf");
+							response.sendRedirect("director/vistaDirector.jsp");
 							break;
 						case Constantes.EJECUTIVO:
-							response.sendRedirect("ejecutivo/vistaEjecutivo.swf");
+							response.sendRedirect("ejecutivo/vistaEjecutivo.jsp");
 							break;
 						case Constantes.OPERADORDEDATOS:
-							response.sendRedirect("opDatos/vistaOpDatos.swf");
+							response.sendRedirect("opDatos/vistaOpDatos.jsp");
 							break;
 						}
 
@@ -103,8 +113,9 @@
 
 				if (!encontrado) {
 
-					JOptionPane panel= new JOptionPane();
-					panel.showMessageDialog(null, "Usuario o contraseña incorrectas, vuelva a introducirlas...");
+					JOptionPane panel = new JOptionPane();
+					panel.showMessageDialog(null,
+							"Usuario o contraseña incorrectas, vuelva a introducirlas...");
 					response.sendRedirect("Index.swf");
 				}
 			}

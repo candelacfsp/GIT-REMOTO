@@ -24,17 +24,20 @@
 		HttpSession candela_sesion = request.getSession();
 		Candela candela = (Candela) candela_sesion
 				.getAttribute("candela");
-		double precio;
-		try {
-			precio = candela.consPrecioProd(Integer.parseInt(codigo));
 
+		try {
+
+			double precio;
+			precio = candela.consPrecioProd(Integer.parseInt(codigo));
 			JOptionPane panel = new JOptionPane();
 			panel.showMessageDialog(null, "El precio del producto es:"
 					+ precio);
 		} catch (ProductoNoExisteExcepcion prod) {
-			prod.mensajeDialogo("Error el producto no existe, imposible consultar el precio");
+			prod.mensajeDialogo("Error: el producto no existe!, imposible consultar el precio");
+			response.sendRedirect("../Error-O.swf");
 		}
-		response.sendRedirect("../vistaVendedor.swf");
-
+		if (!response.isCommitted()){
+		response.sendRedirect("../vistaOpDatos-producto.swf");
+		}
 	}
 %>

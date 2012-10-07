@@ -2,12 +2,15 @@ package negocio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import persistencia.ProductoBD;
 import persistencia.TomoBD;
 import utilidades.Constantes;
 
 import net.java.ao.EntityManager;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 /**
  * Esta clase contiene la informacion relativa a los tomos en Candela, asi como los una coleccion con los productos
  * asociados al tomo.
@@ -157,7 +160,18 @@ public class Tomo {
 	//	return Constantes.PRODUCTO_DESASIGNADO_OK;
 	}
 	
-
-
-
+	//Metodos necesarios para jasper!!!!!!
+	public List getListaProductos(){
+		return this.getProductos();
+	}
+	public void setListaProductos(List productos){
+		this.productos = (ArrayList<Producto>) productos;
+	}
+	public void addProducto(Producto producto){
+		this.productos.add(producto);
+	}
+	
+	public JRDataSource getColProductos(){
+		return new JRBeanCollectionDataSource(this.productos);
+	}
 }

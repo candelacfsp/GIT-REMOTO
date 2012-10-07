@@ -41,7 +41,7 @@ public class GeneradorXML {
 	}
 
 	//TODO el filtrado de los xmls se debe realizar desde AS2
-	public  void generarXMLProductos(){
+	synchronized public  void generarXMLProductos(){
 		ArrayList<Producto> colProductos = candela.getProductos();
 		Element root = new Element("Productos");
 		for (int i = 0; i < colProductos.size(); i++) {
@@ -80,7 +80,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLTipoDeProductos(){
+	synchronized public void generarXMLTipoDeProductos(){
 		ArrayList<TipoDeProductoBD> colTipoDeProducto = candela.getColTipoDeProducto();
 		Element root = new Element("Tipos_De_Productos");
 		for (int i = 0; i < colTipoDeProducto.size(); i++) {
@@ -111,7 +111,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLTipoDeUsr(){
+	synchronized public void generarXMLTipoDeUsr(){
 		ArrayList<TipoDeUsrBD> colTipoDeUsr = candela.getColTipoUsr();
 		Element root = new Element("Tipos_De_Usuarios");
 		for (int i = 0; i < colTipoDeUsr.size(); i++) {
@@ -139,7 +139,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLUsuarios(){
+	synchronized public void generarXMLUsuarios(){
 		ArrayList<usuarioBD> colUsuarios = candela.getColUsuarios();
 		Element root = new Element("Usuarios");
 		for (int i = 0; i < colUsuarios.size(); i++) {
@@ -181,7 +181,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLTomos(){
+	synchronized public void generarXMLTomos(){
 		Catalogo catalogo= candela.getCatalogoVigente();
 		ArrayList<Tomo> colTomos= catalogo.getTomos();
 
@@ -211,7 +211,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLFacturasFabrica(){
+	synchronized public void generarXMLFacturasFabrica(){
 		ArrayList<FacturaFabrica>facturaFabrica=candela.getFacturasFabrica();
 
 
@@ -243,7 +243,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLFacturasPersonal(){
+	synchronized public void generarXMLFacturasPersonal(){
 		ArrayList<FacturaPersonal>facturaPersonal=candela.getFacturasPersonal();
 		Element root = new Element("Facturas_A_Personal");
 		for (int i = 0; i < facturaPersonal.size(); i++) {
@@ -273,7 +273,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLPedidoFabrica(){
+	synchronized	public void generarXMLPedidoFabrica(){
 		ArrayList<PedidoFabrica>pedidoFabrica=candela.getPedidosFabricaNoFacturados();
 		Element root = new Element("Pedidos_a_fabrica");
 		for (int i = 0; i < pedidoFabrica.size(); i++) {
@@ -305,7 +305,7 @@ public class GeneradorXML {
 	}
 
 
-	public void generarXMLPedidoPersonal(){
+	synchronized public void generarXMLPedidoPersonal(){
 		ArrayList<PedidoPersonal>pedidoPersonal=candela.getPedidosPersonal();
 		Element root = new Element("Pedidos_personal");
 		for (int i = 0; i < pedidoPersonal.size(); i++) {
@@ -334,7 +334,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLProductosEnStock(){
+	synchronized public void generarXMLProductosEnStock(){
 		ArrayList<Producto>productos=candela.getColProductos();
 		Element root = new Element("ProductosEnStock");
 		for (int i = 0; i < productos.size(); i++) {
@@ -376,7 +376,7 @@ public class GeneradorXML {
 
 
 
-	public void generarXMLVentas(){
+	synchronized public void generarXMLVentas(){
 
 		ArrayList<Lista> tipos= new ArrayList<Lista>();
 
@@ -482,7 +482,7 @@ public class GeneradorXML {
 		}
 	}
 
-	public void generarFacturasImpagasUsuario(int dni){
+	synchronized public void generarFacturasImpagasUsuario(int dni){
 
 
 
@@ -561,7 +561,7 @@ public class GeneradorXML {
 
 
 
-	public  void generarTodo(){
+	synchronized	public  void generarTodo(){
 		this.generarXMLProductos();
 		this.generarXMLFacturasFabrica();
 		this.generarXMLFacturasPersonal();
@@ -582,7 +582,7 @@ public class GeneradorXML {
 
 
 
-	public void generarFacturasFabricaPagadas(ArrayList<FacturaFabrica>facturas){
+	synchronized public void generarFacturasFabricaPagadas(ArrayList<FacturaFabrica>facturas){
 
 		Element root= new Element("FacturasFabPagadas");
 		Element detallesPers=null;
@@ -668,7 +668,7 @@ public class GeneradorXML {
 	 * determinado tomo, para colocar en un DataGrid.
 	 * @param nroTomo: numero del tomo del qeu se generaran los datos XML de los productos.
 	 */
-	public  void generarDatosProdAsocTomo(int nroTomo){
+	synchronized public  void generarDatosProdAsocTomo(int nroTomo){
 
 
 		ArrayList<Tomo>tomos=candela.getCatalogoVigente().getTomos();
@@ -720,7 +720,7 @@ public class GeneradorXML {
 	 * Este metodo genera los codigos de los tomos vigentes en un catalogo.
 	 * 
 	 */
-	public void generarTomosVigentes(){
+	synchronized public void generarTomosVigentes(){
 
 		Catalogo catalogo= candela.getCatalogoVigente();
 		ArrayList<Tomo> colTomos= catalogo.getTomos();
@@ -730,10 +730,12 @@ public class GeneradorXML {
 		for (int i = 0; i < colTomos.size(); i++) {
 			Element tomo = new Element("tomo");
 			tomo.setAttribute("codigo", Integer.toString(colTomos.get(i).getCodigoTomo()));
+			tomo.setAttribute("descripcion",colTomos.get(i).getDescripcion());
 			 ArrayList<Producto> productos = colTomos.get(i).getProductos();
 			for (int j = 0; j < productos.size(); j++) {
 				Element producto = new Element("producto");
 				producto.setAttribute("codigoProducto",Integer.toString((productos.get(j).getCodigo())));
+				producto.setAttribute("descripcion",productos.get(j).getDescripcion());
 				tomo.addContent(producto);
 			}
 			root.addContent(tomo);
@@ -764,7 +766,7 @@ public class GeneradorXML {
 	 * @param numeroTomo
 	 */
 
-	public void generarProductosVigentes(int nroTomo){
+	synchronized public void generarProductosVigentes(int nroTomo){
 
 
 
@@ -811,7 +813,7 @@ public class GeneradorXML {
 	/***
 	 * Generar Productos no asociados
 	 */
-	public void generarProductosNoAsociados(){
+	synchronized public void generarProductosNoAsociados(){
 
 		Element root = new Element("ProductosNoAsociados");
 		ArrayList<Producto> productosMemoria = candela.getColProductos();
@@ -820,6 +822,7 @@ public class GeneradorXML {
 			if (!buscarProductoAsociado(productosMemoria.get(i).getCodigo())){
 				Element producto = new Element("Producto");
 				producto.setAttribute("codigo", Integer.toString(productosMemoria.get(i).getCodigo()));
+				producto.setAttribute("descripcion",productosMemoria.get(i).getDescripcion());
 				root.addContent(producto);
 			}
 		}
@@ -930,7 +933,7 @@ public class GeneradorXML {
 	 * Este método genera un xml con un snapshot de la tabla catalogovigente-->tomo-->producto que
 	 * se emplean para las estadisticas y es llamado cuando se crea un nuevo catalogo
 	 */
-	public void generarHistorico(){
+	synchronized public void generarHistorico(){
 
 
 		Catalogo catalogo = candela.getCatalogoVigente();

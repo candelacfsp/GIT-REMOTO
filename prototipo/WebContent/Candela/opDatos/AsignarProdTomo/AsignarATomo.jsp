@@ -43,15 +43,15 @@
 			GeneradorXML xml= new GeneradorXML(candela);
 			xml.generarProductosNoAsociados();
 			xml.generarTomosVigentes();
-			response.sendRedirect("../vistaOpDatos.swf");
+			response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 		}catch(TomoNoEncontradoException tne){
 			tne.printStackTrace();
 			tne.mensajeDialogo("Error, el tomo no se encontro en la coleccion de tomos del catalogo Vigente");	
 		//Si no encontre el tomo redirijo a pagina de error
- 		response.sendRedirect("../vistaOpDatos.swf");
+ 		response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 		}catch(SQLException sql){
 				sql.printStackTrace();
-				response.sendRedirect("../Error-O.swf");
+				response.sendRedirect("../Error-O.jsp");
 		}
 		// Sino ocurrieron excepciones, se muestra mensaje de Exito.
 			

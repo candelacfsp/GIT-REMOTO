@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="catalogoVigente" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7e86a362-78b2-4583-b7e8-53b18553a1e1">
+	<property name="ireport.zoom" value="1.3310000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="25"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/damian/repositorioGit/prototipo/WebContent/Candela/reportes/"]]></defaultValueExpression>
+	</parameter>
+	<field name="codigoTomo" class="java.lang.Integer"/>
+	<field name="descripcionTomo" class="java.lang.String"/>
+	<field name="tuplaTomoDS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/15)]]></groupExpression>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/5)]]></groupExpression>
+	</group>
+	<title>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5287b20f-202c-47dc-85e5-6d279d04fa33" style="Title" x="0" y="13" width="263" height="33" forecolor="#E96060" backcolor="#EBD1D1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[Candela]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="099a0c6d-7c8c-49e2-8d15-c905a6ff2e6d" style="SubTitle" x="63" y="46" width="200" height="22"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[Catálogo Vigente	]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="a515faef-fe73-44e9-b34f-a829430bc9e0" x="13" y="2" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código_de_Tomo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9312b0b7-bea7-471c-89bb-52d1d52c53b1" x="155" y="2" width="400" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="138" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="69558e60-c21b-4d45-a427-1bb56e8f893e" x="0" y="0" width="555" height="36"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="df869138-47b1-4f61-b6eb-786320d538c9" x="13" y="23" width="100" height="20" forecolor="#0008FF"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoTomo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="54b1e321-0686-4b86-b5a1-d9e7025b0ab5" x="155" y="23" width="400" height="20" forecolor="#0F39FC"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcionTomo}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="30be8d12-3940-4eae-9b18-14e67ebd8e8f" x="0" y="43" width="555" height="80"/>
+				<dataSourceExpression><![CDATA[$F{tuplaTomoDS}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subCatalogoVigente.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement uuid="39f8c6a9-e606-473c-a936-f668a319704a" x="0" y="3" width="555" height="2"/>
+				<graphicElement>
+					<pen lineWidth="5.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>
