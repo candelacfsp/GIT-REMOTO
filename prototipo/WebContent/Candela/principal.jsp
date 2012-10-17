@@ -44,7 +44,7 @@
 			&& (!nombre.equals("") && !contrasenia.equals(""))) {
 		try {
 			candela.setDirectorio(directorio + "Candela/"); //TODO DAMIAN 11-9-12 agregue
-			candela.iniciar();
+			candela.iniciar(); 
 		} catch (SQLException e) {
 			JOptionPane panel = new JOptionPane();
 			panel.showMessageDialog(null,

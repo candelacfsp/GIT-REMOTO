@@ -736,6 +736,7 @@ public class GeneradorXML {
 				Element producto = new Element("producto");
 				producto.setAttribute("codigoProducto",Integer.toString((productos.get(j).getCodigo())));
 				producto.setAttribute("descripcion",productos.get(j).getDescripcion());
+				producto.setAttribute("precio",Double.toString(productos.get(j).getPrecio()));
 				tomo.addContent(producto);
 			}
 			root.addContent(tomo);

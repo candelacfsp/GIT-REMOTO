@@ -4,11 +4,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import negocio.Candela;
+import negocio.DetallePedidoPersonal;
+import negocio.FacturaPersonal;
 import negocio.Producto;
 import negocio.Tomo;
+import negocio.Usuario;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
@@ -87,11 +91,11 @@ public class Reportes {
 				tomoT.addTuplaTomoDS(tp1);
 			}
 			tuplasTomos.add(tomoT);
-			
-		}
-		
 
-		
+		}
+
+
+
 
 		JasperReport reporte = null;
 		try {
@@ -168,6 +172,7 @@ public class Reportes {
 
 	}
 	public class tuplaProducto{
+
 		int codigoProducto;
 		double precio;
 		String descripcionProducto;
@@ -180,7 +185,7 @@ public class Reportes {
 			this.descripcionProducto = descripcionProducto;
 			this.cantidadEnStock= cantidadEnStock;
 			this.tipoProducto= tipoProducto;
-			
+
 		}
 
 		public int getCodigoProducto() {
@@ -224,8 +229,255 @@ public class Reportes {
 		}
 
 	}
+	public class tuplaFactura{
+		int numero;
+		Date fecha;
+		int tipo;
+		boolean pagada;
+		int dni;
+		String nombre;
+		String apellido;
+		List detallesDS;
+
+		public tuplaFactura(int numero, Date fecha, int tipo, boolean pagada,
+				ArrayList detallesDS, int dni, String nombre, String apellido) {
+			this.numero= numero;
+			this.fecha= fecha;
+			this.tipo=tipo;
+			this.pagada= pagada;
+			this.detallesDS= detallesDS;
+			this.dni= dni;
+			this.apellido=apellido;
+			this.nombre=nombre;
+		}
+
+		public int getNumero() {
+			return numero;
+		}
+
+		public void setNumero(int numero) {
+			this.numero = numero;
+		}
+
+		public Date getFecha() {
+			return fecha;
+		}
+
+		public void setFecha(Date fecha) {
+			this.fecha = fecha;
+		}
+
+		public int getTipo() {
+			return tipo;
+		}
+
+		public void setTipo(int tipo) {
+			this.tipo = tipo;
+		}
+
+		public boolean isPagada() {
+			return pagada;
+		}
+
+		public void setPagada(boolean pagada) {
+			this.pagada = pagada;
+		}
+		public void setDetallesDS(List detallesDS){
+			this.detallesDS= detallesDS;
+		}
+		public void addDetalleDS(tuplaDetalle d1){
+			this.detallesDS.add(d1);
+		}
+		public JRDataSource getDetallesDS(){
+			return new JRBeanCollectionDataSource(detallesDS);
+		}
+
+		public int getDni() {
+			return dni;
+		}
+
+		public void setDni(int dni) {
+			this.dni = dni;
+		}
+
+		public String getNombre() {
+			return nombre;
+		}
+
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+
+		public String getApellido() {
+			return apellido;
+		}
+
+		public void setApellido(String apellido) {
+			this.apellido = apellido;
+		}
+
+
+	}
+	public class tuplaDetalle{
+
+		int cantidad,codigoProducto,tipoProducto;
+		String color,talle,descripcion;
+		double precio;
+
+
+		public tuplaDetalle(int cantidad, String color, String talle,
+				int codigoProducto, String descripcion, double precio, int tipoProducto) {
+			this.cantidad=cantidad;
+			this.codigoProducto=codigoProducto;
+			this.color= color;
+			this.talle= talle;
+			this.descripcion= descripcion;
+			this.precio= precio;
+			this.tipoProducto= tipoProducto;
+
+		}
+
+
+		public int getCantidad() {
+			return cantidad;
+		}
+
+
+		public void setCantidad(int cantidad) {
+			this.cantidad = cantidad;
+		}
+
+
+		public int getCodigoProducto() {
+			return codigoProducto;
+		}
+
+
+		public void setCodigoProducto(int codigoProducto) {
+			this.codigoProducto = codigoProducto;
+		}
+
+
+		public int getTipoProducto() {
+			return tipoProducto;
+		}
+
+
+		public void setTipoProducto(int tipoProducto) {
+			this.tipoProducto = tipoProducto;
+		}
+
+
+		public String getColor() {
+			return color;
+		}
+
+
+		public void setColor(String color) {
+			this.color = color;
+		}
+
+
+		public String getTalle() {
+			return talle;
+		}
+
+
+		public void setTalle(String talle) {
+			this.talle = talle;
+		}
+
+
+		public String getDescripcion() {
+			return descripcion;
+		}
+
+
+		public void setDescripcion(String descripcion) {
+			this.descripcion = descripcion;
+		}
+
+
+		public double getPrecio() {
+			return precio;
+		}
+
+
+		public void setPrecio(double precio) {
+			this.precio = precio;
+		}
+
+
+	}
+	public void CrearPDFFacturaPeriodo(Candela candela, Date inicio, Date fin, int dni, String nombre, String apellido){
+
+		//busco el usuario en memoria
+
+		ArrayList<Usuario> colUsuarios = candela.getcolUSRSOFTWARE();
+
+		for (int i = 0; i < colUsuarios.size(); i++) {
+			if (colUsuarios.get(i).getDni() == dni){
+				//encontre el usuario entonces devuelvo todas las facturas
+
+				ArrayList<FacturaPersonal> facUsr = colUsuarios.get(i).ObtenerFacturas(inicio,fin);
+				if (facUsr !=null){
+					//si tengo facturas creo las tuplas para jasper
+
+					List tuplasFacturas= new ArrayList();
+
+					for (int j = 0; j < facUsr.size(); j++) {
+						//recorro la coleccion de facturas y creo tuplas
+
+						tuplaFactura tf = new tuplaFactura(facUsr.get(j).getNumero(),facUsr.get(j).getFecha(),facUsr.get(j).getTipo(),facUsr.get(j).getPagada(),new ArrayList(),dni,nombre,apellido);
+						ArrayList<DetallePedidoPersonal> colDetalles = facUsr.get(j).getPedidoPers().getDetalles();
+						for (int k = 0; k < colDetalles.size(); k++) {
+							//por cada detalle creo tuplas y las agrego a tuplaDetalle
+
+							tuplaDetalle td= new tuplaDetalle(colDetalles.get(k).getCantidad(), colDetalles.get(k).getColor(), colDetalles.get(k).getTalle(), colDetalles.get(k).getProd().getCodigo(), colDetalles.get(k).getProd().getDescripcion(), colDetalles.get(k).getProd().getPrecio(), colDetalles.get(k).getProd().getTipoProducto());
+							//agrego a la tuplafactura la tupla detalle
+							tf.addDetalleDS(td);
+						}//termino de recorrer los detalles
+						//cuando salga voy a  buscar otra factura asi que agrego la tupla al list
+
+						tuplasFacturas.add(tf);
+
+					}// termino de recorrer las facturas
+					JasperReport reporte = null;
+					try {
+						reporte = (JasperReport)JRLoader.loadObject(candela.getDirectorio()+"reportes/facturasPeriodo.jasper");
+					} catch (JRException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}    
+					JasperPrint jasperPrint = null;
+					try {
+						jasperPrint = JasperFillManager.fillReport(reporte, null, new JRBeanCollectionDataSource(tuplasFacturas));
+					} catch (JRException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}     
+
+					JRExporter exporter = new JRPdfExporter();    
+					exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);    
+					exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File(candela.getDirectorio()+"FacturasPeriodo.pdf"));     
+
+					try {
+						exporter.exportReport();
+					} catch (JRException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+
+				}
+			}
+		}
+	}
+
 
 }
+
+
 
 
 
