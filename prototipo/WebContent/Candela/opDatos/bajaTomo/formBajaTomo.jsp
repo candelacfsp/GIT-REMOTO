@@ -54,6 +54,7 @@
 				GeneradorXML gen=new GeneradorXML(candela);
 				gen.generarXMLTomos();
 				gen.generarProductosNoAsociados();
+				gen.generarTomosVigentes();
 				response.sendRedirect("tomoDadoBaja.jsp");
 		}
 		

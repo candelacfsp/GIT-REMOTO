@@ -296,11 +296,11 @@ public class Catalogo {
 				}
 	
 			}//Fin de for de itearcion de Productos.
-			if(estaTomoDesasignado==false){ //Se lanza excepcion de ProductoNoAsocTomoException
-				throw new ProductoNoAsocTomoException();
-			}
-		} // Fin del for de iteracion de Tomos.
 		
+		} // Fin del for de iteracion de Tomos.
+		if(estaTomoDesasignado==false){ //Se lanza excepcion de ProductoNoAsocTomoException
+			throw new ProductoNoAsocTomoException();
+		}
 		
 	}
 	/**

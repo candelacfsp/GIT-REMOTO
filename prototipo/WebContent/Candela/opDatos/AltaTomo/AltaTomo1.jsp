@@ -48,7 +48,7 @@
 			JOptionPane panel = new JOptionPane();
 			panel.showMessageDialog(null,
 					"El tomo existe!, ingrese otro.");
-			response.sendRedirect("formAltaTomo.jsp");
+			response.sendRedirect("formAltaTomoEmbed.jsp");
 		}
 
 		//Se da de alta el tomo y se lo asigna al catalogo nuevo o vigente.
@@ -65,6 +65,7 @@
 			//gen.generarProdCatNoAsociados();
 			//ver esto 9 - 9 -12
 			gen.generarProductosNoAsociados();
+			
 
 			response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 		} else {//Sino se llama  al swf.	

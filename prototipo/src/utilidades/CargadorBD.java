@@ -76,7 +76,7 @@ public class CargadorBD {
 		
 		
 		TipoDeUsrBD tipo1=null;
-		//NOTA: AÑADIR CODIGOS PARA LOS TIPOS DE USUARIOS.
+		//NOTA: Aï¿½ADIR CODIGOS PARA LOS TIPOS DE USUARIOS.
 		
 		
 		//Cargar usuariois y tipos de usuario
@@ -370,7 +370,7 @@ public class CargadorBD {
 		}
 		prod6.setCodigo(600);
 		prod6.setCantidadEnStock(11);
-		prod6.setDescripcion("Esmalte para uñas");
+		prod6.setDescripcion("Esmalte para uï¿½as");
 		prod6.setPrecio(18.35); 
 		prod6.setTomoBD(tom2);
 		prod6.save();
@@ -452,7 +452,7 @@ public class CargadorBD {
 		//FIN DE CARGA DE PRODUCTOS DEL TOMO 3
 		
 		//INICIO DE CARGA DE PRODUCTOS LIBRES
-		//NOTA: AÑADIR  que solamente se puedan añadir los tipos de producto del mismo tipo que contenga el TOMO.
+		//NOTA: Aï¿½ADIR  que solamente se puedan aï¿½adir los tipos de producto del mismo tipo que contenga el TOMO.
 				
 		try {
 			prod12= em.create(ProductoBD.class);
@@ -474,7 +474,7 @@ public class CargadorBD {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		prod13.setCodigo(1200);
+		prod13.setCodigo(1300);
 		prod13.setCantidadEnStock(0);
 		prod13.setDescripcion("Jeans");
 		prod13.setPrecio(69.88); 

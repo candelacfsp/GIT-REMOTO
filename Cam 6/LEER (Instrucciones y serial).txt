@@ -1,0 +1,26 @@
+---------------------------------------------------------------------------------------
+Programa: Camtasia Studio 6 (+ Traducción)
+Subido por: Northon
+
+                                        Instalación
+1.-Ejecutamos "TechSmith.Camtasia.Studio.v6.0.0.Build.689.exe".
+2.-Continuamos con la instalación.
+3.-Cuando nos diga que si queremos usarlo de evaluación de 30 dias, oh insertar usuario y serial, le damos en insertar "usuarios y serial" e insertamos lo siguiente:
+
+Name: 
+Serial: CCWCY-TGDQU-VGLWH-CBDUT-WA364
+
+4.-Al finalizar la instalación ejecutamos "Camtasia Studio 6.0 Esp.exe"
+5.-Lo instalas como si fuera un programa y listo...!!!
+
+
+
+
+
+
+
+Visitar:
+
+
+
+                 www.dtpt.net

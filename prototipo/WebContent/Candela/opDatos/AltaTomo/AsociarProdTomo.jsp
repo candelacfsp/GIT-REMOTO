@@ -152,11 +152,13 @@
 							"Carga de Producto",
 							JOptionPane.YES_NO_OPTION);
 					if (opc == JOptionPane.YES_OPTION) {
+						
 						xml.generarProductosNoAsociados();
 						response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 					} else {
-						xml.generarProductosNoAsociados();
-						response.sendRedirect("../vistaOpDatos-catalogo.jsp");
+						
+										
+						response.sendRedirect("redirigir.jsp");
 					}
 				}
 

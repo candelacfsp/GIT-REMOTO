@@ -41,7 +41,7 @@
 					JOptionPane panel= new JOptionPane();
 					Date hoy= new Date();
 					panel.showMessageDialog(null, "Error! seleccione una fecha superior a hoy:"+hoy.getDay()+"/"+hoy.getMonth()+"/"+hoy.getYear());
-					response.sendRedirect("formAltaCatalogo.jsp");
+					response.sendRedirect("formAltaCatalogoEmbed.jsp");
 				}
 		
 			//1.Se llama a candela que creara un  catalogoNuevo y lo mantendra en memoria, hasta que el registro del catalogo este completo con todos sus datos
@@ -52,12 +52,12 @@
 			// directorio en el arbol de directorios, de lo contrario Tomcat no encontrara el recurso.
 		
 			
-			response.sendRedirect("../AltaTomo/formAltaTomo.jsp");
+			response.sendRedirect("../AltaTomo/formAltaTomoEmbed.jsp");
 		}catch(ParseException pe){
 			
 			JOptionPane panel= new JOptionPane();
 			panel.showMessageDialog(null, "Error al capturar la fecha! vuelva a intentarlo");
-			response.sendRedirect("formAltaCatalogo.jsp");
+			response.sendRedirect("formAltaCatalogoEmbed.jsp");
 		}
 		
 	}  %>

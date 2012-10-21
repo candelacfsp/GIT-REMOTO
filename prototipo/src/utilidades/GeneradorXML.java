@@ -572,7 +572,6 @@ public class GeneradorXML {
 		this.generarXMLUsuarios();
 		this.generarXMLProductosEnStock();
 		this.generarXMLVentas();
-		this.generarXMLProductosEnStock();
 		this.generarXMLPedidoFabrica();//Son pedidos Fabrica no recibidos.
 		this.generarProductosNoAsociados();
 		this.generarTomosVigentes();
@@ -820,6 +819,7 @@ public class GeneradorXML {
 		ArrayList<Producto> productosMemoria = candela.getColProductos();
 		//Recorro toda la memoria con todos los productos
 		for (int i = 0; i < productosMemoria.size(); i++) {
+			System.out.println("Codigo de producto:"+productosMemoria.get(i).getCodigo());
 			if (!buscarProductoAsociado(productosMemoria.get(i).getCodigo())){
 				Element producto = new Element("Producto");
 				producto.setAttribute("codigo", Integer.toString(productosMemoria.get(i).getCodigo()));
@@ -855,24 +855,52 @@ public class GeneradorXML {
 	 * @return
 	 */
 	private boolean buscarProductoAsociado(int codigo){
-
-		ArrayList<Tomo>tomos=candela.getCatalogoVigente().getTomos();
+		
+		ArrayList<Tomo>tomos=null;
+		tomos=candela.getCatalogoVigente().getTomos();
+	
+		
 		//TODO [DAMIAN] preguntar, porque tomos viene null, esta implementado el getcatalogovigente
 		boolean encontrado=false;
 		int i = 0;
 		//busco dentro de los tomos
-		while (!encontrado && i < tomos.size() ){
+		while (!encontrado && (i < tomos.size() )){
 			ArrayList<Producto> productosTomo = tomos.get(i).getProductos();
 			int j = 0;
 			i++;
 			//busco dentro de los productos de los tomos
-			while (!encontrado && j < productosTomo.size()){
+			while (!encontrado && (j < productosTomo.size())){
 				//si lo encuentro AVISO
 				if (productosTomo.get(j).getCodigo()== codigo){
 					encontrado= true;
 				}
 				j++;
 			}
+		}
+		if (!encontrado && candela.getCatalogoNuevo()!=null && candela.esCatalogoNuevo()){
+			
+			
+			tomos=candela.getCatalogoNuevo().getTomos();
+		
+			
+			//TODO [DAMIAN] preguntar, porque tomos viene null, esta implementado el getcatalogovigente
+		
+			i=0;
+			//busco dentro de los tomos
+			while (!encontrado && (i < tomos.size() )){
+				ArrayList<Producto> productosTomo = tomos.get(i).getProductos();
+				int j = 0;
+				i++;
+				//busco dentro de los productos de los tomos
+				while (!encontrado && (j < productosTomo.size())){
+					//si lo encuentro AVISO
+					if (productosTomo.get(j).getCodigo()== codigo){
+						encontrado= true;
+					}
+					j++;
+				}
+			}
+			
 		}
 		return encontrado;
 
