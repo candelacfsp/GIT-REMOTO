@@ -1,5 +1,7 @@
 package negocio;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +21,7 @@ public class FacturaPersonal extends Factura {
 	private boolean pagada;
 	private PedidoPersonal pedidoPers;
 	
+	
 	/**
 	 * FacturaPersonal
 	 * Inicializa los valores correspondiente a una de las facturas a personal.
@@ -29,8 +32,8 @@ public class FacturaPersonal extends Factura {
 	 * @param fecha: fecha de creacion de la factura personal.
 	 * @param pagada: estado de la factura personal. 
 	 */
-	public FacturaPersonal(EntityManager em,PedidoPersonal pedPers, int numero, int tipo, Date fecha,boolean pagada ){
-		super(em,numero,tipo,fecha);
+	public FacturaPersonal(Connection conexion,PedidoPersonal pedPers, int numero, int tipo, Date fecha,boolean pagada ){
+		super(conexion,numero,tipo,fecha);
 		this.pedidoPers=pedPers;
 		 
 		this.pagada=pagada;
@@ -74,24 +77,27 @@ public class FacturaPersonal extends Factura {
 		return this.pagada;
 	}
 
-	public void crearFactura(FacturaPersonal factura, usuarioBD usuario,PedidoPersonalBD pedido){
-		FacturaPersonalBD facturaBD= null;
-		try {
-			facturaBD=super.getEm().create(FacturaPersonalBD.class);
-		} catch (SQLException e) {
-			System.out.println("Error al crear la factura personal bd en facturapersonal");
-			e.printStackTrace();
-		}
-		if (facturaBD != null){
-			facturaBD.setFecha(getFecha());
-			facturaBD.setNumero(getNumero());
-			facturaBD.setTipo(getTipo());
-			facturaBD.setUsuario(usuario);
-			facturaBD.setPagada(getPagada());
-			facturaBD.setPedidoPersonalBD(pedido);
-			facturaBD.save();
-		}
+	public void crearFactura(FacturaPersonal factura, usuarioBD usuario,PedidoPersonalBD pedido) throws SQLException{
+		CallableStatement sentencia=null;
+
+		sentencia= super.getEm().prepareCall("{call crearfactura(?,?,?,?,?,?)}");
+
+		//Seteo los argumentos de la funcion.
+		sentencia.setDate(1, (java.sql.Date)new Date());
+		sentencia.setInt(2, super.getNumero());
+		sentencia.setInt(3,super.getTipo());
+		sentencia.setInt(4, usuario.getDni());
+		sentencia.setBoolean(5, this.getPagada());
+		sentencia.setInt(6, pedido.getNumeroPedido());
+
+		//Seteo parametro de salida
+
+		//sentencia.registerOutParameter(1, java.sql.Types.VARCHAR);
 		
+		
+		sentencia.execute();
+		//
+		 
 	}
 	/**
 	 * Este metodo registra el estado de una factura como pagada en la BD.

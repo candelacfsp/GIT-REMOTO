@@ -12,9 +12,9 @@ public class Constantes {
 	
 	public final static String URL = "jdbc:postgresql://localhost/prototipo";
 	
-	public final static String USUARIO = "damian";
+	public final static String USUARIO = "postgres";
 	
-	public final static String PASS = "1234";
+	public final static String PASS = "postgres";
 
 	public final static int ERROR = -1;
 	

@@ -2,7 +2,7 @@ package negocio;
 
 import java.util.*;
 import java.sql.SQLException;
-import java.text.spi.CollatorProvider;
+
 import java.util.ArrayList;
 
 import persistencia.FacturaPersonalBD;

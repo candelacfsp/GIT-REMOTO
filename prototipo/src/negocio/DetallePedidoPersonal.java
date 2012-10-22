@@ -1,5 +1,7 @@
 package negocio;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import persistencia.DetallePedidoPersonalBD;
@@ -10,18 +12,17 @@ import net.java.ao.EntityManager;
 
 public class DetallePedidoPersonal {
 
-	
-	private EntityManager em;
+	private Connection conn=null;
 	private int cantidad;
 	private Producto prod;
 	private String talle;
 	private String color;
-	public DetallePedidoPersonal(EntityManager em, Producto prod){
-		this.em=em;
+	public DetallePedidoPersonal(Connection conn, Producto prod){
+		this.conn=conn;
 		this.prod=prod;
-		
+
 	}
-	
+
 	public Producto getProd() {
 		return prod;
 	}
@@ -38,60 +39,28 @@ public class DetallePedidoPersonal {
 		return (float) (prod.getPrecio()*cantidad);
 	}
 
-	public void crearDetalle(PedidoPersonalBD pedido, DetallePedidoPersonal detallePedidoPersonal) {
+	public void crearDetalle(PedidoPersonalBD pedido, DetallePedidoPersonal detallePedidoPersonal) throws SQLException {
 
-		DetallePedidoPersonalBD detallePedidoBD= null;
-		
-		try {
-			detallePedidoBD=em.create(DetallePedidoPersonalBD.class);
-		} catch (SQLException e) {
-			System.out.println("Error al crear detalle de pedido personal");
-			e.printStackTrace();
-		}
-		if (detallePedidoBD!= null){
-			
-			
-			
-		
-			 
-			//busco el producto en base para setearlo
-			ProductoBD[] prod =null;
-			try {
-				prod= em.find(ProductoBD.class, "codigo =?", detallePedidoPersonal.getProd().getCodigo());
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if (prod!= null){
-				detallePedidoBD.setCantidad(detallePedidoPersonal.getCantidad());
-				detallePedidoBD.setColor(detallePedidoPersonal.getColor());
-				//calculo el precio por la cantidad del producto
-				
-				detallePedidoBD.setPrecio(detallePedidoPersonal.getCantidad()*detallePedidoPersonal.getProd().getPrecio());
-				
-				detallePedidoBD.setPedidoPersonalBD(pedido);
-				detallePedidoBD.setProductoBD(prod[0]);
-				
-				detallePedidoBD.save();
-				
-				//Actualizo el producto en base de datos, debería avisarle a Candela
-				
-				prod[0].setCantidadEnStock(prod[0].getCantidadEnStock()-detallePedidoPersonal.getCantidad());
-				
-				prod[0].save();
-				
-				
-				
-			}
-			
-			
-			
-			
-			
-			
-		}
-		
+		CallableStatement sentencia=null;
+
+		sentencia= conn.prepareCall("{call creardetalle(?,?,?,?,?)}");
+
+		//Seteo los argumentos de la funcion.
+		sentencia.setInt(1, detallePedidoPersonal.getProd().getCodigo());
+		sentencia.setInt(2, detallePedidoPersonal.getCantidad());
+		sentencia.setString(3,detallePedidoPersonal.getColor());
+		sentencia.setDouble(4, detallePedidoPersonal.getProd().getPrecio());
+		sentencia.setInt(5, pedido.getNumeroPedido());
+		//Seteo parametro de salida
+
+		//sentencia.registerOutParameter(1, java.sql.Types.VARCHAR);
+
+
+		sentencia.execute();
+
 	}
+
+
 
 	public String getTalle() {
 		return talle;
