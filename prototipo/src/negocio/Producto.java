@@ -1,5 +1,7 @@
 package negocio;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,7 +19,7 @@ import net.java.ao.EntityManager;
 
 public class Producto {
 
-	private EntityManager em=null;
+	private Connection conexion=null;
 	private int codigo;
 	private String descripcion;
 	private int cantidadEnStock;
@@ -25,8 +27,8 @@ public class Producto {
 	private int TipoProducto;
 
 
-	public Producto(EntityManager em){
-		this.em=em;
+	public Producto(Connection em){
+		this.conexion=em;
 
 	}
 	/***
@@ -38,27 +40,26 @@ public class Producto {
 	 * @throws ProductoNoExisteExcepcion 
 	 * @throws SQLException 
 	 */
-	public void modDeProducto(int codigo, double precio, int cantidad, ArrayList<Producto> colProductos) throws ProductoNoExisteExcepcion, SQLException {
+	public void modDeProducto(int codigo, double precio, int cantidad, ArrayList<Producto> colProductos) throws  SQLException {
+		//Se crea el objeto PreparedStatement
+		CallableStatement sentencia=null;
+
+		sentencia= conexion.prepareCall("{call modificacionProducto(?,?,?)}");
+
+		
+
 		//recorro la coleccion de productos
 		for (int i = 0; i < colProductos.size(); i++) {
-			//si encuentro el producto se modifica
+			//si encuentro el producto se llama al procedimiento almacenado que lo modifica
 			if (colProductos.get(i).getCodigo()== codigo){
+				//Se setean los parametros del proc. almacenado y se ejecuta.
+				
+				sentencia.setInt(1, codigo);
+				sentencia.setDouble(2, precio);
+				sentencia.setInt(3, cantidad);
 
-				ProductoBD modificar []= null;
-
-				try {
-					modificar= em.find(ProductoBD.class,"codigo=?",codigo);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					throw new SQLException();
-				}
-
-
-				modificar[0].setCantidadEnStock(cantidad);
-				modificar[0].setPrecio(precio);
-				modificar[0].save();
-
+				sentencia.execute();
+				
 			}
 		}
 
@@ -86,7 +87,7 @@ public class Producto {
 						tipoProductoEncontrado=true;
 						ProductoBD prod []=null;
 						try {
-							prod=em.find(ProductoBD.class, "codigo=?",codigoproducto);
+							prod=conexion.find(ProductoBD.class, "codigo=?",codigoproducto);
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							throw new SQLException();
@@ -140,7 +141,7 @@ public class Producto {
 
 
 
-			productonuevo=em.create(ProductoBD.class);
+			productonuevo=conexion.create(ProductoBD.class);
 
 			if (productonuevo != null){
 				productonuevo.setCodigo(codigo);
@@ -148,12 +149,12 @@ public class Producto {
 				productonuevo.setDescripcion(descripcion);
 				productonuevo.setPrecio(precio);
 				productonuevo.setCantidadEnStock(cantidad);
-				
+
 
 
 				productonuevo.save();
 
-				Producto prod=new Producto(this.em);
+				Producto prod=new Producto(this.conexion);
 
 				prod.setCantidadEnStock(cantidad);
 				prod.setCodigo(codigo);
@@ -193,7 +194,7 @@ public class Producto {
 				//si se encuentra el producto
 				TomoBD tomos []=null;
 
-				tomos= em.find(TomoBD.class);
+				tomos= conexion.find(TomoBD.class);
 
 
 				if (tomos!=null){
@@ -210,7 +211,7 @@ public class Producto {
 
 				ProductoBD prod1[];
 				try {
-					prod1 = em.find(ProductoBD.class, "codigo=?", codigo);
+					prod1 = conexion.find(ProductoBD.class, "codigo=?", codigo);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -219,7 +220,7 @@ public class Producto {
 
 
 
-				em.delete(prod1[0]);
+				conexion.delete(prod1[0]);
 				//Se quita de la coleccion de productos
 				colProductos.remove(i);
 

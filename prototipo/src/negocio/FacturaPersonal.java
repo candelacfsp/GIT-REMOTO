@@ -77,7 +77,7 @@ public class FacturaPersonal extends Factura {
 		return this.pagada;
 	}
 
-	public void crearFactura(FacturaPersonal factura, usuarioBD usuario,PedidoPersonalBD pedido) throws SQLException{
+	public void crearFactura(FacturaPersonal factura, usuarioBD usuario,int nroPedido) throws SQLException{
 		CallableStatement sentencia=null;
 
 		sentencia= super.getEm().prepareCall("{call crearfactura(?,?,?,?,?,?)}");
@@ -88,7 +88,7 @@ public class FacturaPersonal extends Factura {
 		sentencia.setInt(3,super.getTipo());
 		sentencia.setInt(4, usuario.getDni());
 		sentencia.setBoolean(5, this.getPagada());
-		sentencia.setInt(6, pedido.getNumeroPedido());
+		sentencia.setInt(6, nroPedido);
 
 		//Seteo parametro de salida
 

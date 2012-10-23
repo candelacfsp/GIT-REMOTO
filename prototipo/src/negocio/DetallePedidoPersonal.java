@@ -3,6 +3,7 @@ package negocio;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import persistencia.DetallePedidoPersonalBD;
 import persistencia.PedidoPersonalBD;
@@ -39,17 +40,19 @@ public class DetallePedidoPersonal {
 		return (float) (prod.getPrecio()*cantidad);
 	}
 
-	public void crearDetalle(PedidoPersonalBD pedido, DetallePedidoPersonal detallePedidoPersonal) throws SQLException {
+	public void crearDetalle(PedidoPersonal pedido, ArrayList<Producto> colProductos) throws SQLException {
 
+		
+		//Se guarda el detalle en la BD
 		CallableStatement sentencia=null;
 
 		sentencia= conn.prepareCall("{call creardetalle(?,?,?,?,?)}");
 
 		//Seteo los argumentos de la funcion.
-		sentencia.setInt(1, detallePedidoPersonal.getProd().getCodigo());
-		sentencia.setInt(2, detallePedidoPersonal.getCantidad());
-		sentencia.setString(3,detallePedidoPersonal.getColor());
-		sentencia.setDouble(4, detallePedidoPersonal.getProd().getPrecio());
+		sentencia.setInt(1, this.getProd().getCodigo());
+		sentencia.setInt(2, this.getCantidad());
+		sentencia.setString(3,this.getColor());
+		sentencia.setDouble(4, this.getProd().getPrecio());
 		sentencia.setInt(5, pedido.getNumeroPedido());
 		//Seteo parametro de salida
 
@@ -57,6 +60,14 @@ public class DetallePedidoPersonal {
 
 
 		sentencia.execute();
+		
+		//Se actualiza la cantidad de cada producto en stock utilizando la coleccion de Candela
+		
+		for (int i = 0; i < colProductos.size(); i++) {
+			if(colProductos.get(i).getCodigo()== this.getProd().getCodigo()){
+				colProductos.get(i).setCantidadEnStock(colProductos.get(i).getCantidadEnStock()-this.cantidad);
+			}
+		}
 
 	}
 

@@ -1,5 +1,6 @@
 package negocio;
 
+import java.sql.Connection;
 import java.util.Date;
 
 import net.java.ao.Entity;
@@ -14,18 +15,18 @@ public  abstract class  Pedido {
 	private int numeroPedido;
 	private Date fecha_emision;
 	private Date fecha_recepcion;
-	private EntityManager em;
+	private Connection conexion;
 	
 	/**
 	 * Pedido
 	 * Constructor de la clase pedido, que inicializa los campos de un pedido.
 	 * @param em: manejador de entidades, encargado de realizar la manipulacion de la base de datos.
-	 * @param numeroPedido: número que identifica al pedido.
-	 * @param fecha_emision: fecha de emisión del pedido.
-	 * @param fecha_recepcion: fecha de recepción del pedido.
+	 * @param numeroPedido: nï¿½mero que identifica al pedido.
+	 * @param fecha_emision: fecha de emisiï¿½n del pedido.
+	 * @param fecha_recepcion: fecha de recepciï¿½n del pedido.
 	 */
-	public Pedido(EntityManager em,int numeroPedido, Date fecha_emision, Date fecha_recepcion){
-		this.em=em;
+	public Pedido(Connection conexion,int numeroPedido, Date fecha_emision, Date fecha_recepcion){
+		this.conexion=conexion;
 		this.numeroPedido=numeroPedido;
 		this.fecha_emision=fecha_emision;
 		this.fecha_recepcion=fecha_recepcion;
@@ -36,8 +37,8 @@ public  abstract class  Pedido {
 	 * Retorna el manejador de entidades correspondiente a la clase Pedido.
 	 * @return: EntityManager correspondiente a los Pedidos.
 	 */
-	public EntityManager getEm(){
-		return this.em;
+	public Connection getConnection(){
+		return this.conexion;
 	}
 	
 	/**
@@ -65,7 +66,7 @@ public  abstract class  Pedido {
 	}
 	/**
 	 * setFecha_emision
-	 * Establece la fecha en que se emitió el pedido.
+	 * Establece la fecha en que se emitiï¿½ el pedido.
 	 */
 	public void setFecha_emision(Date fecha_emision) {
 		this.fecha_emision = fecha_emision;
