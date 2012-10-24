@@ -41,18 +41,21 @@ import net.java.ao.EntityManager;
  */
 public class Candela {
 
-
+	
 	public static ArrayList <TipoDeUsrBD> colTipoUsr=null;
 	private ArrayList <usuarioBD> colUsuarios=null;
 	private ArrayList <TipoDeProductoBD> colTipoproducto=null;
 	private ArrayList<Producto> colProductos=null;
 	private Connection conexion=null;
+	private EntityManager em;
 	private Catalogo catalogoVigente=null;
 	private Catalogo catalogoNuevo=null; //This is the Catalogo that 'll be created for the USR in formAltaCatalogo.jsp
 	private ArrayList<PedidoPersonal> pedidosPersonal;
 	private ArrayList<PedidoFabrica> pedidosFabricaNoFacturados;
 	private ArrayList<FacturaFabrica> facturasFabrica;
 	private ArrayList<FacturaPersonal> facturasPersonal;
+	private ArrayList<TipoDeProducto> coltiposDeProducto;
+	
 	//TODO [DAMIAN] 11-9-12 agrege nueva variable
 	private String directorio;
 	//TODO [DAMIAN] 11-9-12 fin
@@ -62,9 +65,6 @@ public class Candela {
 
 	
 	
-	
-	
-
 	/**
 	 * getColProductos
 	 * Este metodo retorna la lista de productos que posee Candela.
@@ -121,7 +121,8 @@ public class Candela {
 		facturasFabrica= new ArrayList<FacturaFabrica>();
 		facturasPersonal= new ArrayList<FacturaPersonal>();
 		colUSRSOFTWARE=new ArrayList<Usuario>();//TODO: CAMBIAR
-
+		coltiposDeProducto= new ArrayList<TipoDeProducto>();
+		
 		//Se crea la conexion entre BD y la clase
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -132,6 +133,9 @@ public class Candela {
 
 		conexion = DriverManager.getConnection(Constantes.URL, Constantes.USUARIO, Constantes.PASS);
 
+		EntityManager em= new EntityManager(Constantes.URL,Constantes.USUARIO,Constantes.PASS);
+
+		
 	}
 	
 	
@@ -185,7 +189,7 @@ public class Candela {
 
 		TipoDeUsrBD tiposDeUsuarios []= null;
 
-		tiposDeUsuarios=  conexion.find(TipoDeUsrBD.class);
+		tiposDeUsuarios=  em.find(TipoDeUsrBD.class);
 
 
 
@@ -193,11 +197,14 @@ public class Candela {
 			colTipoUsr.add(tiposDeUsuarios[i]);
 		}
 
-
+		
+		
+		
+		
 
 		ProductoBD [] prods=null;
 
-		prods= conexion.find(ProductoBD.class);
+		prods= em.find(ProductoBD.class);
 
 		if (prods.length > 0){
 			for (int i = 0; i < prods.length; i++) {
@@ -223,12 +230,20 @@ public class Candela {
 		TipoDeProductoBD [] tiposprod=null;
 
 
-		tiposprod = conexion.find(TipoDeProductoBD.class);
+		tiposprod = em.find(TipoDeProductoBD.class);
 		if (tiposprod.length > 0){
 			for (int i = 0; i < tiposprod.length; i++) {
 				colTipoproducto.add(tiposprod[i]);
+				//Se cargan los tipos de productos (que no son BD) en la coleccion de memoria
+				TipoDeProducto tprod= new TipoDeProducto(conexion);
+				tprod.setCodigoTipoProducto(tiposprod[i].getCodTipoProd());
+				tprod.setDescripcion(tiposprod[i].getDescripcion());
+				coltiposDeProducto.add(tprod);
 			}
 		}
+		
+		
+		
 
 
 		//cargar catalogo vigente
@@ -271,7 +286,7 @@ public class Candela {
 		usuarioBD usuarios[]= null;
 
 		try{
-			usuarios=  conexion.find(usuarioBD.class);
+			usuarios=  em.find(usuarioBD.class);
 		}catch(SQLException sql){
 
 			System.out.println("Ocurrio un error al leer los  usuarios \n");
@@ -329,7 +344,7 @@ public class Candela {
 
 			//Se carga el usuario en la BD. De esta forma, la proxima vez que se inicie el sistema, y no tengan usuarios cargados,
 			//se leera desde memoria.
-			usuarioBD administradorBD= conexion.create(usuarioBD.class);
+			usuarioBD administradorBD= em.create(usuarioBD.class);
 			administradorBD.setApellido("administrador");
 			administradorBD.setNombreUsr("Admin");
 			administradorBD.setContrasenia("admin");
@@ -339,7 +354,7 @@ public class Candela {
 			//Se busca el nroTipoUsr en la BD, y se crea una instancia de un tipo operador de datos con el EM.
 
 			TipoDeUsrBD[] tipoOpDatos= null;
-			tipoOpDatos= conexion.find(TipoDeUsrBD.class,"nroTipoUsr=?",4);
+			tipoOpDatos= em.find(TipoDeUsrBD.class,"nroTipoUsr=?",4);
 
 			//Se asocia el tipoOpDatos con el administradorBD
 			administradorBD.setTipoDeUsrBD(tipoOpDatos[0]);
@@ -363,7 +378,7 @@ public class Candela {
 
 		TipoDeUsrBD[] tipoUsr=null;
 
-		tipoUsr= conexion.find(TipoDeUsrBD.class);
+		tipoUsr= em.find(TipoDeUsrBD.class);
 
 		if(tipoUsr.length>0){// Si existen usuarios cargados en el sistema.
 
@@ -374,7 +389,7 @@ public class Candela {
 		}else{// Si no existen, se crean los 4 tipos  de usuarios basicos (4-Operador de Datos, 3- Ejecutivo, 2- Director y 1-Vendedor)
 
 			for (int i = 0; i < 4; i++) {
-				TipoDeUsrBD t1= conexion.create(TipoDeUsrBD.class);
+				TipoDeUsrBD t1= em.create(TipoDeUsrBD.class);
 				t1.setnroTipoUsr(i+1);
 				t1.save();
 				colTipoUsr.add(t1);
@@ -386,7 +401,7 @@ public class Candela {
 		//Buscar pedidos en la BD y luego volcarlos a una coleccion en memoria.
 		PedidoPersonalBD [] pedPers=null;
 		try {
-			pedPers=conexion.find(PedidoPersonalBD.class);
+			pedPers=em.find(PedidoPersonalBD.class);
 		} catch (SQLException e) {
 			System.out.println("Error al cargar los pedidos del Personal en la BD");
 			e.printStackTrace();
@@ -415,7 +430,7 @@ public class Candela {
 						posProducto++;
 					}					
 					//Se crea el detalle en memoria con todos los datos de su objeto persistente
-					DetallePedidoPersonal d1=new DetallePedidoPersonal(dets[i].getEntityManager(), colProductos.get(posProducto));
+					DetallePedidoPersonal d1=new DetallePedidoPersonal(this.conexion, colProductos.get(posProducto));
 					d1.setCantidad(dets[i].getCantidad());
 
 					//Se guarda el detalle la coleccion de detalles de memoria
@@ -424,7 +439,7 @@ public class Candela {
 				}//Fin de busqueda y carga de detalles en memoria			
 
 				//Una vez que se levantaron los detalles del pedido en Memoria, se carga el pedido
-				pedidosPersonal.add(new PedidoPersonal(p1.getEntityManager(),detallesRAM,p1.getNumeroPedido(),p1.getFechaEmision(),p1.getFechaRecepcion()));
+				pedidosPersonal.add(new PedidoPersonal(this.conexion,detallesRAM,p1.getNumeroPedido(),p1.getFechaEmision(),p1.getFechaRecepcion()));
 
 
 				//Crear otra coleccion con la misma referencia de detallesRAM, que servira para representar los detalles
@@ -442,7 +457,7 @@ public class Candela {
 		//Buscar las FacturasPersonal en la BD
 		FacturaPersonalBD [] factPers=null;
 		try {
-			factPers=conexion.find(FacturaPersonalBD.class);
+			factPers=em.find(FacturaPersonalBD.class);
 		} catch (SQLException e) {
 			System.out.println("Error al cargar las Facturas del personal desde la BD");
 			e.printStackTrace();
@@ -479,7 +494,7 @@ public class Candela {
 
 				//Se a�ade la factura a la coleccion de facturas de Candela
 
-				facturasPersonal.add(new FacturaPersonal(f1.getEntityManager(), pedidosPersonal.get(posPedidoPersonal),f1.getNumero(),f1.getTipo(),f1.getFecha(),f1.getPagada()));
+				facturasPersonal.add(new FacturaPersonal(conexion, pedidosPersonal.get(posPedidoPersonal),f1.getNumero(),f1.getTipo(),f1.getFecha(),f1.getPagada()));
 
 			}
 		}else{
@@ -492,7 +507,7 @@ public class Candela {
 
 		PedidoFabricaBD  [] pedFab=null;
 		try {
-			pedFab=conexion.find(PedidoFabricaBD.class);
+			pedFab=em.find(PedidoFabricaBD.class);
 		} catch (SQLException e) {
 			System.out.println("Error al cargar los pedido de Fabrica desde la BD");
 			e.printStackTrace();
@@ -526,7 +541,7 @@ public class Candela {
 
 				}//Fin  de iteracion de PedidoFabricaBDs
 
-				pedidosFabricaNoFacturados.add(new PedidoFabrica(pf1.getEntityManager(),pedidosPersonal1,pf1.getNumeroPedido(),pf1.getFechaEmision(),pf1.getFechaRecepcion(),pf1.getRecibido()));
+				pedidosFabricaNoFacturados.add(new PedidoFabrica(conexion,pedidosPersonal1,pf1.getNumeroPedido(),pf1.getFechaEmision(),pf1.getFechaRecepcion(),pf1.getRecibido()));
 
 				//Se crea una nueva coleccion para otro pedidoPersonal.
 				pedidosPersonal1=new ArrayList<PedidoPersonal>();
@@ -544,7 +559,7 @@ public class Candela {
 		//Encontrar todas las facturas a Fabrica
 		FacturaFabricaBD [] facturasFab=null;
 		try {
-			facturasFab=conexion.find(FacturaFabricaBD.class);
+			facturasFab=em.find(FacturaFabricaBD.class);
 		} catch (SQLException e) {
 			System.out.println("Error al cargar las Facturas del Fabrica desde la BD");
 			e.printStackTrace();
@@ -565,7 +580,7 @@ public class Candela {
 					posPedidoFab++;
 				}
 
-				facturasFabrica.add(new FacturaFabrica(facturasFab[i].getEntityManager(),pedidosFabricaNoFacturados.get(posPedidoFab),facturasFab[i].getNumero(),facturasFab[i].getTipo(),facturasFab[i].getFecha()));
+				facturasFabrica.add(new FacturaFabrica(conexion,pedidosFabricaNoFacturados.get(posPedidoFab),facturasFab[i].getNumero(),facturasFab[i].getTipo(),facturasFab[i].getFecha()));
 
 
 			}//Fin de recorrido FacturasFabBD
@@ -623,7 +638,7 @@ public class Candela {
 
 		Producto productoBaja= new Producto(this.conexion);
 
-		productoBaja.bajaDeProducto(codigo, getProductos());
+		productoBaja.bajaDeProducto(codigo, getProductos(),getCatalogoVigente().getTomos());
 
 
 	}
@@ -687,7 +702,7 @@ public class Candela {
 			if (colProductos.get(i).getCodigo()==codigoproducto){
 				//si lo encuentro lo agrego a memoria
 				//primero hago un resguardo
-				Producto prod= new Producto(getEm());
+				Producto prod= new Producto(conexion);
 				prod.setCantidadEnStock(colProductos.get(i).getCantidadEnStock());
 				prod.setCodigo(codigoproducto);
 				prod.setDescripcion(colProductos.get(i).getDescripcion());
@@ -711,7 +726,12 @@ public class Candela {
 	public void modificarDescripcionTipoProducto(int codigoTipoDeProducto, String descripcion) throws TipoProductoExcepcion{
 		TipoDeProducto tipo= new TipoDeProducto(this.conexion);
 
-		tipo.modificarDescripcionTipoProducto(codigoTipoDeProducto, descripcion, getColTipoDeProducto());
+		try {
+			tipo.modificarDescripcionTipoProducto(codigoTipoDeProducto, descripcion, this.coltiposDeProducto);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 
 	}
@@ -799,7 +819,7 @@ public class Candela {
 	 * @return: una referencia al manejador de entidades.
 	 */
 	public EntityManager getEm() {
-		return conexion;
+		return this.em;
 	}
 	/**
 	 * Este metodo retorna el ultimo catalogo cargado en la BD.
@@ -812,7 +832,7 @@ public class Candela {
 		//Se carga siempre el ultimo catalogo ya que el ID manejado por AO es incremental.
 		CatalogoBD[] catalogos=null;
 		try {
-			catalogos = conexion.find(CatalogoBD.class);
+			catalogos = em.find(CatalogoBD.class);
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			System.out.println("Error al buscar el ultimo catalogo en la BD");
@@ -839,7 +859,7 @@ public class Candela {
 		if(id_ultimo_catalogo!=-1){
 			try {
 				//1.Buscar el CatalogoVigente en la BD e instanciar el catalogoVigente
-				CatalogoBD [] cats= conexion.find(CatalogoBD.class,"id= ?",id_ultimo_catalogo);
+				CatalogoBD [] cats= em.find(CatalogoBD.class,"id= ?",id_ultimo_catalogo);
 				//Se carga el catalogoVigente que es el ultimo catalogo cargado
 
 				int anioVigencia= cats[0].getAnioVigencia();
@@ -906,7 +926,13 @@ public class Candela {
 			//TODO NOTA: SI NO HAY CATALOGO CREADO EN LA BD: CREAR UN CATALOGO EN MEMORIA CON  FECHA DE INCIO COMO LA FECHA ACTUAL,
 			// Y UNA FECHA DE FIN = FECHA_INICIO+30 DIAS.
 
-			catalogoVigente= new Catalogo(this.conexion, new Date());
+			try {
+				catalogoVigente= new Catalogo(this.conexion, new Date());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Excepcion al cargar el catalogo vigente!!!");
+				e.printStackTrace();
+			}
 			/*catalogoVigente.setTomos(new ArrayList<Tomo>());
 			ArrayList<Tomo> tom1= catalogoVigente.getTomos();*/
 		}
@@ -923,7 +949,13 @@ public class Candela {
 	public void altaCatalogo(Date fecha_inicio){
 		//catalogoNuevo=new Catalogo(em,fecha_inicio,fecha_fin); //CATALOGO TENTATIVO A SER CREADO
 		//return new Catalogo(em,fecha_inicio,fecha_fin);
-		this.catalogoNuevo= new Catalogo(this.conexion, fecha_inicio);
+		try {
+			this.catalogoNuevo= new Catalogo(this.conexion, fecha_inicio);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Excepcion al dar de alta el catalogo!!! ");
+			e.printStackTrace();
+		}
 	}
 
 
@@ -1075,13 +1107,13 @@ public class Candela {
 		//Crear factura Fabrica Impaga en base de Datos
 
 
-		FacturaFabricaBD factfab=this.conexion.create(FacturaFabricaBD.class);
+		FacturaFabricaBD factfab=this.em.create(FacturaFabricaBD.class);
 		factfab.setNumero(pedidofab.getNumeroPedido());
 		factfab.setTipo(tipoFactura);
 		factfab.setFecha(fechaFactura);
 		factfab.setPagada(false);
 		//Buscar el pedido a fabrica de esa facturaFabrica
-		PedidoFabricaBD [] pedd= this.conexion.find(PedidoFabricaBD.class,"numeropedido=?",pedidofab.getNumeroPedido());
+		PedidoFabricaBD [] pedd= this.em.find(PedidoFabricaBD.class,"numeropedido=?",pedidofab.getNumeroPedido());
 
 		factfab.setPedidoFabricaBD(pedd[0]);
 		factfab.save();
@@ -1103,7 +1135,7 @@ public class Candela {
 	private void almacenar_facts_fab(int numeroFactFab)throws SQLException{
 
 		//Setear la facturaFabrica como factura paga en la Base de Datos			
-		FacturaFabricaBD[] fact=conexion.find(FacturaFabricaBD.class,"numero=?",numeroFactFab);
+		FacturaFabricaBD[] fact=em.find(FacturaFabricaBD.class,"numero=?",numeroFactFab);
 		fact[0].setPagada(true);
 		fact[0].save();
 
@@ -1150,8 +1182,8 @@ public class Candela {
 												//remuevo la factura
 												this.facturasPersonal.remove(j2);
 												//Las saco de base de datos a la factura y al pedido
-												conexion.delete(facturas[j]);
-												conexion.delete(pedido);
+												em.delete(facturas[j]);
+												em.delete(pedido);
 											}
 										}
 									}
@@ -1188,7 +1220,7 @@ public class Candela {
 
 			}
 		}
-		conexion.delete(colDetalles);
+		em.delete(colDetalles);
 	}
 
 

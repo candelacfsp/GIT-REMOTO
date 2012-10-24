@@ -38,7 +38,7 @@ public class Catalogo {
 	 * @param fecha_inicio: fecha de inicio de vigencia del catalogo.
 	 * @param fecha_fin: fecha hasta la que estara en vigencia el cat�logo
 	 */
-	public Catalogo(EntityManager em,Date fecha_inicio) throws SQLException{ //TODO MODIFICADO RODRIGO
+	public Catalogo(Connection con,Date fecha_inicio) throws SQLException{ //TODO MODIFICADO RODRIGO
 		//	this.em=em;
 		this.tomos=new ArrayList<Tomo>();
 		//El anio de Vigencia, es el anio de la fecha_inicio(la fecha menor)
@@ -57,7 +57,7 @@ public class Catalogo {
 			e.printStackTrace();
 		}
 
-		conn = DriverManager.getConnection(Constantes.URL, Constantes.USUARIO, Constantes.PASS);
+		conn = con;
 
 	}
 

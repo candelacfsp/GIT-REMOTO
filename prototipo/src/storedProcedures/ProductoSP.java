@@ -2,6 +2,8 @@ package storedProcedures;
 
 import java.sql.SQLException;
 
+import excepciones.ProductoNoExisteExcepcion;
+
 import net.java.ao.EntityManager;
 
 import persistencia.ProductoBD;
@@ -69,10 +71,21 @@ public class ProductoSP {
 	}
 	
 	
-	public static void bajaDeProducto(){
+	public static boolean bajaDeProducto(int codigo) throws SQLException{
 		
+		EntityManager em= new EntityManager(Constantes.URL,Constantes.USUARIO,Constantes.PASS);
 		
+		boolean ejecucionOK=false;
 		
+		ProductoBD prod1[]=null;
+		prod1 = em.find(ProductoBD.class, "codigo=?", codigo);
+		if(prod1.length>0){
+			em.delete(prod1[0]);
+			ejecucionOK=true;	
+		}	
+			//throw new ProductoNoExisteExcepcion();
+		
+		return ejecucionOK;
 	}
 
 

@@ -139,7 +139,7 @@
 		//Si el producto existe, y no esta asociado al tomo nuevo ni a ninguno de los actuales ENTONCES:
 			//Crear el Tomo y agregar el tomo a la coleccion de tomos del catalogoVigente
 			
-			Tomo tom1= new Tomo(candela.getEm());
+			Tomo tom1= new Tomo(candela.getConexion());
 			tom1.setCodigoTomo(codigoTomo);
 			tom1.setDescripcion(descripcion);
 			catalogo.getTomos().add(tom1);

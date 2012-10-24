@@ -1,5 +1,7 @@
 package negocio;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +23,15 @@ public class Tomo {
 	private int codigoTomo;
 	private String descripcion=null;
 	private ArrayList<Producto> productos=null;
-	private EntityManager em=null;
+	private Connection conexion=null;
+	
+	
 	/**
 	 * Constructor de la clase tomo, que inicializa la misma con su manejador de entidades.
 	 * @param em
 	 */
-	public Tomo( EntityManager em){
- 
-		this.em=em;
+	public Tomo( Connection em){
+		this.conexion=em;
 		this.productos=new ArrayList<Producto>();
 		
 	}
@@ -95,45 +98,19 @@ public class Tomo {
 	 * @return: un numero que indica el resultado de la operacion.
 	 */
 	public void AsignarProdTomo(int codDeProd, int codigoDeTomo, String descripcion) throws SQLException{
-		//1.Leer el Producto de la BD
-		ProductoBD prods[]=null;
 		
-		//try {
-			prods=em.find(ProductoBD.class,"codigo= ?",codDeProd);
-		/*} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.out.println("Error al encontrar el producto en la BD");
-			System.exit(Constantes.EXCEPCION_SQL);
-		}*/
-  
-		//2. Leer el tomo de la BD			
-			 
-		TomoBD[] tomo=null;
-	//	try {
-			tomo = em.find(TomoBD.class,"codigotomo= ?",codigoDeTomo);
-			
-	/*	} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("Error al encontrar el Tomo en la BD!");
-				System.exit(Constantes.EXCEPCION_SQL);
-		} */
+		//2.Se  llama a los procedimientos almacenados.
+		CallableStatement sentencia=null;
+
+		sentencia= conexion.prepareCall("{call asignarprodtomo(?,?,?)}");
+
+		//Seteo los argumentos de la funcion.
+		sentencia.setInt(1, codDeProd);
+		sentencia.setInt(2, codigoDeTomo);
+		sentencia.setString(3,descripcion);
+	
+		sentencia.execute();
 		
-		//3.Asignar el Producto persistente al tomo
-		if (tomo.length>0){ //Si es un alta tomo con un catVigente
-			prods[0].setTomoBD(tomo[0]);
-			
-		}else{ //SI es un alta Catalogo, y se pasa un nuevo tomo
-			TomoBD tomo1= em.create(TomoBD.class);
-			tomo1.setCodigoTomo(codigoDeTomo);
-			tomo1.setDescripcion(descripcion);
-			tomo1.save();
-			prods[0].setTomoBD(tomo1);
-		}
-		prods[0].save();
-		
-	//	return Constantes.PRODUCTO_ASIGNADO;
 		
 	}
 	/**
@@ -144,20 +121,16 @@ public class Tomo {
 	 * @return: un numero indicando el resultado de la operaci�n.
 	 */
 	public void desasignarProdTomo(int codDeProd, int codDeTomo) throws SQLException{
-		// Buscar el ProductoBD y el tomoBD y desasignar el producto del tomoBD
-		ProductoBD [] prods=null;
-		//try {
-			prods= em.find(ProductoBD.class,"codigo = ?",codDeProd);
-		/*} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Error al borrar la asociacion entre tom y producto de la BD");
-			System.exit(Constantes.EXCEPCION_SQL);
-		}*/
-		prods[0].setTomoBD(null); //Seteo el tomoBD de producto en NULL
-		prods[0].save();
-		
-	//	return Constantes.PRODUCTO_DESASIGNADO_OK;
+		//2.Se  llama a los procedimientos almacenados.
+		CallableStatement sentencia=null;
+
+		sentencia= conexion.prepareCall("{call desasignarprodtomo(?,?)}");
+
+		//Seteo los argumentos de la funcion.
+		sentencia.setInt(1, codDeProd);
+		sentencia.setInt(2, codDeTomo);
+	
+		sentencia.execute();
 	}
 	
 	//Metodos necesarios para jasper!!!!!!

@@ -85,7 +85,7 @@
 										.getCantidadEnStock()) {
 
 									DetallePedidoPersonal detalle = new DetallePedidoPersonal(
-											candela.getEm(), producto);
+											candela.getConexion(), producto);
 									if (color != null && talle != null) {
 										detalle.setColor(color);
 										detalle.setTalle(talle);

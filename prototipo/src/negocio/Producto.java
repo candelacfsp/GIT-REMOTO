@@ -173,38 +173,47 @@ public class Producto {
 	 * @throws ProductoNoExisteExcepcion 
 	 * @see altaDeProducto
 	 */
-	public void bajaDeProducto(int codigo, ArrayList<Producto> colProductos) throws SQLException, TomoAsignadoExcepcion, ProductoNoExisteExcepcion {
+	public void bajaDeProducto(int codigo, ArrayList<Producto> colProductos, ArrayList<Tomo> tomos) throws SQLException, TomoAsignadoExcepcion, ProductoNoExisteExcepcion {
 		//Se recorre la coleccion en busca del producto
 
 		for (int i = 0; i < colProductos.size(); i++) {
 			if(colProductos.get(i).getCodigo()== codigo){
 				//si se encuentra el producto
-				TomoBD tomos []=null;
-
-				tomos= conexion.find(TomoBD.class);
-
+				
+				
 
 				if (tomos!=null){
 					//Si no encuentro ningun tomo asignado al producto, procedo a eliminarlo
-					for (int j = 0; j < tomos.length; j++) {
-						for (int k = 0; k < tomos[j].getProductos().length; k++) {
-							if (tomos[j].getProductos()[k].getCodigo()==colProductos.get(i).getCodigo()){
+					for (int j = 0; j < tomos.size(); j++) {
+						for (int k = 0; k < tomos.get(k).getProductos().size(); k++) {
+							if (tomos.get(j).getProductos().get(k).getCodigo()==colProductos.get(i).getCodigo()){
 								throw new TomoAsignadoExcepcion();
 							}
 						}
 					}
 				}
 
-				ProductoBD prod1[];
-				try {
-					prod1 = em.find(ProductoBD.class, "codigo=?", codigo);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				//Crear proc almacenado y ejecutarlo
+				CallableStatement sentencia=null;
+
+				sentencia= conexion.prepareCall("{call bajaproducto(?)}");
+
+				//Seteo los argumentos de la funcion.
+				sentencia.setInt(1, codigo);
+
+				//Seteo parametro de salida
+
+				sentencia.registerOutParameter(1, java.sql.Types.BOOLEAN);
+				
+				
+				sentencia.execute();
+				
+				boolean resultado=false;
+				
+				resultado= sentencia.getBoolean(1);
+				if(resultado==false){
 					throw new ProductoNoExisteExcepcion();
 				}
-				em.delete(prod1[0]);
-				
 				
 				//Se quita de la coleccion de productos en memoria
 				colProductos.remove(i);
