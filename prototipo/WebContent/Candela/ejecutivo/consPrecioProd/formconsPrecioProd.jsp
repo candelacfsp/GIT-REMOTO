@@ -7,7 +7,6 @@
 <%@page import="java.sql.SQLException"%>
 <%@page import="net.java.ao.Entity"%>
 <%@page import="net.java.ao.EntityManager"%>
-
 <%@page import="utilidades.*"%>
 <%@page import="persistencia.*"%>
 <%@page import="negocio.*"%>
@@ -24,17 +23,20 @@
 		HttpSession candela_sesion = request.getSession();
 		Candela candela = (Candela) candela_sesion
 				.getAttribute("candela");
-		double precio;
-		try {
-			precio = candela.consPrecioProd(Integer.parseInt(codigo));
 
+		try {
+
+			double precio;
+			precio = candela.consPrecioProd(Integer.parseInt(codigo));
 			JOptionPane panel = new JOptionPane();
 			panel.showMessageDialog(null, "El precio del producto es:"
 					+ precio);
 		} catch (ProductoNoExisteExcepcion prod) {
-			prod.mensajeDialogo("Error el producto no existe, imposible consultar el precio");
+			prod.mensajeDialogo("Error: el producto no existe!, imposible consultar el precio");
+			response.sendRedirect("../Error-E.jsp");
 		}
-		response.sendRedirect("../vistaEjecutivo.swf");
-
+		if (!response.isCommitted()){
+		response.sendRedirect("../vistaEjecutivo-producto.jsp");
+		}
 	}
 %>

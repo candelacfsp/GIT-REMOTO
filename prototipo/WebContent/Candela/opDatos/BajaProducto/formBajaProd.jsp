@@ -25,7 +25,7 @@
 		try {
 			candela.bajaDeProducto(Integer.parseInt(codigo));
 		} catch (SQLException s) {
-
+			s.printStackTrace();
 			response.sendRedirect("../Error-O.jsp");
 		} catch (TomoAsignadoExcepcion tomo) {
 			tomo.mensajeDialogo("Error, imposible dar de baja, el producto se encuentra asignado a un tomo");

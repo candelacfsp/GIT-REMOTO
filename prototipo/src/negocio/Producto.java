@@ -89,7 +89,7 @@ public class Producto {
 						//Se prepara el procedimiento almacenado
 						CallableStatement sentencia=null;
 
-						sentencia= conexion.prepareCall("{call asignaratipoproducto(?,?)}");
+						sentencia= conexion.prepareCall("{call asignaratipoprod(?,?)}");
 
 						//Se setean los parametros y se ejecuta la sentencia
 						sentencia.setInt(1, codigoproducto);
@@ -139,13 +139,13 @@ public class Producto {
 			//Creo el producto en la BD
 			//Se prepara el procedimiento almacenado
 			CallableStatement sentencia=null;
-			sentencia= conexion.prepareCall("{call altaproducto(?,?,?,?)}");
+			sentencia= conexion.prepareCall("{call altadeproducto(?,?,?,?)}");
 
 			//Se setean los parametros y se ejecuta la sentencia
 			sentencia.setInt(1, codigo);
 			sentencia.setString(2, descripcion);
-			sentencia.setDouble(2, precio);
-			sentencia.setInt(2, cantidad);
+			sentencia.setDouble(3, precio);
+			sentencia.setInt(4, cantidad);
 			sentencia.execute();
 				
 				//Creo el producto en memoria
@@ -185,7 +185,7 @@ public class Producto {
 				if (tomos!=null){
 					//Si no encuentro ningun tomo asignado al producto, procedo a eliminarlo
 					for (int j = 0; j < tomos.size(); j++) {
-						for (int k = 0; k < tomos.get(k).getProductos().size(); k++) {
+						for (int k = 0; k < tomos.get(j).getProductos().size(); k++) {
 							if (tomos.get(j).getProductos().get(k).getCodigo()==colProductos.get(i).getCodigo()){
 								throw new TomoAsignadoExcepcion();
 							}
@@ -196,7 +196,7 @@ public class Producto {
 				//Crear proc almacenado y ejecutarlo
 				CallableStatement sentencia=null;
 
-				sentencia= conexion.prepareCall("{call bajaproducto(?)}");
+				sentencia= conexion.prepareCall("{call bajadeproducto(?)}");
 
 				//Seteo los argumentos de la funcion.
 				sentencia.setInt(1, codigo);

@@ -2,21 +2,17 @@
 <%@page import="javax.swing.JOptionPane"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.SQLException"%>
-<%@page import="net.java.ao.Entity"%>
-<%@page import="net.java.ao.EntityManager"%>
+
 <%@page import="utilidades.*"%>
-<%@page import="persistencia.*"%>
+
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="net.java.ao.Entity"%>
 <%@page import="net.java.ao.EntityManager"%>
-<%@page import="utilidades.*"%>
 <%@page import="persistencia.*"%>
 <%@page buffer="NONE"%>
 <%@page import="java.net.URI"%>
-<%@include file="GlobalVars.jsp"%>
 
-<%@page import="java.net.URI"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -40,10 +36,12 @@
 
 	if ((nombre != null && contrasenia != null)
 			&& (!nombre.equals("") && !contrasenia.equals(""))) {
+		Candela candela = new Candela();
 		try {
+
 			candela.setDirectorio(directorio + "Candela/"); //TODO DAMIAN 11-9-12 agregue
-			candela.iniciar(); 
-		} catch (SQLException e) {
+			candela.iniciar();
+		} catch (SQLException sql) {
 			JOptionPane panel = new JOptionPane();
 			panel.showMessageDialog(null,
 					"Error de base de datos, imposible iniciar");
@@ -84,10 +82,14 @@
 						encontrado = true;
 						//Se guarda el tipo de usuario y el nombre de usuario en la sesión de candela para que sea
 						//revalidado en cada una de las vistas en jsp
-						candela_sesion.setAttribute("nombreUsr", nombre);
-						candela_sesion.setAttribute("tipoUsr",(Integer) usuarios.get(i).getTipoDeUsrBD().getnroTipoUsr());
+						candela_sesion
+								.setAttribute("nombreUsr", nombre);
+						candela_sesion.setAttribute("tipoUsr",
+								(Integer) usuarios.get(i)
+										.getTipoDeUsrBD()
+										.getnroTipoUsr());
 						//se guarda el nombre de usuario para mostrar el nombre de usuario
-						
+
 						switch (usuarios.get(i).getTipoDeUsrBD()
 								.getnroTipoUsr()) {
 

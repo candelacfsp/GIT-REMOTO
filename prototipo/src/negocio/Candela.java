@@ -1,5 +1,6 @@
 package negocio;
 
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -47,7 +48,7 @@ public class Candela {
 	private ArrayList <TipoDeProductoBD> colTipoproducto=null;
 	private ArrayList<Producto> colProductos=null;
 	private Connection conexion=null;
-	private EntityManager em;
+	private EntityManager em=null;
 	private Catalogo catalogoVigente=null;
 	private Catalogo catalogoNuevo=null; //This is the Catalogo that 'll be created for the USR in formAltaCatalogo.jsp
 	private ArrayList<PedidoPersonal> pedidosPersonal;
@@ -123,6 +124,7 @@ public class Candela {
 		colUSRSOFTWARE=new ArrayList<Usuario>();//TODO: CAMBIAR
 		coltiposDeProducto= new ArrayList<TipoDeProducto>();
 		
+		this.em= new EntityManager(Constantes.URL,Constantes.USUARIO,Constantes.PASS);
 		//Se crea la conexion entre BD y la clase
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -131,9 +133,10 @@ public class Candela {
 			e.printStackTrace();
 		}
 
+		
 		conexion = DriverManager.getConnection(Constantes.URL, Constantes.USUARIO, Constantes.PASS);
 
-		EntityManager em= new EntityManager(Constantes.URL,Constantes.USUARIO,Constantes.PASS);
+		
 
 		
 	}
@@ -187,10 +190,11 @@ public class Candela {
 	 */
 	public void  iniciar() throws SQLException{
 
-		TipoDeUsrBD tiposDeUsuarios []= null;
+	
 
-		tiposDeUsuarios=  em.find(TipoDeUsrBD.class);
-
+		TipoDeUsrBD[] tiposDeUsuarios = null; 
+			tiposDeUsuarios=	this.em.find(TipoDeUsrBD.class);
+		
 
 
 		for (int i = 0; i < tiposDeUsuarios.length; i++) {
@@ -204,8 +208,8 @@ public class Candela {
 
 		ProductoBD [] prods=null;
 
-		prods= em.find(ProductoBD.class);
-
+			prods= em.find(ProductoBD.class);
+		
 		if (prods.length > 0){
 			for (int i = 0; i < prods.length; i++) {
 				Producto prod1= new Producto(this.conexion);
@@ -230,7 +234,7 @@ public class Candela {
 		TipoDeProductoBD [] tiposprod=null;
 
 
-		tiposprod = em.find(TipoDeProductoBD.class);
+			tiposprod = em.find(TipoDeProductoBD.class);
 		if (tiposprod.length > 0){
 			for (int i = 0; i < tiposprod.length; i++) {
 				colTipoproducto.add(tiposprod[i]);
@@ -260,7 +264,7 @@ public class Candela {
 		this.cargarFacturasFabrica();
 
 		//cargar usuarios
-		this.cargarUsuarios();
+			this.cargarUsuarios();
 
 		//Se generan los XML, por medio del generador de XML
 		GeneradorXML xml= new GeneradorXML(this);
@@ -712,6 +716,7 @@ public class Candela {
 				//saco el producto
 				colProductos.remove(i);
 				colProductos.add(prod);
+				break;
 			}
 		}
 	}

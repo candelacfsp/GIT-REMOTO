@@ -42,4 +42,14 @@ public class FacturaPersonalSP {
 		
 		
 	}
+	
+	public static void almacenar_factImpaga(int nroFactImp) throws SQLException {
+		
+		EntityManager em= new EntityManager(Constantes.URL,Constantes.USUARIO,Constantes.PASS);
+		
+		 FacturaPersonalBD[] fp= em.find(FacturaPersonalBD.class,"numero=?",nroFactImp);
+		 fp[0].setPagada(true);
+		 fp[0].save();
+	}
+	
 }

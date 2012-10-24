@@ -7,7 +7,6 @@
 <%@page import="java.sql.SQLException"%>
 <%@page import="net.java.ao.Entity"%>
 <%@page import="net.java.ao.EntityManager"%>
-
 <%@page import="utilidades.*"%>
 <%@page import="persistencia.*"%>
 <%@page import="negocio.*"%>
@@ -34,10 +33,10 @@
 					+ precio);
 		} catch (ProductoNoExisteExcepcion prod) {
 			prod.mensajeDialogo("Error: el producto no existe!, imposible consultar el precio");
-			response.sendRedirect("../Error-O.swf");
+			response.sendRedirect("../Error-D.jsp");
 		}
 		if (!response.isCommitted()){
-		response.sendRedirect("../vistaOpDatos-producto.swf");
+		response.sendRedirect("../vistaDirector-producto.jsp");
 		}
 	}
 %>

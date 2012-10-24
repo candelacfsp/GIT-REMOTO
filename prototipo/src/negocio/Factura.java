@@ -21,13 +21,13 @@ public abstract class Factura {
 	
 	 
 	
-	public Connection getEm() {
+	public Connection getConexion() {
 		return conexion;
 	}
 
 
 
-	public void setEm(Connection em) {
+	public void setConexion(Connection em) {
 		this.conexion = em;
 	}
 

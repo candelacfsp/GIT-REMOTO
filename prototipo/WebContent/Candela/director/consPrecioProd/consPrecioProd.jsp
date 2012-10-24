@@ -48,7 +48,7 @@
 				type="application/x-shockwave-flash" width="800" height="600"
 				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 		</object>
-		<center>
+	</center>
 </body>
 </html>
 
