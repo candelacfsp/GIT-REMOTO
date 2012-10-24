@@ -10,7 +10,7 @@ import utilidades.Constantes;
 public class CatalogoSP {
 
 
-
+	//TODO BORRAR ESTE METODO DE PRUEBA
 	public static String holaMundo(int anioCat){
 
 		EntityManager em= new EntityManager(Constantes.URL,Constantes.USUARIO,Constantes.PASS);

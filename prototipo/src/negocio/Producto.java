@@ -85,18 +85,17 @@ public class Producto {
 				for (int j = 0; j < colTipoDeProducto.size(); j++) {
 					if (colTipoDeProducto.get(j).getCodTipoProd()==codigoTProducto){
 						tipoProductoEncontrado=true;
-						ProductoBD prod []=null;
-						try {
-							prod=conexion.find(ProductoBD.class, "codigo=?",codigoproducto);
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							throw new SQLException();
+						
+						//Se prepara el procedimiento almacenado
+						CallableStatement sentencia=null;
 
-						}
-						prod[0].setTipoDeProductoBD(colTipoDeProducto.get(j));
-						prod[0].save();
-						colTipoDeProducto.get(j).save();
+						sentencia= conexion.prepareCall("{call asignaratipoproducto(?,?)}");
 
+						//Se setean los parametros y se ejecuta la sentencia
+						sentencia.setInt(1, codigoproducto);
+						sentencia.setInt(2, codigoTProducto);
+						sentencia.execute();
+		
 					}
 				}
 				if (!tipoProductoEncontrado){
@@ -135,41 +134,29 @@ public class Producto {
 
 			}
 		}
-		if (!encontrado){
-			//si no encontre el codigo
-			ProductoBD productonuevo=null;
+		if (!encontrado){	//si no encontre el codigo
 
+			//Creo el producto en la BD
+			//Se prepara el procedimiento almacenado
+			CallableStatement sentencia=null;
+			sentencia= conexion.prepareCall("{call altaproducto(?,?,?,?)}");
 
-
-			productonuevo=conexion.create(ProductoBD.class);
-
-			if (productonuevo != null){
-				productonuevo.setCodigo(codigo);
-
-				productonuevo.setDescripcion(descripcion);
-				productonuevo.setPrecio(precio);
-				productonuevo.setCantidadEnStock(cantidad);
-
-
-
-				productonuevo.save();
-
+			//Se setean los parametros y se ejecuta la sentencia
+			sentencia.setInt(1, codigo);
+			sentencia.setString(2, descripcion);
+			sentencia.setDouble(2, precio);
+			sentencia.setInt(2, cantidad);
+			sentencia.execute();
+				
+				//Creo el producto en memoria
 				Producto prod=new Producto(this.conexion);
-
 				prod.setCantidadEnStock(cantidad);
 				prod.setCodigo(codigo);
 				prod.setDescripcion(descripcion);
 				prod.setPrecio(precio);
 				prod.setTipoProducto(-1);
 				//TODO DAMIAN modificación, desde memoria para poder detectar en el flash sobre el generador.
-
-
 				colProductos.add(prod);
-
-
-			}else{
-				throw new SQLException();
-			}
 
 		}else{
 			throw new ProductoExisteExcepcion();
@@ -208,20 +195,18 @@ public class Producto {
 					}
 				}
 
-
 				ProductoBD prod1[];
 				try {
-					prod1 = conexion.find(ProductoBD.class, "codigo=?", codigo);
+					prod1 = em.find(ProductoBD.class, "codigo=?", codigo);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 					throw new ProductoNoExisteExcepcion();
 				}
-
-
-
-				conexion.delete(prod1[0]);
-				//Se quita de la coleccion de productos
+				em.delete(prod1[0]);
+				
+				
+				//Se quita de la coleccion de productos en memoria
 				colProductos.remove(i);
 
 			}
