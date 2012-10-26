@@ -30,7 +30,7 @@ import negocio.Producto;
 import negocio.Tomo;
 import negocio.Usuario;
 
- static class GeneradorXML {
+public class GeneradorXML {
 	private Candela candela;
 	private String directorioActual;
 
