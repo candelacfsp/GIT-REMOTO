@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rankingVendedores" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a8bd9209-9390-4e9f-989a-23658b082c96">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="12"/>
+	<field name="nombreVend" class="java.lang.String"/>
+	<field name="importeVentas" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="81fd0fd0-b594-41ab-baa0-3085e3fd5f76" x="90" y="44" width="400" height="35"/>
+				<textElement>
+					<font fontName="Serif" size="22"/>
+				</textElement>
+				<text><![CDATA[Ranking de ventas de Candela]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="96ad5fee-6338-4990-a1e8-9b0ea769f5db" x="67" y="0" width="99" height="35"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vendedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="efb19f0b-0287-481e-b5a1-2633ec0e0bf3" x="298" y="0" width="242" height="35"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Importe total de ventas]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<textField>
+				<reportElement uuid="9b7eba57-7a45-42b5-a0c6-2fc563a435b3" x="67" y="11" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nombreVend}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e6ea58c3-36ca-49cc-86da-735b6edd6503" x="373" y="11" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{importeVentas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -3,9 +3,19 @@ package utilidades;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
+
+import persistencia.DetallePedidoPersonalBD;
+import persistencia.FacturaPersonalBD;
+import persistencia.TipoDeUsrBD;
+import persistencia.usuarioBD;
 
 import negocio.Candela;
 import negocio.DetallePedidoPersonal;
@@ -71,7 +81,140 @@ public class Reportes {
 
 	}
 
+	//Crea un ranking con los vendedores que facturaron un importe mayor.
+	
+	
+	public String crearRankingVend(Candela candela) throws IOException{
 
+		List datos= new ArrayList();
+		
+		
+		OutputStream out= new FileOutputStream("reportes.pdf");
+		ArrayList<tuplaVendedores> rankingVend = new ArrayList<tuplaVendedores>();
+		//Se leen todos los usuarios que son vendedores.
+		ArrayList<TipoDeUsrBD> tiposUsr=candela.getColTipoUsr();
+		
+		for (int i = 0; i < tiposUsr.size(); i++) {
+			//SI el tipo de Usr es vendedor, entonces obtengo la coleccion de todos los vendedores.
+			
+			if(tiposUsr.get(i).getnroTipoUsr()==Constantes.VENDEDOR){
+				
+				usuarioBD [] vendedores= tiposUsr.get(i).getColUsuarioBD();	
+				if(vendedores.length>0){//SI existen vendedores cargados
+					ArrayList<usuarioBD> vendedoresTentativos=new ArrayList<usuarioBD>();
+					for (int j = 0; j < vendedores.length; j++) {
+							//Se obtiene de cada vendedor, las facturas que figuren como pagadas y 
+							//se calcula el importe total facturado
+							double importe=0;
+							FacturaPersonalBD [] colfacts= vendedores[j].getColFacturas();
+							for (int k = 0; k < colfacts.length; k++) {
+								//Se obtienen los detalles del pedido asociado con la factura
+								if(colfacts[k].getPagada()){
+									DetallePedidoPersonalBD [] dets=colfacts[k].getPedidoPersonalBD().getColDetallesPedidoPersonalBD();
+									for (int l = 0; l < dets.length; l++) {
+										importe+=dets[l].getPrecio();
+									}//FIn del for de calculo de importe
+									
+								}
+							}//FIn del for que recorre las facturas
+							
+							//Se crea una tupla importe-nombre vendedor
+							tuplaVendedores v1= new tuplaVendedores(importe, vendedores[j].getApellido()+ " "+vendedores[j].getNombre());
+							
+							//Se añade a la lista de vendedores la tupla del vendedor
+							rankingVend.add(v1);
+							
+							// se ordenan por importe
+							java.util.Collections.sort(rankingVend);
+							datos=rankingVend.subList(0, 9);
+							
+						 
+					}
+					
+				}
+			}
+			
+			//rankingVend
+			//datos.add(productos.get(i));
+		}
+		JasperReport reporte = null;
+		try {
+			reporte = (JasperReport)JRLoader.loadObject(candela.getDirectorio()+"rankingVendedores.jasper");
+		} catch (JRException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}    
+		JasperPrint jasperPrint = null;
+		try {
+			jasperPrint = JasperFillManager.fillReport(reporte, null, new JRBeanCollectionDataSource(datos));
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}     
+
+		JRExporter exporter = new JRPdfExporter();    
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);    
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File(candela.getDirectorio()+"reporte.pdf"));     
+
+		try {
+			exporter.exportReport();
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return candela.getDirectorio()+"reporteRanking.pdf";
+
+	}
+	
+	public class tuplaVendedores implements Comparable<tuplaVendedores>{
+		
+		double importe;
+		String nombre;
+		
+		public tuplaVendedores(double imp, String nomb){
+			importe=imp;
+			nombre=nomb;
+		}
+
+		public double getImporte() {
+			return importe;
+		}
+
+		public void setImporte(double importe) {
+			this.importe = importe;
+		}
+
+		public String getNombre() {
+			return nombre;
+		}
+
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+
+
+		@Override
+		public int compareTo(tuplaVendedores o) {
+			if(this.getImporte()<o.getImporte()){
+				return -1;
+				
+			}else{
+				if(this.getImporte()==o.getImporte()){
+					return 0;
+				}else{
+					return 1;
+				}
+			}
+		}
+
+		
+		
+	}
+	
+	
+	
+	
+	
 	public String crearPDFCatalogoVigente(Candela candela) throws IOException{
 
 		ArrayList<Tomo> tomos = candela.getCatalogoVigente().getTomos();
