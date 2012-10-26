@@ -42,7 +42,7 @@ import net.java.ao.EntityManager;
  */
 public class Candela {
 
-	
+
 	public static ArrayList <TipoDeUsrBD> colTipoUsr=null;
 	private ArrayList <usuarioBD> colUsuarios=null;
 	private ArrayList <TipoDeProductoBD> colTipoproducto=null;
@@ -56,7 +56,7 @@ public class Candela {
 	private ArrayList<FacturaFabrica> facturasFabrica;
 	private ArrayList<FacturaPersonal> facturasPersonal;
 	private ArrayList<TipoDeProducto> coltiposDeProducto;
-	
+
 	//TODO [DAMIAN] 11-9-12 agrege nueva variable
 	private String directorio;
 	//TODO [DAMIAN] 11-9-12 fin
@@ -64,8 +64,8 @@ public class Candela {
 	//TODO: Cambiar esto por una coleccioon de usuarios reales que no sean BD!!
 	private ArrayList<Usuario> colUSRSOFTWARE;
 
-	
-	
+
+
 	/**
 	 * getColProductos
 	 * Este metodo retorna la lista de productos que posee Candela.
@@ -123,7 +123,7 @@ public class Candela {
 		facturasPersonal= new ArrayList<FacturaPersonal>();
 		colUSRSOFTWARE=new ArrayList<Usuario>();//TODO: CAMBIAR
 		coltiposDeProducto= new ArrayList<TipoDeProducto>();
-		
+
 		this.em= new EntityManager(Constantes.URL,Constantes.USUARIO,Constantes.PASS);
 		//Se crea la conexion entre BD y la clase
 		try {
@@ -133,15 +133,15 @@ public class Candela {
 			e.printStackTrace();
 		}
 
-		
+
 		conexion = DriverManager.getConnection(Constantes.URL, Constantes.USUARIO, Constantes.PASS);
 
-		
 
-		
+
+
 	}
-	
-	
+
+
 	public Connection getConexion() {
 		return conexion;
 	}
@@ -190,26 +190,26 @@ public class Candela {
 	 */
 	public void  iniciar() throws SQLException{
 
-	
+
 
 		TipoDeUsrBD[] tiposDeUsuarios = null; 
-			tiposDeUsuarios=	this.em.find(TipoDeUsrBD.class);
-		
+		tiposDeUsuarios=	this.em.find(TipoDeUsrBD.class);
+
 
 
 		for (int i = 0; i < tiposDeUsuarios.length; i++) {
 			colTipoUsr.add(tiposDeUsuarios[i]);
 		}
 
-		
-		
-		
-		
+
+
+
+
 
 		ProductoBD [] prods=null;
 
-			prods= em.find(ProductoBD.class);
-		
+		prods= em.find(ProductoBD.class);
+
 		if (prods.length > 0){
 			for (int i = 0; i < prods.length; i++) {
 				Producto prod1= new Producto(this.conexion);
@@ -234,7 +234,7 @@ public class Candela {
 		TipoDeProductoBD [] tiposprod=null;
 
 
-			tiposprod = em.find(TipoDeProductoBD.class);
+		tiposprod = em.find(TipoDeProductoBD.class);
 		if (tiposprod.length > 0){
 			for (int i = 0; i < tiposprod.length; i++) {
 				colTipoproducto.add(tiposprod[i]);
@@ -245,9 +245,9 @@ public class Candela {
 				coltiposDeProducto.add(tprod);
 			}
 		}
-		
-		
-		
+
+
+
 
 
 		//cargar catalogo vigente
@@ -264,7 +264,7 @@ public class Candela {
 		this.cargarFacturasFabrica();
 
 		//cargar usuarios
-			this.cargarUsuarios();
+		this.cargarUsuarios();
 
 		//Se generan los XML, por medio del generador de XML
 		GeneradorXML xml= new GeneradorXML(this);
@@ -328,11 +328,17 @@ public class Candela {
 						}
 
 					}
-				}
 
+				}
+				//TODO [modificacion] 25-10-2012
+				TipoDeUsrBD tipoUsr = usuarios[i].getTipoDeUsrBD();
+				int tipoDeUsuario=-1;
+				if (tipoUsr !=null){
+					 tipoDeUsuario= tipoUsr.getnroTipoUsr();
+				}
 				//Aï¿œado el usaurio a la coleccion de usuarios de Candela, junto con todas sus facturas.
 				try{	colUSRSOFTWARE.add(new Usuario(usuarios[i].getNombreUsr(), usuarios[i].getContrasenia(),
-						usuarios[i].getDni(), usuarios[i].getNombre(), usuarios[i].getApellido(), new Date(),factsPers) );
+						usuarios[i].getDni(), usuarios[i].getNombre(), usuarios[i].getApellido(),tipoDeUsuario, new Date(),factsPers) );
 				}catch (NullPointerException e){
 
 				}
@@ -343,7 +349,7 @@ public class Candela {
 			//Con nombre: Admin y password: admin. Este usuario no tiene facturas asociadas,
 			//por lo que solamente se crea una coleccion vacia de facturas para el mismo.
 			System.out.println("No se encontraron usuarios cargados en el sistema!");
-			Usuario administrador= new Usuario("Admin", "admin",000000," administrador", "administrador", new Date(),new ArrayList<FacturaPersonal>());
+			Usuario administrador= new Usuario("Admin", "admin",000000," administrador", "administrador",-1, new Date(),new ArrayList<FacturaPersonal>());
 			colUSRSOFTWARE.add(administrador);
 
 			//Se carga el usuario en la BD. De esta forma, la proxima vez que se inicie el sistema, y no tengan usuarios cargados,
@@ -1255,39 +1261,39 @@ public class Candela {
 		//Creo un pedido con los detalles
 
 		PedidoPersonal pedido= new PedidoPersonal(conexion, colDetalles, nroPedido, new Date(), new Date());
-		
+
 		//se crea la factura con el pedido
 		//TODO ver el tema del tipo y de pagado
-		
+
 		//Se crea el pedido en BD con los detalles y los productos.
 		pedido.crearPedido(colDetalles, getColProductos());
-		
-		
-		//si no tuve problemas al crear el pedido con sus detalles
-			FacturaPersonal facturaPersonal= new FacturaPersonal(conexion, pedido, nroPedido, 1, pedido.getFecha_emision(),true);
-			//Se envia directamente el numero de pedido que se obtiene del pedido en memoria
-		
-			//Se guarda en factura en BD.
-			facturaPersonal.crearFactura(facturaPersonal, usuario,pedido.getNumeroPedido());
 
-			
-			//facturaPersonal.crearFactura(facturaPersonal, usuario,pedidoBD);
-			//actualizar en memoria los productos, el pedido, la factura de personal
-			//primero actualizo los productos
-			
-			//actualizo los pedidos
-			getPedidosPersonal().add(pedido);
-			//actualizo las facturas
-			getFacturasPersonal().add(facturaPersonal);
-			//llamo a los xml generadores correspondientes
-			
-			//TODO ver si es necesario actualizar tambien los productos...
-			//genero los pedidos
-			xml.generarXMLPedidoPersonal();
-			//genero las facturas
-			xml.generarXMLFacturasPersonal();
-			
-		
+
+		//si no tuve problemas al crear el pedido con sus detalles
+		FacturaPersonal facturaPersonal= new FacturaPersonal(conexion, pedido, nroPedido, 1, pedido.getFecha_emision(),true);
+		//Se envia directamente el numero de pedido que se obtiene del pedido en memoria
+
+		//Se guarda en factura en BD.
+		facturaPersonal.crearFactura(facturaPersonal, usuario,pedido.getNumeroPedido());
+
+
+		//facturaPersonal.crearFactura(facturaPersonal, usuario,pedidoBD);
+		//actualizar en memoria los productos, el pedido, la factura de personal
+		//primero actualizo los productos
+
+		//actualizo los pedidos
+		getPedidosPersonal().add(pedido);
+		//actualizo las facturas
+		getFacturasPersonal().add(facturaPersonal);
+		//llamo a los xml generadores correspondientes
+
+		//TODO ver si es necesario actualizar tambien los productos...
+		//genero los pedidos
+		xml.generarXMLPedidoPersonal();
+		//genero las facturas
+		xml.generarXMLFacturasPersonal();
+
+
 
 
 	}
@@ -1304,10 +1310,10 @@ public class Candela {
 			for (int j = 0; j < getColProductos().size(); j++) {
 				if (getColProductos().get(j).getCodigo() == productoEnDetalle.getCodigo()){
 					//hago coleccion producto cantidad - detalle cantidad
-					
+
 					getColProductos().get(j).setCantidadEnStock(getColProductos().get(j).getCantidadEnStock() - colDetalles.get(i).getCantidad());
-					
-					
+
+
 
 				}
 

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Productos>
-  <Producto codigo="100" descripcion="Producto Obsoleto :( " precio="21.99" cantidad="5" tipoProducto="1" />
   <Producto codigo="1200" descripcion="crema para cuerpo" precio="69.88" cantidad="0" tipoProducto="1" />
-  <Producto codigo="1200" descripcion="Jeans" precio="69.88" cantidad="0" tipoProducto="2" />
-  <Producto codigo="200" descripcion="Pintalabios" precio="21.0" cantidad="5" tipoProducto="1" />
   <Producto codigo="300" descripcion="Perfume LaCloaca" precio="600.99" cantidad="0" tipoProducto="1" />
   <Producto codigo="400" descripcion=" Crema para manos" precio="43.21" cantidad="23" tipoProducto="1" />
   <Producto codigo="500" descripcion=" Crema exfoliante" precio="19.99" cantidad="10" tipoProducto="1" />
@@ -13,4 +10,7 @@
   <Producto codigo="900" descripcion="Remera manga corta" precio="67.88" cantidad="0" tipoProducto="2" />
   <Producto codigo="1000" descripcion=" Swetter" precio="69.88" cantidad="0" tipoProducto="2" />
   <Producto codigo="1100" descripcion=" Medias" precio="77.9" cantidad="0" tipoProducto="2" />
+  <Producto codigo="200" descripcion="Pintalabios" precio="100.0" cantidad="100" tipoProducto="1" />
+  <Producto codigo="1900" descripcion="Producto de prueba" precio="12.3" cantidad="63" tipoProducto="2" />
+  <Producto codigo="100" descripcion="Producto Obsoleto :( " precio="21.99" cantidad="50" tipoProducto="1" />
 </Productos>

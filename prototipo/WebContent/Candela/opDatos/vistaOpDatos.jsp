@@ -16,6 +16,7 @@
 
 	HttpSession candela_sesion = request.getSession(false);
 	Integer tipoUsr = (Integer) candela_sesion.getAttribute("tipoUsr");
+	String nombreUsuario = (String) candela_sesion.getAttribute("nombreUsr");
 
 	if (tipoUsr == null) {
 		response.sendRedirect("../Index.swf");
@@ -45,7 +46,7 @@
 				width="800" height="600" align="middle">
 				<param name="movie" value="vistaOpDatos.swf" />
 				<param name="quality" value="high" />
-				<embed src="vistaOpDatos.swf" autosize="true" quality="high"
+				<embed src="vistaOpDatos.swf?var1=<%=nombreUsuario%>" autosize="true" quality="high"
 					type="application/x-shockwave-flash" width="800" height="600"
 					pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 		</center>

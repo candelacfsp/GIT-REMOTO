@@ -177,14 +177,19 @@ public class Reportes {
 		double precio;
 		String descripcionProducto;
 		int cantidadEnStock;
-		int tipoProducto;
+		String tipoProducto;
 
 		public tuplaProducto(int codigoProducto, double precio, String descripcionProducto, int cantidadEnStock, int tipoProducto){
 			this.codigoProducto= codigoProducto;
 			this.precio= precio;
 			this.descripcionProducto = descripcionProducto;
 			this.cantidadEnStock= cantidadEnStock;
-			this.tipoProducto= tipoProducto;
+			if (tipoProducto <0){
+				this.tipoProducto= "NO Asig.";
+			}else{
+				this.tipoProducto= Integer.toString(tipoProducto);
+			}
+			
 
 		}
 
@@ -220,26 +225,19 @@ public class Reportes {
 			this.cantidadEnStock = cantidadEnStock;
 		}
 
-		public int getTipoProducto() {
-			return tipoProducto;
-		}
-
-		public void setTipoProducto(int tipoProducto) {
-			this.tipoProducto = tipoProducto;
-		}
 
 	}
 	public class tuplaFactura{
 		int numero;
 		Date fecha;
 		int tipo;
-		boolean pagada;
+		String pagada;
 		int dni;
 		String nombre;
 		String apellido;
 		List detallesDS;
 
-		public tuplaFactura(int numero, Date fecha, int tipo, boolean pagada,
+		public tuplaFactura(int numero, Date fecha, int tipo, String pagada,
 				ArrayList detallesDS, int dni, String nombre, String apellido) {
 			this.numero= numero;
 			this.fecha= fecha;
@@ -275,13 +273,15 @@ public class Reportes {
 			this.tipo = tipo;
 		}
 
-		public boolean isPagada() {
+	
+		public String getPagada() {
 			return pagada;
 		}
 
-		public void setPagada(boolean pagada) {
+		public void setPagada(String pagada) {
 			this.pagada = pagada;
 		}
+
 		public void setDetallesDS(List detallesDS){
 			this.detallesDS= detallesDS;
 		}
@@ -427,8 +427,11 @@ public class Reportes {
 
 					for (int j = 0; j < facUsr.size(); j++) {
 						//recorro la coleccion de facturas y creo tuplas
-
-						tuplaFactura tf = new tuplaFactura(facUsr.get(j).getNumero(),facUsr.get(j).getFecha(),facUsr.get(j).getTipo(),facUsr.get(j).getPagada(),new ArrayList(),dni,nombre,apellido);
+						String msgPagada="NO";
+						if (facUsr.get(j).getPagada()){
+							msgPagada="SI";
+						}
+						tuplaFactura tf = new tuplaFactura(facUsr.get(j).getNumero(),facUsr.get(j).getFecha(),facUsr.get(j).getTipo(),msgPagada,new ArrayList(),dni,nombre,apellido);
 						ArrayList<DetallePedidoPersonal> colDetalles = facUsr.get(j).getPedidoPers().getDetalles();
 						for (int k = 0; k < colDetalles.size(); k++) {
 							//por cada detalle creo tuplas y las agrego a tuplaDetalle

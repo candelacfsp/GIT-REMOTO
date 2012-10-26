@@ -27,11 +27,10 @@ import negocio.FacturaPersonal;
 import negocio.PedidoFabrica;
 import negocio.PedidoPersonal;
 import negocio.Producto;
-import negocio.TipoDeProducto;
 import negocio.Tomo;
 import negocio.Usuario;
 
-public class GeneradorXML {
+ static class GeneradorXML {
 	private Candela candela;
 	private String directorioActual;
 
@@ -140,7 +139,7 @@ public class GeneradorXML {
 		}
 	}
 	synchronized public void generarXMLUsuarios(){
-		ArrayList<usuarioBD> colUsuarios = candela.getColUsuarios();
+		ArrayList<Usuario> colUsuarios = candela.getcolUSRSOFTWARE();
 		Element root = new Element("Usuarios");
 		for (int i = 0; i < colUsuarios.size(); i++) {
 			Element usuario = new Element("usuario");
@@ -148,12 +147,15 @@ public class GeneradorXML {
 					colUsuarios.get(i).getNombre());
 			usuario.setAttribute("apellido",colUsuarios.get(i).getApellido());
 			usuario.setAttribute("dni",Integer.toString(colUsuarios.get(i).getDni()));
-			usuario.setAttribute("userName",colUsuarios.get(i).getNombreUsr());
+			usuario.setAttribute("userName",colUsuarios.get(i).getNombreUsuario());
+			usuario.setAttribute("tipoDeUsuario",Integer.toString(colUsuarios.get(i).getTipoDeUsuario()));
 
-			for (int j = 0; j < colUsuarios.get(i).getColFacturas().length; j++) {
-				if (!colUsuarios.get(i).getColFacturas()[j].getPagada()){
+			
+			
+			for (int j = 0; j < colUsuarios.get(i).getFacturaPers().size(); j++) {
+				if (!colUsuarios.get(i).getFacturaPers().get(j).getPagada()){
 					Element facturas=new Element("facturasImpagas");
-					facturas.setAttribute("factura",Integer.toString(colUsuarios.get(i).getColFacturas()[j].getNumero()));
+					facturas.setAttribute("factura",Integer.toString(colUsuarios.get(i).getFacturaPers().get(j).getNumero()));
 					usuario.addContent(facturas);
 
 
