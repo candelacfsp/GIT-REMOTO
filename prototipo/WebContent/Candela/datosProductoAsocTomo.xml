@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ProductosDeTomo>
+  <Producto codigo="200" descripcion="Pintalabios" precio="100.0" cantidad="100" tipoDeProducto="1" />
+  <Producto codigo="600" descripcion="Esmalte para u�as" precio="18.35" cantidad="11" tipoDeProducto="1" />
+  <Producto codigo="500" descripcion=" Crema exfoliante" precio="19.99" cantidad="10" tipoDeProducto="1" />
   <Producto codigo="400" descripcion=" Crema para manos" precio="43.21" cantidad="23" tipoDeProducto="1" />
+  <Producto codigo="300" descripcion="Perfume LaCloaca" precio="600.99" cantidad="0" tipoDeProducto="1" />
 </ProductosDeTomo>

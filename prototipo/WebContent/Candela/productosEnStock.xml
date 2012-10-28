@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ProductosEnStock>
-  <Producto codigo="700" descripcion="Remera Gastada" precio="21.0" cantidad="1" />
-  <Producto codigo="2000" descripcion="Cremas antiarrugas" precio="12.3" cantidad="36" />
-  <Producto codigo="2100" descripcion="Cremas de limpieza" precio="52.6" cantidad="62" />
   <Producto codigo="400" descripcion=" Crema para manos" precio="43.21" cantidad="23" />
-  <Producto codigo="100" descripcion="Producto Obsoleto :( " precio="21.99" cantidad="5" />
-  <Producto codigo="200" descripcion="Pintalabios" precio="21.0" cantidad="5" />
   <Producto codigo="500" descripcion=" Crema exfoliante" precio="19.99" cantidad="10" />
   <Producto codigo="600" descripcion="Esmalte para u�as" precio="18.35" cantidad="11" />
-  <Producto codigo="2200" descripcion="Crema de belleza" precio="45.0" cantidad="63" />
+  <Producto codigo="700" descripcion="Remera Gastada" precio="21.0" cantidad="1" />
+  <Producto codigo="200" descripcion="Pintalabios" precio="100.0" cantidad="100" />
+  <Producto codigo="1900" descripcion="Producto de prueba" precio="12.3" cantidad="63" />
+  <Producto codigo="100" descripcion="Producto Obsoleto :( " precio="21.99" cantidad="50" />
 </ProductosEnStock>

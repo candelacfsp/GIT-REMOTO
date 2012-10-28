@@ -16,7 +16,7 @@
 
 	HttpSession candela_sesion = request.getSession(false);
 	Integer tipoUsr = (Integer) candela_sesion.getAttribute("tipoUsr");
-
+	String nombreUsuario = (String) candela_sesion.getAttribute("nombreUsr");
 	if (tipoUsr == null) {
 		response.sendRedirect("../Index.swf");
 
@@ -31,7 +31,7 @@
 		case Constantes.OPERADORDEDATOS:
 			response.sendRedirect("../opDatos/vistaOpDatos.jsp");
 			break;
-		case Constantes.EJECUTIVO:
+		case Constantes.DIRECTOR:
 			response.sendRedirect("../director/vistaDirector.jsp");
 			break;
 
@@ -44,7 +44,7 @@
 			width="800" height="600">
 			<param name="movie" value="vistaEjecutivo-stock.swf" />
 			<param name="quality" value="high" />
-			<embed src="vistaEjecutivo-stock.swf" quality="high"
+			<embed src="vistaEjecutivo-stock.swf?var1=<%=nombreUsuario%>" quality="high"
 				type="application/x-shockwave-flash" width="800" height="600"
 				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 		</object>

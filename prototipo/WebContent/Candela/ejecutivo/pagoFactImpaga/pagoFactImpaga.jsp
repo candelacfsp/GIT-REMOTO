@@ -1,6 +1,10 @@
+<%@page import="negocio.Candela"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="utilidades.*"%>
+<%@page import="negocio.*" %>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,11 +35,18 @@
 		case Constantes.OPERADORDEDATOS:
 			response.sendRedirect("../../opDatos/vistaOpDatos.jsp");
 			break;
-		case Constantes.EJECUTIVO:
+		case Constantes.DIRECTOR:
 			response.sendRedirect("../../director/vistaDirector.jsp");
 			break;
 
 		}
+		
+		//TODO RODRIGO se generan un XML con todos los dnis de los vendedores, llamado
+		// dniVendDirect.xml
+		Candela cand= (Candela)candela_sesion.getAttribute("candela");
+		GeneradorXML genDnis= new GeneradorXML(cand);
+		genDnis.generarDnisVendDir();
+		
 %>
 <body>
 	<center>

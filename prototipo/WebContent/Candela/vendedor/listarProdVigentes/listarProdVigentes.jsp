@@ -25,11 +25,11 @@
 		//si no es un usuario autorizado a acceder a esta vista se lo redirige a Index.swf
 		switch (tipoUsuario) {
 
-		case Constantes.VENDEDOR:
-			response.sendRedirect("../../vendedor/vistaVendedor.jsp");
-			break;
 		case Constantes.OPERADORDEDATOS:
 			response.sendRedirect("../../opDatos/vistaOpDatos.jsp");
+			break;
+		case Constantes.DIRECTOR:
+			response.sendRedirect("../../director/vistaDirector.jsp");
 			break;
 		case Constantes.EJECUTIVO:
 			response.sendRedirect("../../ejecutivo/vistaEjecutivo.jsp");

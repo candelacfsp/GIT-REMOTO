@@ -24,12 +24,13 @@ public class Usuario {
 	private String nombreUsuario=null;
 	private String contrasenia=null;
 	private ArrayList<FacturaPersonal> facturaPers;
+	private int tipoDeUsuario=-1;
 
 
 
 	//TODO: CORREGIR ESTO! Alta de usuario tiene que a�adir el usuario en la coleccion de usuarios del sistema.
 
-	public Usuario(String nombreUsuario, String contrasenia, int dni,  String nombre, String apellido, Date fechanac,ArrayList<FacturaPersonal> fp){
+	public Usuario(String nombreUsuario, String contrasenia, int dni,  String nombre, String apellido, int tipoDeUsuario, Date fechanac,ArrayList<FacturaPersonal> fp){
 
 		this.dni=dni;
 		this.nombreUsuario=nombreUsuario;
@@ -38,6 +39,7 @@ public class Usuario {
 		this.apellido=apellido;
 		this.fecha_nacimiento=fechanac;
 		this.facturaPers=fp;
+		this.tipoDeUsuario=tipoDeUsuario;
 	}
 	/**
 	 * altaUsuario
@@ -265,6 +267,12 @@ public class Usuario {
 	}
 	public void setDni(int dni) {
 		this.dni = dni;
+	}
+	public int getTipoDeUsuario() {
+		return tipoDeUsuario;
+	}
+	public void setTipoDeUsuario(int tipoDeUsuario) {
+		this.tipoDeUsuario = tipoDeUsuario;
 	}
 
 

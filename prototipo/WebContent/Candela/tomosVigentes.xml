@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tomos>
-  <tomo codigo="20">
-    <producto codigoProducto="400" />
-    <producto codigoProducto="1100" />
-    <producto codigoProducto="800" />
+  <tomo codigo="3" descripcion="Tomo de Ropas">
+    <producto codigoProducto="1100" descripcion=" Medias" precio="77.9" />
+    <producto codigoProducto="1000" descripcion=" Swetter" precio="69.88" />
+    <producto codigoProducto="900" descripcion="Remera manga corta" precio="67.88" />
+    <producto codigoProducto="800" descripcion="Medias de Nailon" precio="13.24" />
+    <producto codigoProducto="700" descripcion="Remera Gastada" precio="21.0" />
+  </tomo>
+  <tomo codigo="2" descripcion="Tomo de Cosmeticos">
+    <producto codigoProducto="200" descripcion="Pintalabios" precio="100.0" />
+    <producto codigoProducto="600" descripcion="Esmalte para u�as" precio="18.35" />
+    <producto codigoProducto="500" descripcion=" Crema exfoliante" precio="19.99" />
+    <producto codigoProducto="400" descripcion=" Crema para manos" precio="43.21" />
+    <producto codigoProducto="300" descripcion="Perfume LaCloaca" precio="600.99" />
   </tomo>
 </Tomos>

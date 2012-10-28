@@ -83,9 +83,6 @@
 	</columnHeader>
 	<detail>
 		<band height="65" splitType="Stretch">
-			<rectangle>
-				<reportElement uuid="2a364d76-997a-4f3f-8b1f-9ca19f0fb02b" x="0" y="0" width="555" height="58"/>
-			</rectangle>
 			<textField>
 				<reportElement uuid="7cd1b2a9-4406-4422-8ddf-d6444f8c1732" x="0" y="0" width="52" height="20"/>
 				<textElement/>

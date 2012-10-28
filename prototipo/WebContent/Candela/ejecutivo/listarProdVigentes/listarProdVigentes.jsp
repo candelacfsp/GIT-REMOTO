@@ -28,11 +28,11 @@
 		case Constantes.VENDEDOR:
 			response.sendRedirect("../../vendedor/vistaVendedor.jsp");
 			break;
+		case Constantes.DIRECTOR:
+			response.sendRedirect("../../director/vistaDirector.jsp");
+			break;
 		case Constantes.OPERADORDEDATOS:
 			response.sendRedirect("../../opDatos/vistaOpDatos.jsp");
-			break;
-		case Constantes.EJECUTIVO:
-			response.sendRedirect("../../director/vistaDirector.jsp");
 			break;
 
 		}

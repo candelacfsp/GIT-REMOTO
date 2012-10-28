@@ -27,7 +27,6 @@ import negocio.FacturaPersonal;
 import negocio.PedidoFabrica;
 import negocio.PedidoPersonal;
 import negocio.Producto;
-import negocio.TipoDeProducto;
 import negocio.Tomo;
 import negocio.Usuario;
 
@@ -35,11 +34,60 @@ public class GeneradorXML {
 	private Candela candela;
 	private String directorioActual;
 
+	
 	public GeneradorXML(Candela candela){
 		this.candela=candela;
 		this.directorioActual= candela.getDirectorio();
 	}
 
+	
+
+	/**
+	 * Este metodo genera un xml llamado: dniVendDirect.xml con los Dnis
+	 * de los vendedores y directores, que son usados en una busqueda
+	 * sensitiva en el caso de uso PagoDeFactImpaga.
+	 * Luego desde AS2 se realiza el filtrado segun lo que ingresa el usuario
+	 * en el textfield. 
+	 */
+	synchronized public void generarDnisVendDir(){
+		ArrayList<usuarioBD> usuarios= candela.getColUsuarios();
+		
+		Element root= new Element("DNIS-vend-directores");
+		
+		for (int i = 0; i < usuarios.size(); i++) {
+			if(usuarios.get(i).getTipoDeUsrBD().getnroTipoUsr()==Constantes.VENDEDOR
+					|| usuarios.get(i).getTipoDeUsrBD().getnroTipoUsr()==Constantes.DIRECTOR){
+				//Si es un usuario vendedor o director, se agrega al XML
+				Element dni= new Element("dni");
+				dni.setAttribute("nroDni",Integer.toString(usuarios.get(i).getDni()));
+				root.addContent(dni);
+			}
+		}//FIn del for de usuarios
+		
+		Document doc = new Document(root);//Creamos el documento
+
+		try {
+
+			System.out.println("El directorio actual es: "+directorioActual);
+			XMLOutputter salida = new XMLOutputter(Format.getPrettyFormat());
+			FileOutputStream file = new FileOutputStream(directorioActual+"dniVendDirect.xml");
+			salida.output(doc, file);
+			file.flush();
+			file.close();
+			salida.output(doc, System.out);
+
+
+		} catch (Exception e) {
+			System.out.println("Error al crear XML de Dnis de Vendedores/Directores- Sentitive Search");
+
+			e.printStackTrace();
+		}
+}
+		
+		
+
+	
+	
 	//TODO el filtrado de los xmls se debe realizar desde AS2
 	synchronized public  void generarXMLProductos(){
 		ArrayList<Producto> colProductos = candela.getProductos();
@@ -140,7 +188,7 @@ public class GeneradorXML {
 		}
 	}
 	synchronized public void generarXMLUsuarios(){
-		ArrayList<usuarioBD> colUsuarios = candela.getColUsuarios();
+		ArrayList<Usuario> colUsuarios = candela.getcolUSRSOFTWARE();
 		Element root = new Element("Usuarios");
 		for (int i = 0; i < colUsuarios.size(); i++) {
 			Element usuario = new Element("usuario");
@@ -148,12 +196,15 @@ public class GeneradorXML {
 					colUsuarios.get(i).getNombre());
 			usuario.setAttribute("apellido",colUsuarios.get(i).getApellido());
 			usuario.setAttribute("dni",Integer.toString(colUsuarios.get(i).getDni()));
-			usuario.setAttribute("userName",colUsuarios.get(i).getNombreUsr());
+			usuario.setAttribute("userName",colUsuarios.get(i).getNombreUsuario());
+			usuario.setAttribute("tipoDeUsuario",Integer.toString(colUsuarios.get(i).getTipoDeUsuario()));
 
-			for (int j = 0; j < colUsuarios.get(i).getColFacturas().length; j++) {
-				if (!colUsuarios.get(i).getColFacturas()[j].getPagada()){
+			
+			
+			for (int j = 0; j < colUsuarios.get(i).getFacturaPers().size(); j++) {
+				if (!colUsuarios.get(i).getFacturaPers().get(j).getPagada()){
 					Element facturas=new Element("facturasImpagas");
-					facturas.setAttribute("factura",Integer.toString(colUsuarios.get(i).getColFacturas()[j].getNumero()));
+					facturas.setAttribute("factura",Integer.toString(colUsuarios.get(i).getFacturaPers().get(j).getNumero()));
 					usuario.addContent(facturas);
 
 

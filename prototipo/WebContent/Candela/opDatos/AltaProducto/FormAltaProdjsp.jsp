@@ -31,7 +31,7 @@
 					descripcion, Double.parseDouble(precio),
 					Integer.parseInt(cantidad));
 		} catch (SQLException s) {
-
+			s.printStackTrace();
 			response.sendRedirect("../Error-O.jsp");
 		} catch (ProductoExisteExcepcion p) {
 			panel.showMessageDialog(null,

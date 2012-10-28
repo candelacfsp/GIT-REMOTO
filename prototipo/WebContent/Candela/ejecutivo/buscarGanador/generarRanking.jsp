@@ -16,8 +16,13 @@
 <% Reportes reps= new Reportes();
 	HttpSession candela_sesion = request.getSession(false);
 	Candela candela=(Candela)candela_sesion.getAttribute("candela");
-	reps.crearRankingVend(candela);
-	response.sendRedirect(candela.getDirectorio()+"reporteRanking.pdf");
+	String URL=reps.crearRankingVend(candela);
+	if(URL==null){//Si no hay al menos un vendedor en la colecciond e vendedores de Candela que tenga una factura asociada
+		response.sendRedirect("noExistenVendFacturados.jsp");
+		
+	}else{
+		response.sendRedirect(URL);
+	}
 %>
 
 </body>

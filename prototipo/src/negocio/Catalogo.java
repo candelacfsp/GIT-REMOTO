@@ -49,14 +49,7 @@ public class Catalogo {
 
 		this.anioVigencia= fechaVigencia.get(Calendar.YEAR);
 
-		//Se crea la conexion entre BD y la clase
-		try {
-			Class.forName("org.postgresql.Driver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		
 		conn = con;
 
 	}

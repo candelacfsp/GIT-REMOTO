@@ -2,6 +2,7 @@ package persistencia;
 
 import net.java.ao.Entity;
 
+//REVISAR PRODUCTO BD con digrama de la BD.
 public interface ProductoBD extends Entity {
 	
 	

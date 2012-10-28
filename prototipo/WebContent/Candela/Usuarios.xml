@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Usuarios>
-  <usuario nombre="Rodrigo" apellido="Huincalef" dni="35887888" userName="Rodrigo" />
-  <usuario nombre="Damian" apellido="Mansilla" dni="33345146" userName="Damian" />
-  <usuario nombre="Vader" apellido="Darth" dni="32000111" userName="Vader">
+  <usuario nombre="Rodrigo" apellido="Huincalef" dni="35887888" userName="Rodrigo" tipoDeUsuario="3" />
+  <usuario nombre="Damian" apellido="Mansilla" dni="33345146" userName="Damian" tipoDeUsuario="4" />
+  <usuario nombre="Vader" apellido="Darth" dni="32000111" userName="Vader" tipoDeUsuario="2">
     <facturasImpagas factura="2000" />
   </usuario>
-  <usuario nombre="Luke" apellido="SkyWalker" dni="32222111" userName="Luke">
+  <usuario nombre="Luke" apellido="SkyWalker" dni="32222111" userName="Luke" tipoDeUsuario="1">
     <facturasImpagas factura="2000" />
   </usuario>
 </Usuarios>

@@ -1,0 +1,8 @@
+As2 Autocompletar
+autor: Alejandro Micheloud
+*****************************
+Utilidad simple de asistencia de búsqueda o autocompletar en actionscript 2, utilizando los componentes básicos de flash, por cuestiones prácticas en el ejemplo se utiliza un Array en local, pero cuando se aplique a sistemas será necesario consultar a una base de datos con amphp, phpobject, en fín, mediante AMF/RTMP/FLASHVARS.
+
+<embed src="http://www.phpobject.com.ar/ejemplos/as2_mic/as2_mic.swf" width="400" height="300" loop="false" autoplay="false">
+
+<a href="http://www.phpobject.com.ar/ejemplos/as2_mic/as2_mic.zip">Archivo Fuente</a>

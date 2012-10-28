@@ -80,7 +80,7 @@ public class FacturaPersonal extends Factura {
 	public void crearFactura(FacturaPersonal factura, usuarioBD usuario,int nroPedido) throws SQLException{
 		CallableStatement sentencia=null;
 
-		sentencia= super.getEm().prepareCall("{call crearfactura(?,?,?,?,?,?)}");
+		sentencia= super.getConexion().prepareCall("{call crearfactura(?,?,?,?,?,?)}");
 
 		//Seteo los argumentos de la funcion.
 		sentencia.setDate(1, (java.sql.Date)new Date());
@@ -104,9 +104,14 @@ public class FacturaPersonal extends Factura {
 	 */
 	public void almacenar_factImpaga(int nroFactImp)throws SQLException{
 		//Se marca la factura en la BD como paga.
-		 FacturaPersonalBD[] fp= this.getEm().find(FacturaPersonalBD.class,"numero=?",nroFactImp);
-		 fp[0].setPagada(true);
-		 fp[0].save();
+		CallableStatement sentencia=null;
+
+		sentencia= this.getConexion().prepareCall("{call almacenar_factimp(?)}");
+
+		//Seteo los argumentos de la funcion.
+		sentencia.setInt(1, nroFactImp);
+		
+		sentencia.execute();
 		 
 	}
 	public PedidoPersonal getPedidoPers(){

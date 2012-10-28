@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tomos>
-  <tomo codigo="20" descripcion="Prueba de carga de tomos" />
+  <tomo codigo="3" descripcion="Tomo de Ropas" />
+  <tomo codigo="2" descripcion="Tomo de Cosmeticos" />
 </Tomos>

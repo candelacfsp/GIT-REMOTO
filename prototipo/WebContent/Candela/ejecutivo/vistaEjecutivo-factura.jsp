@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="utilidades.*"%>
+<%@page session="true" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,7 +17,7 @@
 
 	HttpSession candela_sesion = request.getSession(false);
 	Integer tipoUsr = (Integer) candela_sesion.getAttribute("tipoUsr");
-
+	String nombreUsuario = (String) candela_sesion.getAttribute("nombreUsr");
 	if (tipoUsr == null) {
 		response.sendRedirect("../Index.swf");
 
@@ -31,7 +32,7 @@
 		case Constantes.OPERADORDEDATOS:
 			response.sendRedirect("../opDatos/vistaOpDatos.jsp");
 			break;
-		case Constantes.EJECUTIVO:
+		case Constantes.DIRECTOR:
 			response.sendRedirect("../director/vistaDirector.jsp");
 			break;
 
@@ -44,7 +45,7 @@
 			width="800" height="600">
 			<param name="movie" value="vistaEjecutivo-factura.swf" />
 			<param name="quality" value="high" />
-			<embed src="vistaEjecutivo-factura.swf" quality="high"
+			<embed src="vistaEjecutivo-factura.swf?var1=<%=nombreUsuario%>" quality="high"
 				type="application/x-shockwave-flash" width="800" height="600"
 				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 		</object>

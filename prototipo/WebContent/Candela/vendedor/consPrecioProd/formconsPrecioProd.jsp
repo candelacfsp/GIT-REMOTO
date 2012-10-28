@@ -33,10 +33,10 @@
 					+ precio);
 		} catch (ProductoNoExisteExcepcion prod) {
 			prod.mensajeDialogo("Error: el producto no existe!, imposible consultar el precio");
-			response.sendRedirect("../Error-O.swf");
+			response.sendRedirect("../Error-V.jsp");
 		}
 		if (!response.isCommitted()){
-		response.sendRedirect("../vistaOpDatos-producto.swf");
+		response.sendRedirect("../vistaVendedor-producto.jsp");
 		}
 	}
 %>

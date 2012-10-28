@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ProductosNoAsociados>
-  <Producto codigo="5000" descripcion="RUSH" />
-  <Producto codigo="1700" descripcion="Huesos" />
-  <Producto codigo="9666" descripcion="Indivics" />
-  <Producto codigo="1010" descripcion="jsjsj" />
+  <Producto codigo="1200" descripcion="crema para cuerpo" />
+  <Producto codigo="1900" descripcion="Producto de prueba" />
+  <Producto codigo="100" descripcion="Producto Obsoleto :( " />
 </ProductosNoAsociados>

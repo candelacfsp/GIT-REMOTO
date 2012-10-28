@@ -2,14 +2,14 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="facturasPeriodo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1d38a46e-1049-4712-b2fb-7a7a3aefafa6">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="118"/>
+	<property name="ireport.y" value="12"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/home/damian/repositorioGit/prototipo/WebContent/Candela/reportes/"]]></defaultValueExpression>
 	</parameter>
 	<field name="numero" class="java.lang.Integer"/>
 	<field name="fecha" class="java.util.Date"/>
 	<field name="tipo" class="java.lang.Integer"/>
-	<field name="pagada" class="java.lang.Boolean"/>
+	<field name="pagada" class="java.lang.String"/>
 	<field name="dni" class="java.lang.Integer"/>
 	<field name="apellido" class="java.lang.String"/>
 	<field name="nombre" class="java.lang.String"/>
@@ -31,7 +31,7 @@
 				<textElement textAlignment="Center">
 					<font size="24" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Facturación]]></text>
+				<text><![CDATA[Facturación por período]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -103,11 +103,6 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement uuid="452e61bc-9de2-4d9c-8b3e-80257904af67" x="442" y="34" width="100" height="20"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{pagada}]]></textFieldExpression>
-			</textField>
 			<subreport>
 				<reportElement uuid="1b32d948-51f5-43de-aacd-1fecec743fde" x="0" y="55" width="542" height="91"/>
 				<dataSourceExpression><![CDATA[$F{detallesDS}]]></dataSourceExpression>
@@ -141,6 +136,11 @@
 				</textElement>
 				<text><![CDATA[Pagada?]]></text>
 			</staticText>
+			<textField>
+				<reportElement uuid="5ab2ad00-4d91-4e31-9649-885775152296" x="442" y="34" width="100" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pagada}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
@@ -177,4 +177,11 @@
 			</textField>
 		</band>
 	</pageFooter>
+	<summary>
+		<band height="11">
+			<line>
+				<reportElement uuid="268cb06c-f7a5-4fa6-999c-b4561e47b631" x="3" y="5" width="552" height="1"/>
+			</line>
+		</band>
+	</summary>
 </jasperReport>
