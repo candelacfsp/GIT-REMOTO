@@ -87,10 +87,9 @@ public class Reportes {
 	public String crearRankingVend(Candela candela) throws IOException{
 
 		List datos= new ArrayList();
+		//ArrayList<tuplaVendedores> rankingVend = new ArrayList<tuplaVendedores>();
+		List rankingVend= new ArrayList();
 		
-		
-		OutputStream out= new FileOutputStream("reportes.pdf");
-		ArrayList<tuplaVendedores> rankingVend = new ArrayList<tuplaVendedores>();
 		//Se leen todos los usuarios que son vendedores.
 		ArrayList<TipoDeUsrBD> tiposUsr=candela.getColTipoUsr();
 		
@@ -115,7 +114,7 @@ public class Reportes {
 								if(colfacts[k].getPagada()){
 									DetallePedidoPersonalBD [] dets=colfacts[k].getPedidoPersonalBD().getColDetallesPedidoPersonalBD();
 									for (int l = 0; l < dets.length; l++) {
-										importe+=dets[l].getPrecio();
+										importe+=dets[l].getProductoBD().getPrecio();
 									}//FIn del for de calculo de importe
 									
 								}
@@ -124,32 +123,41 @@ public class Reportes {
 							if(importe>0){ //Si tiene un importe mayor a cero (tiene al menos una factura pagada asociada)
 								//Se crea una tupla importe-nombre vendedor
 								tuplaVendedores v1= new tuplaVendedores(importe, vendedores[j].getApellido()+ " "+vendedores[j].getNombre());
-								
 								//Se añade a la lista de vendedores la tupla del vendedor
 								rankingVend.add(v1);
 								
 							}
 						 
 					}//Fin del for de los vendedores
-					// se ordenan por importe
-					//SI se tiene al menos un vendero agregado a la coleccion de vendedoresTentativos
-					if(rankingVend.size()>0){
-						java.util.Collections.sort(rankingVend);
-						datos=rankingVend.subList(0, 9);
-							
-					}
 					
+					// Se ordenan por importe los vendedores.Si se tiene al menos un vendero agregado a la coleccion de vendedoresTentativos
+					//SI hay menos de 10 vendedores, se toman todos los vendedores para el informe,
+					//si hay 10 o mas se filtran solamente 10.
+					if(rankingVend.size()>0){
+						java.util.Collections.sort(rankingVend);  
+						System.out.println(" Ranking ordenado rankingVend: "+rankingVend);
+						if(rankingVend.size()>=10){
+							datos=rankingVend.subList(0, 9);	
+						}else{
+							datos=rankingVend;
+						}
+						System.out.println("Ranking ordenado datos: "+datos);
+					}
 				}
+				break;
 			}
 			
 		}// FIn de generacion de List datos
+	
 		
 		String resultado=null;
 		if(rankingVend.size()>0){//Si tengo al menos un vendedor para el ranking genero el reporte.
 			
 			JasperReport reporte = null;
+			System.out.println("Reportes de Candela: "+candela.getDirectorio()+"reportes/rankingVendedores.jasper");
 			try {
-				reporte = (JasperReport)JRLoader.loadObject(candela.getDirectorio()+"rankingVendedores.jasper");
+				reporte = (JasperReport)JRLoader.loadObject(candela.getDirectorio()+"reportes/rankingVendedores.jasper");
+				
 			} catch (JRException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -160,11 +168,12 @@ public class Reportes {
 			} catch (JRException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.exit(Constantes.ERROR);
 			}     
 	
 			JRExporter exporter = new JRPdfExporter();    
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);    
-			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File(candela.getDirectorio()+"reporte.pdf"));     
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File(candela.getDirectorio()+"reporteRankingVend.pdf"));     
 	
 			try {
 				exporter.exportReport();
@@ -172,6 +181,8 @@ public class Reportes {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			resultado=candela.getDirectorio()+"reporteRankingVend.pdf";
+			
 		}//Fin del IF
 		
 		return resultado;
@@ -180,41 +191,50 @@ public class Reportes {
 	
 	public class tuplaVendedores implements Comparable<tuplaVendedores>{
 		
-		double importe;
-		String nombre;
+		double importeVentas;
+		String nombreVend;
 		
 		public tuplaVendedores(double imp, String nomb){
-			importe=imp;
-			nombre=nomb;
+			importeVentas=imp;
+			nombreVend=nomb;
+		}
+		
+
+
+		public double getImporteVentas() {
+			return importeVentas;
 		}
 
-		public double getImporte() {
-			return importe;
+
+
+		public void setImporteVentas(double importeVentas) {
+			this.importeVentas = importeVentas;
 		}
 
-		public void setImporte(double importe) {
-			this.importe = importe;
+
+
+		public String getNombreVend() {
+			return nombreVend;
 		}
 
-		public String getNombre() {
-			return nombre;
+
+
+		public void setNombreVend(String nombreVend) {
+			this.nombreVend = nombreVend;
 		}
 
-		public void setNombre(String nombre) {
-			this.nombre = nombre;
-		}
 
 
 		@Override
 		public int compareTo(tuplaVendedores o) {
-			if(this.getImporte()<o.getImporte()){
-				return -1;
+			if(this.getImporteVentas()<o.getImporteVentas()){
+				return 1;
 				
 			}else{
-				if(this.getImporte()==o.getImporte()){
+				if(this.getImporteVentas()==o.getImporteVentas()){
 					return 0;
 				}else{
-					return 1;
+					return -1;
 				}
 			}
 		}
