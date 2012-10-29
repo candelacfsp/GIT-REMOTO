@@ -941,13 +941,15 @@ public class Candela {
 			//TODO NOTA: SI NO HAY CATALOGO CREADO EN LA BD: CREAR UN CATALOGO EN MEMORIA CON  FECHA DE INCIO COMO LA FECHA ACTUAL,
 			// Y UNA FECHA DE FIN = FECHA_INICIO+30 DIAS.
 
-			try {
-				catalogoVigente= new Catalogo(this.conexion, new Date());
-			} catch (SQLException e) {
+		//	try {
+				//Version anterior
+				//catalogoVigente= new Catalogo(this.conexion, new Date());
+				  catalogoVigente= new Catalogo(this.conexion);
+			//} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				System.out.println("Excepcion al cargar el catalogo vigente!!!");
-				e.printStackTrace();
-			}
+				//System.out.println("Excepcion al cargar el catalogo vigente!!!");
+			//	e.printStackTrace();
+			//}
 			/*catalogoVigente.setTomos(new ArrayList<Tomo>());
 			ArrayList<Tomo> tom1= catalogoVigente.getTomos();*/
 		}

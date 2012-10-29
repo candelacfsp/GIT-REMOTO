@@ -55,6 +55,16 @@ public class Catalogo {
 	}
 
 
+	public Catalogo(Connection conexion) {
+		this.tomos= new ArrayList<Tomo>();
+		this.conn=conexion;
+		//Se inicializa el catalogo con anio -1 para mostrar que no existe realmente.
+		//sino que se cuenta con su referencia en memoria.
+		this.anioVigencia=-1;
+		
+	}
+
+
 	/**
 	 * setTomos
 	 * Setea los tomos que estaran asignados al tomo.

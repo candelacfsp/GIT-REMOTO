@@ -30,14 +30,18 @@
 			candela.altaDeProducto(Integer.parseInt(codigo),
 					descripcion, Double.parseDouble(precio),
 					Integer.parseInt(cantidad));
+			
 		} catch (SQLException s) {
 			s.printStackTrace();
 			response.sendRedirect("../Error-O.jsp");
 		} catch (ProductoExisteExcepcion p) {
 			panel.showMessageDialog(null,
 					"Error: el producto existe! imposible dar alta");
-			response.sendRedirect("altaProducto.swf");
+			response.sendRedirect("altaProducto.jsp");
 
+		}catch(NumberFormatException formato){
+			panel.showMessageDialog(null, "El formato del precio es inapropiado, la plantilla es: ENTERO.DECIMAL");
+			response.sendRedirect("altaProducto.jsp");
 		}
 		if (!response.isCommitted()) {
 			//Debo llamar al generador de XML

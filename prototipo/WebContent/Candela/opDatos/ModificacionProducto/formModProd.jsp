@@ -32,6 +32,9 @@
 		} catch (ProductoNoExisteExcepcion prod) {
 			prod.mensajeDialogo("Error! el producto no existe, imposible modificar un producto");
 			response.sendRedirect("modificacionProducto.swf");
+		}catch(NumberFormatException formato){
+			JOptionPane.showMessageDialog(null, "Error al ingresar el precio, el formato debe ser: ENTERO.DECIMAL");
+			response.sendRedirect("modificacionProducto.jsp");
 		}
 		if (!response.isCommitted()) {
 			GeneradorXML xml = new GeneradorXML(candela);

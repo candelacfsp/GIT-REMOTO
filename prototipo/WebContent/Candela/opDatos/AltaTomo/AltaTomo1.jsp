@@ -29,8 +29,7 @@
 		//1. Hay que validar que el tomo no Exista en el CatalogoVigente de Candela. Para ello, se pide el catalogoVigente a 
 		//Candela y se leen los tomos y se busca y confirma que  el tomo a agregar no este en Candela.
 
-		//Catalogo catalogo=(Catalogo)candela_sesion.getAttribute("catalogoNuevo");
-
+	
 		Catalogo catalogo = null;
 		if (candela.getCatalogoNuevo() != null) {//Si la referencia es null, significa que AltaTomo se llamo desde el menu del usuario, no desde el AltaCatalogo.jsp
 			catalogo = (Catalogo) candela.getCatalogoNuevo();
@@ -38,7 +37,14 @@
 		} else {
 			catalogo = candela.getCatalogoVigente();
 		}
-
+		//Si el catalogo no existe
+		if(catalogo.getAnioVigencia()== Constantes.ERROR){
+			JOptionPane.showMessageDialog(null,"No puede dar de alta un tomo sin dar de alta un catalogo previamente.Antes de intentar dar de alta un tomo, dirijase al Alta de Cátalogo.");
+			response.sendRedirect("../vistaOpDatos-catalogo.jsp");
+		}else{
+			
+		
+		
 		if (candela.getCatalogoVigente().tomoExiste(nro_tomo) == false) { //Si el tomo no esta en la coleccion de tomos del catalogoVigente de Candela, se obtiene el catalogo nuevo y se añade un nuevo tomo
 			candela_sesion.setAttribute("codigoTomo", new Integer(
 					nro_tomo));
@@ -73,7 +79,8 @@
 				response.sendRedirect("formAltaTomoEmbed.jsp");
 			}
 		}
-	}
+	}//Fin de if catalogo no existe
+}
 %>
 
 
