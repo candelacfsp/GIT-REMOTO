@@ -21,7 +21,7 @@
 		response.sendRedirect("noExistenVendFacturados.jsp");
 		
 	}else{
-		response.sendRedirect(URL);
+		response.sendRedirect("../../reporteRankingVend.pdf");
 	}
 %>
 
