@@ -58,7 +58,7 @@
 				//referencio a la coleccion de detalles
 				ArrayList<DetallePedidoPersonal> colDetalles = (ArrayList<DetallePedidoPersonal>) candela_sesion
 						.getAttribute("colDetalles");
-				if (colDetalles == null) {//si es null la creo
+				if (colDetalles.size()== 0) {//si es null la creo
 					colDetalles = new ArrayList<DetallePedidoPersonal>();
 				}
 				for (int i = 0; i < candela.getColUsuarios().size(); i++) {
@@ -115,6 +115,7 @@
 							response.sendRedirect("vistaEjecutivo-stock.jsp");
 							
 						} catch (SQLException sql) {
+							sql.printStackTrace();
 							JOptionPane panel = new JOptionPane();
 							panel.showMessageDialog(null,
 									"Error de base de datos");

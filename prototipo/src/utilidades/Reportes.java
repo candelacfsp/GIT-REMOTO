@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 
 
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
@@ -249,8 +251,10 @@ public class Reportes {
 	
 	public String crearPDFCatalogoVigente(Candela candela) throws IOException{
 
+		String resultado=null;
 		ArrayList<Tomo> tomos = candela.getCatalogoVigente().getTomos();
-
+		if (tomos.size()>0){
+			
 		List tuplasTomos = new ArrayList();	
 		List tuplasProducto= new ArrayList();
 		// recorro los tomos de memoria
@@ -297,8 +301,13 @@ public class Reportes {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return candela.getDirectorio()+"reporteCatalogoVigente.pdf";
-
+		 resultado=candela.getDirectorio()+"reporteCatalogoVigente.pdf";
+		}else{
+			JOptionPane.showMessageDialog(null,"No existen productos suficientes cargados en el sistema");
+			
+			
+		}
+		return resultado;
 	}
 
 

@@ -31,7 +31,7 @@
 		case Constantes.OPERADORDEDATOS:
 			response.sendRedirect("../../opDatos/vistaOpDatos.jsp");
 			break;
-		case Constantes.EJECUTIVO:
+		case Constantes.DIRECTOR:
 			response.sendRedirect("../../director/vistaDirector.jsp");
 			break;
 

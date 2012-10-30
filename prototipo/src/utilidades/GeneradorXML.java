@@ -905,7 +905,7 @@ public class GeneradorXML {
 	 * @param codigo
 	 * @return
 	 */
-	private boolean buscarProductoAsociado(int codigo){
+	public boolean buscarProductoAsociado(int codigo){
 		
 		ArrayList<Tomo>tomos=null;
 		tomos=candela.getCatalogoVigente().getTomos();

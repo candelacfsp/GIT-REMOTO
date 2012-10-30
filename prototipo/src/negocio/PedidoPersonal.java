@@ -6,10 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import persistencia.PedidoPersonalBD;
-import persistencia.ProductoBD;
-
-import net.java.ao.EntityManager;
 
 public class PedidoPersonal extends Pedido{
 
@@ -65,10 +61,15 @@ public class PedidoPersonal extends Pedido{
 		CallableStatement sentencia=null;
 
 		sentencia= super.getConnection().prepareCall("{call crearpedido(?,?,?)}");
-
+		
+		
+		java.sql.Date fecha1= new java.sql.Date(this.getFecha_emision().getYear(),this.getFecha_emision().getMonth(),this.getFecha_emision().getDate());
+		java.sql.Date fecha2= new java.sql.Date(this.getFecha_recepcion().getYear(),this.getFecha_recepcion().getMonth(), this.getFecha_recepcion().getDate());
+	
+		
 		//Seteo los argumentos de la funcion.
-		sentencia.setDate(1, (java.sql.Date)this.getFecha_emision());
-		sentencia.setDate(2, (java.sql.Date)this.getFecha_recepcion());
+		sentencia.setDate(1, fecha1);
+		sentencia.setDate(2, fecha2);
 		
 		sentencia.setInt(3,this.getNumeroPedido());
 

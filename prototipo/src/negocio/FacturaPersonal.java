@@ -4,7 +4,9 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import persistencia.FacturaPersonalBD;
 import persistencia.PedidoPersonalBD;
@@ -82,8 +84,16 @@ public class FacturaPersonal extends Factura {
 
 		sentencia= super.getConexion().prepareCall("{call crearfactura(?,?,?,?,?,?)}");
 
+		//GregorianCalendar gc= (GregorianCalendar) GregorianCalendar.getInstance();
+		//Date d2= gc.getTime();
+		
+		Date d2 = new Date();
+		
+		
+		java.sql.Date d1= new java.sql.Date(d2.getYear(), d2.getMonth(), d2.getDate());
+		
 		//Seteo los argumentos de la funcion.
-		sentencia.setDate(1, (java.sql.Date)new Date());
+		sentencia.setDate(1, d1);
 		sentencia.setInt(2, super.getNumero());
 		sentencia.setInt(3,super.getTipo());
 		sentencia.setInt(4, usuario.getDni());

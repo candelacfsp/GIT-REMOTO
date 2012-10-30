@@ -1283,7 +1283,7 @@ public class Candela {
 		//Se crea el pedido en BD con los detalles y los productos.
 		pedido.crearPedido(colDetalles, getColProductos());
 
-
+		
 		//si no tuve problemas al crear el pedido con sus detalles
 		
 		//TODO RODRIGO AUTONUMERICO.

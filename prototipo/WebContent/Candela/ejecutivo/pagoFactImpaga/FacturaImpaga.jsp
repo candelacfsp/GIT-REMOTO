@@ -44,7 +44,7 @@
 				factsImp = candela.getcolUSRSOFTWARE().get(posUsuario)
 						.obtenerFactImpagas();
 
-				if (factsImp != null) { //Si el usuario tiene facturas impagas entonces se continua con el procesamiento
+				if (factsImp.size()> 0) { //Si el usuario tiene facturas impagas entonces se continua con el procesamiento
 
 					//Se almacena la posicion de la factura impaga en la session para poder se recuperada por otro JSP.
 					//session.setAttribute("colFacturaImpaga",facturasImpagasUsr );
@@ -62,7 +62,7 @@
 
 				} else {//Sino tiene facturas impagas, se procede a reenviarlo a un jsp donde se le informa de lo anteriormente dicho
 					panel.showMessageDialog(null,
-							"No posee facturas impagas...");
+							"El usuario no posee facturas impagas...");
 				}
 
 			} else {

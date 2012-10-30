@@ -35,8 +35,9 @@
 			s.printStackTrace();
 			response.sendRedirect("../Error-O.jsp");
 		} catch (ProductoExisteExcepcion p) {
-			panel.showMessageDialog(null,
-					"Error: el producto existe! imposible dar alta");
+			//panel.showMessageDialog(null,"Error: el producto existe! imposible dar alta");
+			
+			candela_sesion.setAttribute("mensaje","Error: el producto existe! imposible dar alta" );
 			response.sendRedirect("altaProducto.jsp");
 
 		}catch(NumberFormatException formato){

@@ -31,7 +31,10 @@ HttpSession candela_sesion = request.getSession();
 Candela candela = (Candela) candela_sesion
 		.getAttribute("candela");
 Reportes reportar = new Reportes();
-reportar.crearPDFCatalogoVigente(candela);
-response.sendRedirect("../catalogoVigente.pdf");
+if (reportar.crearPDFCatalogoVigente(candela) !=null){
+	response.sendRedirect("../catalogoVigente.pdf");
+}else{
+	response.sendRedirect("vistaOpDatos-catalogo.jsp");
+}
 %>
 

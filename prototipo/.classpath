@@ -4,7 +4,12 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0"/>
-	<classpathentry kind="lib" path="/home/damian/repositorioGit/jars/activeobjects-0.8.2.jar"/>
+	<classpathentry kind="lib" path="/home/damian/repositorioGit/jars/activeobjects-0.8.2.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="/home/damian/repositorioGit/jars/annotations-api.jar"/>
 	<classpathentry kind="lib" path="/home/damian/repositorioGit/jars/ant-1.7.1.jar"/>
 	<classpathentry kind="lib" path="/home/damian/repositorioGit/jars/antlr-2.7.5.jar"/>
@@ -92,6 +97,10 @@
 	<classpathentry kind="lib" path="/home/damian/repositorioGit/jars/xbean.jar"/>
 	<classpathentry kind="lib" path="/home/damian/repositorioGit/jars/xercesImpl-2.7.0.jar"/>
 	<classpathentry kind="lib" path="/home/damian/repositorioGit/jars/xml-apis.jar"/>
-	<classpathentry kind="lib" path="/home/damian/repositorioGit/jars/xml-apis-ext.jar"/>
+	<classpathentry kind="lib" path="/home/damian/repositorioGit/jars/xml-apis-ext.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
