@@ -28,11 +28,15 @@
 					Integer.parseInt(tipoproducto),
 					Integer.parseInt(codigo));
 		} catch (TipoProductoExcepcion tipo) {
-			tipo.mensajeDialogo("El Tipo de producto no existe");
+			//tipo.mensajeDialogo("El Tipo de producto no existe");
+			candela_sesion.setAttribute("mensaje", "El Tipo de producto no existe");
+			response.sendRedirect("asignarATipoProducto.jsp");
 			
 		} catch (ProductoNoExisteExcepcion prod) {
-			prod.mensajeDialogo("El producto no existe");
-			
+			//prod.mensajeDialogo("El producto no existe");
+			candela_sesion.setAttribute("mensaje", "El producto no existe");
+			response.sendRedirect("asignarATipoProducto.jsp");
+
 		}
 		if (!response.isCommitted()) {
 			GeneradorXML xml = new GeneradorXML(candela);

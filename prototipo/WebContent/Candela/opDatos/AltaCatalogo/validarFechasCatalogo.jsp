@@ -40,7 +40,8 @@
 				if(resultado==true){
 					JOptionPane panel= new JOptionPane();
 					Date hoy= new Date();
-					panel.showMessageDialog(null, "Error! seleccione una fecha superior a hoy:"+hoy.getDay()+"/"+hoy.getMonth()+"/"+hoy.getYear());
+					candela_sesion.setAttribute("mensaje", "Error! seleccione una fecha superior a hoy:"+hoy.getDay()+"/"+hoy.getMonth()+"/"+hoy.getYear());
+					//panel.showMessageDialog(null, "Error! seleccione una fecha superior a hoy:"+hoy.getDay()+"/"+hoy.getMonth()+"/"+hoy.getYear());
 					response.sendRedirect("formAltaCatalogoEmbed.jsp");
 				}
 		
@@ -55,8 +56,9 @@
 			response.sendRedirect("../AltaTomo/formAltaTomoEmbed.jsp");
 		}catch(ParseException pe){
 			
-			JOptionPane panel= new JOptionPane();
-			panel.showMessageDialog(null, "Error al capturar la fecha! vuelva a intentarlo");
+			//JOptionPane panel= new JOptionPane();
+			//panel.showMessageDialog(null, "Error al capturar la fecha! vuelva a intentarlo");
+			candela_sesion.setAttribute("mensaje", "Error al capturar la fecha! vuelva a intentarlo");
 			response.sendRedirect("formAltaCatalogoEmbed.jsp");
 		}
 		

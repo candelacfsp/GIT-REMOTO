@@ -53,6 +53,8 @@
 				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 		</object>
 		<%
+			mensaje=null;
+			candela_sesion.setAttribute("mensaje", mensaje);
 			} else {
 		%>
 		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"

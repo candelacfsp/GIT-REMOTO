@@ -38,10 +38,8 @@
 		}
 		//Si el catalogo no existe
 		if (catalogo.getAnioVigencia() == Constantes.ERROR) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"No puede dar de alta un tomo sin dar de alta un catalogo previamente.Antes de intentar dar de alta un tomo, dirijase al Alta de Cátalogo.");
+			//JOptionPane.showMessageDialog(null,"No puede dar de alta un tomo sin dar de alta un catalogo previamente.Antes de intentar dar de alta un tomo, dirijase al Alta de Cátalogo.");
+			candela_sesion.setAttribute("mensaje","No puede dar de alta un tomo sin dar de alta un catalogo previamente.Antes de intentar dar de alta un tomo, dirijase al Alta de Cátalogo.");
 			response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 		} else {
 
@@ -51,9 +49,9 @@
 
 			} else {
 				//Si el tomo Existe, se genera un error
-				JOptionPane panel = new JOptionPane();
-				panel.showMessageDialog(null,
-						"El tomo existe!, ingrese otro.");
+				//JOptionPane panel = new JOptionPane();
+				//panel.showMessageDialog(null,"El tomo existe!, ingrese otro.");
+				candela_sesion.setAttribute("mensaje", "El tomo existe!, ingrese otro.");
 				response.sendRedirect("formAltaTomoEmbed.jsp");
 			}
 
@@ -95,10 +93,11 @@
 					response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 				} else {
 					candela.setCatalogoNuevo(null);
-					JOptionPane
+					/*JOptionPane
 							.showMessageDialog(
 									null,
-									"Debe existir al menos un producto para asignar al tomo, antes de crearlo");
+									"Debe existir al menos un producto para asignar al tomo, antes de crearlo");*/
+					candela_sesion.setAttribute("mensaje","Debe existir al menos un producto para asignar al tomo, antes de crearlo" );
 					response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 				}
 			} else {//Sino se llama  al swf.	
