@@ -641,7 +641,7 @@ public class CargadorBD {
 					System.out.println("Error al crear la Factura a Fabrica");
 					System.exit(1);
 				}
-				factpers.setFecha(new Date("01/06/2012"));
+				factpers.setFecha(new Date("1/1/2012"));
 				factpers.setPedidoPersonalBD(ped1);
 				factpers.setNumero(pedviejo.getNumeroPedido());
 				factpers.setPagada(true);
@@ -707,8 +707,8 @@ public class CargadorBD {
 			System.exit(1);
 		}
 		pedNuevo.setNumeroPedido(2000);
-		pedNuevo.setFechaEmision(new Date("20/06/2012"));
-		pedNuevo.setFechaRecepcion(new Date("01/07/2012"));
+		pedNuevo.setFechaEmision(new Date("1/1/2012"));
+		pedNuevo.setFechaRecepcion(new Date("1/1/2012"));
 		pedNuevo.setRecibido(true);
 		pedNuevo.save();
 		
@@ -726,8 +726,8 @@ public class CargadorBD {
 			System.exit(1);
 		}
 		pnew1.setNumeroPedido(250);
-		pnew1.setFechaEmision(new Date("03/06/2012"));
-		pnew1.setFechaRecepcion(new Date("01/07/2012"));
+		pnew1.setFechaEmision(new Date("1/1/2012"));
+		pnew1.setFechaRecepcion(new Date("1/1/2012"));
 		pnew1.setPedidoFabricaBD(pedNuevo);
 		pnew1.save();
 		
@@ -778,8 +778,8 @@ public class CargadorBD {
 			System.exit(1);
 		}
 		pnew2.setNumeroPedido(350);
-		pnew2.setFechaEmision(new Date("15/06/2012"));
-		pnew2.setFechaRecepcion(new Date("01/07/2012"));
+		pnew2.setFechaEmision(new Date("1/1/2012"));
+		pnew2.setFechaRecepcion(new Date("1/1/2012"));
 		pnew2.setPedidoFabricaBD(pedNuevo);
 		pnew2.save();
 		
@@ -835,7 +835,7 @@ public class CargadorBD {
 			System.out.println("Error al crear la factura personal nro: 250");
 			System.exit(1);
 		}
-		factpers.setFecha(new Date("01/09/2012"));
+		factpers.setFecha(new  Date("1/1/2012")); 
 		factpers.setPedidoPersonalBD(pnew1); //Se asocia la facturaPersonal con el PedidoPersonal
 		factpers.setNumero(pedNuevo.getNumeroPedido()); //Se obtinee el numero de pedido Fabrica al que esta asociado la facturaPersonal
 		factpers.setPagada(false);
@@ -867,7 +867,7 @@ public class CargadorBD {
 			System.out.println("Error al crear la factura personal nro: 350");
 			System.exit(1);
 		}
-		factpers2.setFecha(new Date("01/09/2012"));
+		factpers2.setFecha(new Date("1/1/2012"));
 		factpers2.setPedidoPersonalBD(pnew2); //Se asocia la facturaPersonal con el PedidoPersonal
 		factpers2.setNumero(pedNuevo.getNumeroPedido()); //Se obtinee el numero de pedido Fabrica al que esta asociado la facturaPersonal
 		factpers2.setPagada(false);
@@ -882,7 +882,7 @@ public class CargadorBD {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Error al leer el usuario Luke");
-			System.exit(1);
+			System.exit(1); 
 		}				
 		factpers2.setUsuario(usr2[0]);
 		factpers2.save();

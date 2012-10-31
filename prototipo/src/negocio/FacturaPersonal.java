@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import persistencia.FacturaPersonalBD;
 import persistencia.PedidoPersonalBD;
 import persistencia.usuarioBD;
+import utilidades.Constantes;
 
 import net.java.ao.EntityManager;
 /***
@@ -80,33 +81,99 @@ public class FacturaPersonal extends Factura {
 	}
 
 	public void crearFactura(FacturaPersonal factura, usuarioBD usuario,int nroPedido) throws SQLException{
-		CallableStatement sentencia=null;
+		 CallableStatement sentencia=null;
 
-		sentencia= super.getConexion().prepareCall("{call crearfactura(?,?,?,?,?,?)}");
-
+		try {
+			sentencia= super.getConexion().prepareCall("{call crearfactura(?,?,?,?,?,?)}");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//GregorianCalendar gc= (GregorianCalendar) GregorianCalendar.getInstance();
 		//Date d2= gc.getTime();
 		
 		Date d2 = new Date();
-		
-		
 		java.sql.Date d1= new java.sql.Date(d2.getYear(), d2.getMonth(), d2.getDate());
 		
+		//TODO REVISAR ESTE PROC. ALMACENADO.
+	/*	
 		//Seteo los argumentos de la funcion.
-		sentencia.setDate(1, d1);
-		sentencia.setInt(2, super.getNumero());
-		sentencia.setInt(3,super.getTipo());
-		sentencia.setInt(4, usuario.getDni());
-		sentencia.setBoolean(5, this.getPagada());
-		sentencia.setInt(6, nroPedido);
+		try {
+			sentencia.setDate(1, d1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sentencia.setInt(2, this.getNumero());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sentencia.setInt(3,this.getTipo());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sentencia.setInt(4, usuario.getDni());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sentencia.setBoolean(5, this.pagada);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sentencia.setInt(6, nroPedido);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		//Seteo parametro de salida
 
 		//sentencia.registerOutParameter(1, java.sql.Types.VARCHAR);
 		
 		
-		sentencia.execute();
-		//
+		try {
+			sentencia.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		//FIN DE PROC-. ALMACENADO
+		
+		//INICIO TEST ENTITYMANAGER
+		
+		EntityManager em= new EntityManager(Constantes.URL,Constantes.USUARIO,Constantes.PASS);
+
+		FacturaPersonalBD facturaBD= null;
+		facturaBD=em.create(FacturaPersonalBD.class);
+		
+		if (facturaBD != null){
+			facturaBD.setFecha(d1);
+			facturaBD.setNumero(this.getNumero());
+			facturaBD.setTipo(this.getTipo());
+			usuarioBD usr[]=null;
+			usr=em.find(usuarioBD.class,"dni=?",usuario.getDni());
+			
+			facturaBD.setUsuario(usr[0]);
+			facturaBD.setPagada(this.pagada);
+			PedidoPersonalBD peds[]=null;
+			peds= em.find(PedidoPersonalBD.class,"numeroPedido=?",nroPedido);
+			
+			facturaBD.setPedidoPersonalBD(peds[0]);
+			facturaBD.save();
+		}
+		
+		//FIN TEST
 		 
 	}
 	/**

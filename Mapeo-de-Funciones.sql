@@ -26,11 +26,11 @@ ALTER FUNCTION bajatomo(integer) OWNER TO postgres;
 --DetallePedidoPersonalSP
 
 
-CREATE OR REPLACE FUNCTION creardetalle(integer,integer,float8,integer)
+CREATE OR REPLACE FUNCTION creardetalle(integer,integer, character varying, float8,integer)
   RETURNS void AS
 'storedProcedures.DetallePedidoPersonalSP.crearDetalle'
   LANGUAGE javau IMMUTABLE;
-ALTER FUNCTION creardetalle(integer,integer,float8,integer) OWNER TO postgres;
+ALTER FUNCTION creardetalle(integer,integer,character varying, float8,integer) OWNER TO postgres;
 
 --FacturaPersonalSP
 CREATE OR REPLACE FUNCTION crearfactura(Date,integer,integer,integer,boolean,integer)
