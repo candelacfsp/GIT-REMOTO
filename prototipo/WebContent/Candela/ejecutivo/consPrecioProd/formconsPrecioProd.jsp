@@ -32,8 +32,9 @@
 			panel.showMessageDialog(null, "El precio del producto es:"
 					+ precio);
 		} catch (ProductoNoExisteExcepcion prod) {
-			prod.mensajeDialogo("Error: el producto no existe!, imposible consultar el precio");
-			response.sendRedirect("../Error-E.jsp");
+			//prod.mensajeDialogo("Error: el producto no existe!, imposible consultar el precio");
+			candela_sesion.setAttribute("mensaje", "Error: el producto no existe!, imposible consultar el precio");
+			response.sendRedirect("consPrecioProd.jsp");
 		}
 		if (!response.isCommitted()){
 		response.sendRedirect("../vistaEjecutivo-producto.jsp");

@@ -38,15 +38,17 @@
 		//Llamar al metodo asociarProdTomo(codigoTomo,CodigoProd) para hacer la asignacion en la BD.
 		try{
 			candela.getCatalogoVigente().AsignarProdTomo(codigo_prod, codigo_tomo,candela.getColProductos(),candela.esCatalogoNuevo(),"");
-			JOptionPane panel = new JOptionPane();
-			panel.showMessageDialog(null, "Producto asignado correctamente al tomo");
+			/*JOptionPane panel = new JOptionPane();
+			panel.showMessageDialog(null, "Producto asignado correctamente al tomo");*/
+			candela_sesion.setAttribute("mensaje", "Producto asignado correctamente al tomo");
 			GeneradorXML xml= new GeneradorXML(candela);
 			xml.generarProductosNoAsociados();
 			xml.generarTomosVigentes();
 			response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 		}catch(TomoNoEncontradoException tne){
 			tne.printStackTrace();
-			tne.mensajeDialogo("Error, el tomo no se encontro en la coleccion de tomos del catalogo Vigente");	
+			candela_sesion.setAttribute("mensaje", "Error, el tomo no se encontro en la coleccion de tomos del catalogo Vigente");
+			//tne.mensajeDialogo("Error, el tomo no se encontro en la coleccion de tomos del catalogo Vigente");	
 		//Si no encontre el tomo redirijo a pagina de error
  		response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 		}catch(SQLException sql){

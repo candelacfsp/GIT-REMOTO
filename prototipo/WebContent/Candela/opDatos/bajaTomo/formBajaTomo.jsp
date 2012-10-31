@@ -45,8 +45,9 @@
 			response.sendRedirect("../Error-O.jsp");
 		
 		}catch(TomoNoExisteExcepcion tne){
-			tne.mensajeDialogo("No se encuentra registrado el tomo en el Sistema");
-			response.sendRedirect("../Error-O.jsp");
+			//tne.mensajeDialogo("No se encuentra registrado el tomo en el Sistema");
+			candela_sesion.setAttribute("mensaje", "No se encuentra registrado el tomo en el Sistema");
+			response.sendRedirect("bajaTomo.jsp");
 		}
 		if (!response.isCommitted()){
 				//Despues de dar de baja un tomo en el sistema,se llama a generarTomosXML()

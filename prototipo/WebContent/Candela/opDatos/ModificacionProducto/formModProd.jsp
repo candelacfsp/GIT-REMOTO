@@ -18,7 +18,7 @@
 	String codigo = request.getParameter("codigo");
 	String precio = request.getParameter("precio");
 	String cantidad = request.getParameter("cantidad");
-
+	String opcion= request.getParameter("opcion");
 	if (codigo != null) {
 		HttpSession candela_sesion = request.getSession();
 
@@ -30,21 +30,23 @@
 					Double.parseDouble(precio),
 					Integer.parseInt(cantidad));
 		} catch (ProductoNoExisteExcepcion prod) {
-			prod.mensajeDialogo("Error! el producto no existe, imposible modificar un producto");
+			//prod.mensajeDialogo("Error! el producto no existe, imposible modificar un producto");
+			candela_sesion.setAttribute("mensaje", "Error! el producto no existe, imposible modificar un producto");
 			response.sendRedirect("modificacionProducto.swf");
 		}catch(NumberFormatException formato){
-			JOptionPane.showMessageDialog(null, "Error al ingresar el precio, el formato debe ser: ENTERO.DECIMAL");
+		//	JOptionPane.showMessageDialog(null, "Error al ingresar el precio, el formato debe ser: ENTERO.DECIMAL");
+			candela_sesion.setAttribute("mensaje", "Error al ingresar el precio, el formato debe ser: ENTERO.DECIMAL");
 			response.sendRedirect("modificacionProducto.jsp");
 		}
 		if (!response.isCommitted()) {
 			GeneradorXML xml = new GeneradorXML(candela);
 			xml.generarXMLProductos();
-			JOptionPane panel = new JOptionPane();
+			/*JOptionPane panel = new JOptionPane();
 			int opc = panel.showConfirmDialog(null,
 					"¿Desea volver a modificar otro producto?",
 					"Modificación de Producto",
-					JOptionPane.YES_NO_OPTION);
-			if (opc == JOptionPane.YES_OPTION) {
+					JOptionPane.YES_NO_OPTION);*/
+			if (opcion.equals("si")) {
 				response.sendRedirect("modificacionProducto.jsp");
 			} else {
 				response.sendRedirect("../vistaOpDatos-producto.jsp");
