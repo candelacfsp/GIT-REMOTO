@@ -45,8 +45,9 @@
 					//por su codigo o su producto.
 					if(cod!=null){
 						candela.getCatalogoVigente().desasignarProdTomo(codigoProd);
-						JOptionPane panel= new JOptionPane();
-						panel.showMessageDialog(null, "Producto desasignado correctamente!");
+						//JOptionPane panel= new JOptionPane();
+						//panel.showMessageDialog(null, "Producto desasignado correctamente!");
+						candela_sesion.setAttribute("mensaje", "Producto desasignado correctamente!");
 						GeneradorXML xml = new GeneradorXML(candela);
 						xml.generarProductosNoAsociados();
 						xml.generarTomosVigentes();
@@ -56,6 +57,7 @@
 								candela.getCatalogoVigente().desasignarProdTomo(nombre);
 								JOptionPane panel= new JOptionPane();
 								panel.showMessageDialog(null, "Producto desasignado correctamente!");
+								candela_sesion.setAttribute("mensaje", "Producto desasignado correctamente!");
 								GeneradorXML xml = new GeneradorXML(candela);
 								xml.generarProductosNoAsociados();
 								xml.generarTomosVigentes();
@@ -68,7 +70,8 @@
 					response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 				
 				}catch(ProductoNoAsocTomoException pne){
-					pne.mensajeDialogo("El producto no se encuentra asignado a ningún tomo!");
+					//pne.mensajeDialogo("El producto no se encuentra asignado a ningún tomo!");
+					candela_sesion.setAttribute("mensaje", "El producto no se encuentra asignado a ningún tomo!");
 					response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 				}
 				
@@ -79,8 +82,9 @@
 			
 		}else{
 			if (!response.isCommitted()){
-				JOptionPane panel= new JOptionPane();
-				panel.showMessageDialog(null, "El producto no existe");
+			//	JOptionPane panel= new JOptionPane();
+				//panel.showMessageDialog(null, "El producto no existe");
+				candela_sesion.setAttribute("mensaje", "El producto no existe");
 				response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 			}
 		}

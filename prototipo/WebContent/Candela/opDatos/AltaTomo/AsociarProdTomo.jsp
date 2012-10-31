@@ -44,9 +44,11 @@
 
 	HttpSession candela_sesion = request.getSession();
 	Candela candela = (Candela) candela_sesion.getAttribute("candela");
+	String mensaje = (String) candela_sesion.getAttribute("mensaje");
 
 	//String codT= request.getParameter("codigoTomo");
 	String codP = request.getParameter("codProducto");
+	String opcion = request.getParameter("opcion");
 	//String descripcion=request.getParameter("descripTomo");
 	JOptionPane panel = new JOptionPane();
 	if (codP != null && (!codP.equals(""))) {
@@ -84,8 +86,10 @@
 			if (candela.productoEstaCargado(codigoProducto) == false) {// Si no se encontro el producto, se envia a erorrProdNoExiste.html, que redirige formAltaProd.jsp en caso de
 				//que el usuario desee, sino se finaliza
 
-				panel.showMessageDialog(null,
-						"El producto no existe, vuelva a intentarlo...");
+				/*panel.showMessageDialog(null,
+						"El producto no existe, vuelva a intentarlo...");*/
+			
+			candela_sesion.setAttribute("mensaje","El producto no existe, vuelva a intentarlo..." );
 				xml.generarProductosNoAsociados();
 				response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 			} else { //Si el producto existe
@@ -99,9 +103,11 @@
 
 				if (catVigente.estaProdAsocTomo(codigoProducto) == true) { //Si el codigo de Producto figura en la coleccion de productos de otro tomo, ya esta asociado a otro tomo
 
-					panel.showMessageDialog(null,
-							"El producto se encuentra asociado a otro tomo");
-					xml.generarProductosNoAsociados();
+				/*	panel.showMessageDialog(null,
+							"El producto se encuentra asociado a otro tomo");*/
+					
+				candela_sesion.setAttribute("mensaje", "El producto se encuentra asociado a otro tomo");
+				xml.generarProductosNoAsociados();
 					response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 
 				}
@@ -114,9 +120,10 @@
 				catNuevo = candela.getCatalogoNuevo();
 				if (catNuevo.estaProdAsocTomo(codigoProducto) == true) {
 
-					panel.showMessageDialog(null,
-							"El producto se encuentra asociado al tomo");
+				/*	panel.showMessageDialog(null,
+							"El producto se encuentra asociado al tomo");*/
 					xml.generarProductosNoAsociados();
+					candela_sesion.setAttribute("mensaje", "El producto se encuentra asociado al tomo");
 					response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 				}
 			}
@@ -147,11 +154,11 @@
 					catalogo.AsignarProdTomo(codigoProducto,
 							codigoTomo, candela.getColProductos(),
 							candela.esCatalogoNuevo(), descripcion);
-					int opc = panel.showConfirmDialog(null,
+					/*int opc = panel.showConfirmDialog(null,
 							"¿Desea volver a asignar otro producto?",
 							"Carga de Producto",
-							JOptionPane.YES_NO_OPTION);
-					if (opc == JOptionPane.YES_OPTION) {
+							JOptionPane.YES_NO_OPTION);*/
+					if (opcion.equals("si")) {
 						
 						xml.generarProductosNoAsociados();
 						response.sendRedirect("formAsociarProdTomoEmbed.jsp");
@@ -165,8 +172,8 @@
 			} catch (TomoNoEncontradoException tne) {
 				System.out
 						.println("Error al buscar el tomo para asignarlo con un producto");
-				tne.mensajeDialogo("Error al buscar el tomo para asignarle el producto...");
-
+				//tne.mensajeDialogo("Error al buscar el tomo para asignarle el producto...");
+				candela_sesion.setAttribute("mensaje", "Error al buscar el tomo para asignarlo con un producto");
 				response.sendRedirect("formAltaTomoEmbed.jsp");
 
 			} catch (SQLException sql) {
@@ -180,6 +187,7 @@
 		} catch (NumberFormatException nfe) {
 			panel.showMessageDialog(null,
 					"Error en el formato numérico");
+			candela_sesion.setAttribute("mensaje", 	"Error en el formato numérico");
 			response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 		}
 
