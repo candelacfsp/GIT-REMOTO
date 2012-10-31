@@ -20,6 +20,7 @@
 
 	HttpSession candela_sesion = request.getSession(false);
 	Integer tipoUsr = (Integer) candela_sesion.getAttribute("tipoUsr");
+	String mensaje= (String) candela_sesion.getAttribute("mensaje");
 
 	if (tipoUsr == null) {
 		response.sendRedirect("../../Index.swf");
@@ -48,8 +49,27 @@
 		genDnis.generarDnisVendDir();
 		
 %>
+<% 		if(mensaje!=null){ %>
 <body>
 	<center>
+		<object align="middle"
+			classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+			codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10.0.0.0"
+			width="800" height="600">
+			<param name="movie" value="pagoFactImpaga.swf?mensaje=<%=mensaje%>" />
+			<param name="quality" value="high" />
+			<embed src="pagoFactImpaga.swf?mensaje=<%=mensaje%>" quality="high"
+				type="application/x-shockwave-flash" width="800" height="600"
+				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
+		</object>
+	</center>
+	
+	<%
+		candela_sesion.setAttribute("mensaje",null);
+		
+	}else{
+	%>
+		<center>
 		<object align="middle"
 			classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 			codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10.0.0.0"
@@ -61,9 +81,9 @@
 				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 		</object>
 	</center>
+<%
+			}
+		}
+%>
 </body>
 </html>
-
-<%
-	}
-%>

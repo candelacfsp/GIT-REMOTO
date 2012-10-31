@@ -19,7 +19,6 @@
 	String URL=reps.crearRankingVend(candela);
 	if(URL==null){//Si no hay al menos un vendedor en la colecciond e vendedores de Candela que tenga una factura asociada
 		response.sendRedirect("noExistenVendFacturados.jsp");
-		
 	}else{
 		response.sendRedirect("../../reporteRankingVend.pdf");
 	}

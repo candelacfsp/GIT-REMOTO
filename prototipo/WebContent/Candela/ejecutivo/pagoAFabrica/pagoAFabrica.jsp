@@ -23,7 +23,7 @@
 		//1.Buscar la facturaFabrica en la coleccion de facturas de Candela.
 		int posFacturaFab=0;
 		posFacturaFab=candela.verificarFacturaFabrica(numeroFactFab);
-		JOptionPane panel= new JOptionPane();
+		//JOptionPane panel= new JOptionPane();
 		
 		if(posFacturaFab!=Constantes.ERROR){//Si la factura existe
 			
@@ -47,10 +47,14 @@
 					candela.guardar_Facts_Fabrica(posFacturaFab);	
 					
 					
-					panel.showMessageDialog(null, "La factura a fábrica se ha registrado como paga correctamente");
+					//panel.showMessageDialog(null, "La factura a fábrica se ha registrado como paga correctamente");
+					candela_sesion.setAttribute("mensaje", "La factura a fábrica se ha registrado como paga correctamente");
+					
 					GeneradorXML xml= new GeneradorXML(candela);
 					xml.generarXMLFacturasFabrica();
-					response.sendRedirect("../vistaEjecutivo.swf");
+					response.sendRedirect("pagoFabrica.jsp");
+					
+					//response.sendRedirect("../vistaEjecutivo.swf");
 					
 				
 				}catch(SQLException sql){
@@ -64,15 +68,19 @@
 			
 			}else{
 				if (!response.isCommitted()){
-					panel.showMessageDialog(null, "La factura se encuentra pagada!");
+					//panel.showMessageDialog(null, "La factura se encuentra pagada!");
 					response.sendRedirect("../vistaEjecutivo.swf");
+					candela_sesion.setAttribute("mensaje","La factura se encuentra pagada!");
+					response.sendRedirect("../vistaEjecutivo-factura.jsp");
 				}
 			}
 			
 		}else{ //Si la factua no existe
 			if (!response.isCommitted()){
-				panel.showMessageDialog(null, "La factura seleccionada no existe!");
-				response.sendRedirect("../vistaEjecutivo.swf");
+			//	panel.showMessageDialog(null, "La factura seleccionada no existe!");
+			//response.sendRedirect("../vistaEjecutivo.swf");
+				candela_sesion.setAttribute("mensaje", "La factura seleccionada no existe!");
+				response.sendRedirect("../vistaEjecutivo-factura.jsp");
 			}
 		}
 	}

@@ -33,7 +33,7 @@
 			HttpSession candela_sesion = request.getSession();
 			Candela candela = (Candela) candela_sesion
 					.getAttribute("candela");
-			JOptionPane panel = new JOptionPane();
+			//JOptionPane panel = new JOptionPane();
 
 			int dni = Integer.parseInt(nrodni);
 
@@ -60,13 +60,16 @@
 					gen.generarFacturasImpagasUsuario(dni);
 					response.sendRedirect("mostrarFacturaImpaga.jsp");
 
-				} else {//Sino tiene facturas impagas, se procede a reenviarlo a un jsp donde se le informa de lo anteriormente dicho
-					panel.showMessageDialog(null,
-							"El usuario no posee facturas impagas...");
+				} else {//Sino tiene facturas impagas, se muestra un mensaje indicando que no posee facturas impagas en AS2
+					//panel.showMessageDialog(null,"El usuario no posee facturas impagas...");
+					candela_sesion.setAttribute("mensaje", "El usuario no posee facturas impagas");
+					response.sendRedirect("pagoFactImpaga.jsp");
 				}
 
 			} else {
-				panel.showMessageDialog(null, "El usuario no existe...");
+				//panel.showMessageDialog(null, "El usuario no existe...");
+				candela_sesion.setAttribute("mensaje","El usuario no existe");
+				response.sendRedirect("pagoFactImpaga.jsp");
 			}
 
 			if (!response.isCommitted()) {

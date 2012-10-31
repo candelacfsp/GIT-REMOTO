@@ -21,7 +21,7 @@
 	//Luego redirige a facturaPagadaOK.jsp, que emite el comprobante de pago en formato HTML.
 	
 	String nroFactImp=request.getParameter("nroFacturaImpaga");
-
+	
 	
 	if(nroFactImp!=null && (!nroFactImp.equals(""))){
 		
@@ -66,7 +66,9 @@
 			//Se redirecciona a un archivo.jsp que formatea la emision de un comprobante
 			response.sendRedirect("marcarFactImp.jsp");
 		}else{
-				panel.showMessageDialog(null, "La factura es inválida...");
+				//panel.showMessageDialog(null, "La factura es inválida...");
+				candela_sesion.setAttribute("mensaje","La factura es inválida");
+				response.sendRedirect("mostrarFacturaImpaga.jsp");
 		}
 	if (!response.isCommitted()){
 		response.sendRedirect("../vistaEjecutivo-factura.jsp");

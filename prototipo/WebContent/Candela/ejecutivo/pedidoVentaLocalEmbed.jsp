@@ -7,8 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-
-<%
+<body>
+	<%
 	response.setHeader("Cache-Control",
 			"no-cache, no-store, must-revalidate");
 	response.setHeader("Pragma", "no-cache");
@@ -16,7 +16,8 @@
 
 	HttpSession candela_sesion = request.getSession(false);
 	Integer tipoUsr = (Integer) candela_sesion.getAttribute("tipoUsr");
-
+	String mensaje=(String) candela_sesion.getAttribute("mensaje");
+	
 	if (tipoUsr == null) {
 		response.sendRedirect("../Index.swf");
 
@@ -37,7 +38,20 @@
 
 		}
 %>
-<body>
+	<%		if(mensaje!=null){ %>
+	<center>
+		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+			codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10.0.0.0"
+			width="800" height="600">
+			<param name="movie" value="pedidoVentaLocal.swf?mensaje=<%=mensaje%>" />
+			<param name="quality" value="high" />
+			<embed src="pedidoVentaLocal.swf?mensaje=<%=mensaje %>" quality="high"
+				type="application/x-shockwave-flash" width="800" height="600"
+				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
+		</object>
+	</center>
+
+	<%}else{ %>
 	<center>
 		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 			codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10.0.0.0"
@@ -49,6 +63,9 @@
 				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 		</object>
 	</center>
+
+
+	<%	} %>
 </body>
 </html>
 

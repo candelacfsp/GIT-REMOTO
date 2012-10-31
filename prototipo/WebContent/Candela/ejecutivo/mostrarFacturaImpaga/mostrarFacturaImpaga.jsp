@@ -36,7 +36,7 @@
 			break;
 
 		}
-%>
+%> 
 <body>
 	<center>
 		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
