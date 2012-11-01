@@ -289,7 +289,9 @@ public class Reportes {
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}     
+		}catch( Exception e){
+			e.printStackTrace();
+		}
 
 		JRExporter exporter = new JRPdfExporter();    
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);    
@@ -302,10 +304,6 @@ public class Reportes {
 			e.printStackTrace();
 		}
 		 resultado=candela.getDirectorio()+"reporteCatalogoVigente.pdf";
-		}else{
-			JOptionPane.showMessageDialog(null,"No existen productos suficientes cargados en el sistema");
-			
-			
 		}
 		return resultado;
 	}
@@ -361,18 +359,19 @@ public class Reportes {
 		double precio;
 		String descripcionProducto;
 		int cantidadEnStock;
-		String tipoProducto;
+		int tipoProducto;
 
 		public tuplaProducto(int codigoProducto, double precio, String descripcionProducto, int cantidadEnStock, int tipoProducto){
 			this.codigoProducto= codigoProducto;
 			this.precio= precio;
 			this.descripcionProducto = descripcionProducto;
 			this.cantidadEnStock= cantidadEnStock;
-			if (tipoProducto <0){
+			this.tipoProducto=tipoProducto;
+			/*if (tipoProducto <0){
 				this.tipoProducto= "NO Asig.";
 			}else{
 				this.tipoProducto= Integer.toString(tipoProducto);
-			}
+			}*/
 			
 
 		}
@@ -407,6 +406,14 @@ public class Reportes {
 
 		public void setCantidadEnStock(int cantidadEnStock) {
 			this.cantidadEnStock = cantidadEnStock;
+		}
+
+		public int getTipoProducto() {
+			return tipoProducto;
+		}
+
+		public void setTipoProducto(int tipoProducto) {
+			this.tipoProducto = tipoProducto;
 		}
 
 

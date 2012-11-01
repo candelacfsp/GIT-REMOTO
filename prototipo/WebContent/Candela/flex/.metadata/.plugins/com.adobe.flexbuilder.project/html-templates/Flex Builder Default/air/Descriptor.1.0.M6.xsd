@@ -22,7 +22,6 @@
           <xs:simpleType>
             <xs:restriction base="xs:string">
               <!-- name cannot have any of these characters: *"/:<>?\| and end in a period ('.') -->
-              <xs:pattern value="[^\*"/:><\?\\\|]*[^\*"/:><\?\\\|\.]"/>
             </xs:restriction>
           </xs:simpleType>
         </xs:element>
@@ -67,7 +66,7 @@
           <xs:simpleType>
             <xs:restriction base="xs:string">
               <!-- installFolder cannot have any of these characters: *":<>?\|, begin with a forward-slash '/', and end in a period '.' -->
-              <xs:pattern value="[^\*"/:><\?\\\|\.]|[^\*"/:><\?\\\|][^\*":><\?\\\|]*[^\*":><\?\\\|\.]"/>
+             
             </xs:restriction>
           </xs:simpleType>
         </xs:element>
@@ -75,7 +74,7 @@
           <xs:simpleType>
             <xs:restriction base="xs:string">
               <!-- programMenuFolder cannot have any of these characters: *":<>?\|, begin with a forward-slash '/', and end in a period '.' -->
-              <xs:pattern value="[^\*"/:><\?\\\|\.]|[^\*"/:><\?\\\|][^\*":><\?\\\|]*[^\*":><\?\\\|\.]"/>
+            
             </xs:restriction>
           </xs:simpleType>
         </xs:element>        

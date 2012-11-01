@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subCatalogoVigente" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="43e68952-e4d7-4d85-a557-6209dffb5eb4">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
-	<property name="ireport.x" value="53"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="codigoProducto" class="java.lang.Integer"/>
 	<field name="precio" class="java.lang.Double"/>
 	<field name="descripcionProducto" class="java.lang.String"/>
 	<field name="cantidadEnStock" class="java.lang.Integer"/>
-	<field name="tipoProducto" class="java.lang.Integer"/>
+	<field name="tipoProducto" class="java.lang.String"/>
 	<columnHeader>
 		<band height="42" splitType="Stretch">
 			<rectangle>
