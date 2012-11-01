@@ -74,14 +74,14 @@
 
 			candela.agregarFacturaImpaga(peds.get(posPedido),
 					tipoFactura, fechaFactura);
-			panel.showMessageDialog(null,
-					"La factura se registró correctamente");
+			
+			candela_sesion.setAttribute("mensaje", "La factura se registró correctamente");
 			response.sendRedirect("redirect.jsp");
 		} catch (SQLException sql) {
 			response.sendRedirect("../Error-E.jsp");
 		} catch (ParseException pe) {
-			panel.showMessageDialog(null,
-					"Error al introducir la fecha, debe ser del estilo año-mes-dia:aaaa-mm-dd");
+			
+			candela_sesion.setAttribute("mensaje", "Error al introducir la fecha, debe ser del estilo año-mes-dia:aaaa-mm-dd");
 			response.sendRedirect("../vistaEjecutivo-stock.jsp");
 		}
 	}

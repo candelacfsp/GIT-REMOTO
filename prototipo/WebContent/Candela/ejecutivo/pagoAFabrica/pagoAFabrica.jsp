@@ -69,9 +69,9 @@
 			}else{
 				if (!response.isCommitted()){
 					//panel.showMessageDialog(null, "La factura se encuentra pagada!");
-					response.sendRedirect("../vistaEjecutivo.swf");
+			
 					candela_sesion.setAttribute("mensaje","La factura se encuentra pagada!");
-					response.sendRedirect("../vistaEjecutivo-factura.jsp");
+					response.sendRedirect("pagoFabrica.jsp");
 				}
 			}
 			
@@ -80,7 +80,7 @@
 			//	panel.showMessageDialog(null, "La factura seleccionada no existe!");
 			//response.sendRedirect("../vistaEjecutivo.swf");
 				candela_sesion.setAttribute("mensaje", "La factura seleccionada no existe!");
-				response.sendRedirect("../vistaEjecutivo-factura.jsp");
+				response.sendRedirect("pagoFabrica.jsp");
 			}
 		}
 	}

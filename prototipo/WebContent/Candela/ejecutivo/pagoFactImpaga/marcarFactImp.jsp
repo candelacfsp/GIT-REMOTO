@@ -49,6 +49,7 @@
 		//Se borran las variables tamporales que se emplearon en la sesion
 		candela_sesion.removeAttribute("nroFactImp");
 		candela_sesion.removeAttribute("dni");
-		response.sendRedirect("facturaPagadaOK.jsp");
+		candela_sesion.setAttribute("mensaje", "Factura abonada correctamente!");
+		response.sendRedirect("pagoFactImpaga.jsp");
 %>
 			

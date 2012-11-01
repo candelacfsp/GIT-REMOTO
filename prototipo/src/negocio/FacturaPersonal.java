@@ -181,14 +181,18 @@ public class FacturaPersonal extends Factura {
 	 */
 	public void almacenar_factImpaga(int nroFactImp)throws SQLException{
 		//Se marca la factura en la BD como paga.
-		CallableStatement sentencia=null;
+		EntityManager em= new EntityManager(Constantes.URL,Constantes.USUARIO,Constantes.PASS);
+		 FacturaPersonalBD[] fp= em.find(FacturaPersonalBD.class,"numero=?",nroFactImp);
+		 fp[0].setPagada(true);
+		 fp[0].save();
+	/*	CallableStatement sentencia=null;
 
-		sentencia= this.getConexion().prepareCall("{call almacenar_factimp(?)}");
+			sentencia= this.getConexion().prepareCall("{call almacenar_factimp(?)}");
 
-		//Seteo los argumentos de la funcion.
-		sentencia.setInt(1, nroFactImp);
-		
-		sentencia.execute();
+			//Seteo los argumentos de la funcion.
+			sentencia.setInt(1, nroFactImp);
+			
+			sentencia.execute();*/ 
 		 
 	}
 	public PedidoPersonal getPedidoPers(){

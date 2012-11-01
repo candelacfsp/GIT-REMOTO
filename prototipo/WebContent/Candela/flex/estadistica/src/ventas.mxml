@@ -30,7 +30,7 @@
       }
       //esta funcion llama al swf
       function salir():void{
-      	navigateToURL(new URLRequest("../../../ejecutivo/vistaEjecutivo.swf"),"_self");
+      	navigateToURL(new URLRequest("../../../ejecutivo/vistaEjecutivo.jsp"),"_self");
       }
       
    function cargarXML():void{

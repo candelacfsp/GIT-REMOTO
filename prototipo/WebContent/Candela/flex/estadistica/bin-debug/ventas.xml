@@ -10,7 +10,4 @@
     <mes mes="8" ventas="1" />
     <mes mes="6" ventas="2" />
   </tipoProducto>
-  <tipoProducto codigo="3">
-  	<mes mes="8" ventas="10"></mes>
-  	<mes mes="9" ventas="15"></mes></tipoProducto>
 </Ventas>

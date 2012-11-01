@@ -17,14 +17,14 @@
 		<item key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID" value="false"/>
 	</section>
-	<section name="ResourceNavigator">
-		<item key="ResourceWorkingSetFilter.STORE_WORKING_SET" value=""/>
-		<item key="ResourceViewer.STORE_SORT_TYPE" value="1"/>
-	</section>
-	<section name="org.eclipse.ui.views.problem">
-	</section>
 	<section name="ChooseWorkspaceDialogSettings">
 		<item key="DIALOG_X_ORIGIN" value="228"/>
 		<item key="DIALOG_Y_ORIGIN" value="142"/>
+	</section>
+	<section name="org.eclipse.ui.views.problem">
+	</section>
+	<section name="ResourceNavigator">
+		<item key="ResourceWorkingSetFilter.STORE_WORKING_SET" value=""/>
+		<item key="ResourceViewer.STORE_SORT_TYPE" value="1"/>
 	</section>
 </section>
