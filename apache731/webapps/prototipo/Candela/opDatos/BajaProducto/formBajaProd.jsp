@@ -8,7 +8,6 @@
 <%@page import="java.sql.SQLException"%>
 <%@page import="net.java.ao.Entity"%>
 <%@page import="net.java.ao.EntityManager"%>
-<%@page import="java.awt.Desktop"%>
 <%@page import="utilidades.*"%>
 <%@page import="persistencia.*"%>
 <%@page import="negocio.*"%>
@@ -18,7 +17,7 @@
 
 <%
 	String codigo = request.getParameter("codigo");
-
+String opcion= request.getParameter("opcion");
 	if (codigo != null) {
 		HttpSession candela_sesion = request.getSession();
 		Candela candela = (Candela) candela_sesion
@@ -26,21 +25,28 @@
 		try {
 			candela.bajaDeProducto(Integer.parseInt(codigo));
 		} catch (SQLException s) {
-			JOptionPane panel = new JOptionPane();
-			panel.showMessageDialog(null, "Error de base de datos");
-			response.sendRedirect("../Error-O.swf");
+			s.printStackTrace();
+			response.sendRedirect("../Error-O.jsp");
 		} catch (TomoAsignadoExcepcion tomo) {
-			tomo.mensajeDialogo("Error, imposible dar de baja el producto, si este se encuentra asignado");
-			response.sendRedirect("../Error-O.swf");
+			//tomo.mensajeDialogo("Error, imposible dar de baja, el producto se encuentra asignado a un tomo");
+			candela_sesion.setAttribute("mensaje", "Error, imposible dar de baja, el producto se encuentra asignado a un tomo");
+			response.sendRedirect("bajaProducto.jsp");
 		} catch (ProductoNoExisteExcepcion prod) {
 			prod.mensajeDialogo("Error el producto no existe, imposible dar de baja");
-			response.sendRedirect("../Error-O.swf");
+			candela_sesion.setAttribute("mensaje", "Error el producto no existe, imposible dar de baja");
+			response.sendRedirect("bajaProducto.jsp");
 		}
-		if (!response.isCommitted()){
-		GeneradorXML xml = new GeneradorXML(candela);
-		xml.generarProductosNoAsociados();
-		response.sendRedirect("../exito-O.swf");
-		}
+		if (!response.isCommitted()) {
+			GeneradorXML xml = new GeneradorXML(candela);
+			xml.generarProductosNoAsociados();
+			xml.generarXMLProductos();
+			
+			if (opcion.equals("si")) {
+				response.sendRedirect("bajaProducto.jsp");
+			} else {
+				response.sendRedirect("../vistaOpDatos-producto.jsp");
+			}
 
+		}
 	}
 %>

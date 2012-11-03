@@ -27,27 +27,32 @@
 	String contrasenia = request.getParameter("contrasenia");
 	String directorio = getServletContext().getRealPath("/");
 	//Esto lo realice para obtener el path
-
+HttpSession candela_sesion = request.getSession(true);
 	if ((nombre != null && contrasenia != null)
 			&& (!nombre.equals("") && !contrasenia.equals(""))) {
 		Candela candela = new Candela();
+		
 		try {
 
 			candela.setDirectorio(directorio + "Candela/"); //TODO DAMIAN 11-9-12 agregue
+			
 			candela.iniciar();
 		} catch (SQLException sql) {
-			JOptionPane panel = new JOptionPane();
+			/* JOptionPane panel = new JOptionPane();
 			panel.showMessageDialog(null,
-					"Error de base de datos, imposible iniciar");
-			response.sendRedirect("Index.swf");
+					"Error de base de datos, imposible iniciar"); */
+			candela_sesion.setAttribute("mensaje", "Error de base de datos, imposible iniciar");
+			response.sendRedirect("index.jsp");
+			
 		} catch (IllegalStateException e1) {
-			JOptionPane panel = new JOptionPane();
+			/* JOptionPane panel = new JOptionPane();
 			panel.showMessageDialog(null,
-					"Error al iniciar el sistema... vuelva a internarlo");
-			response.sendRedirect("Index.swf");
+					"Error al iniciar el sistema... vuelva a internarlo"); */
+			candela_sesion.setAttribute("mensaje", "Error al iniciar el sistema... vuelva a internarlo");
+			response.sendRedirect("index.jsp");
 		}
 		if (!response.isCommitted()) {
-			HttpSession candela_sesion = request.getSession(true);
+		
 			candela_sesion.setAttribute("candela", candela);
 			//Guardo en la sesion un arraylist de coldetalles para utilizarlo en venta en local
 			ArrayList<DetallePedidoPersonal> colDetalles = new ArrayList<DetallePedidoPersonal>();
@@ -107,13 +112,17 @@
 
 				if (!encontrado) {
 
-					JOptionPane panel = new JOptionPane();
+				/* 	JOptionPane panel = new JOptionPane();
 					panel.showMessageDialog(null,
-							"Usuario o contraseña incorrectas, vuelva a introducirlas...");
-					response.sendRedirect("Index.swf");
+							"Usuario o contraseña incorrectas, vuelva a introducirlas..."); */
+					candela_sesion.setAttribute("mensaje", "Usuario o contraseña incorrectas, vuelva a introducirlas...");
+					response.sendRedirect("index.jsp");
 				}
 			}
 
 		}
+	}else {
+		candela_sesion.setAttribute("mensaje", "Debe ingresar tanto el usuario como la contraseña para logearse en el sistema!");
+		response.sendRedirect("index.jsp");
 	}
 %>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProductosNoAsociados>
+  <Producto codigo="1200" descripcion="crema para cuerpo" />
+  <Producto codigo="100" descripcion="Crema exfoliante" />
+  <Producto codigo="800" descripcion="Medias de lana" />
+  <Producto codigo="1300" descripcion="Jeans Tavernitti" />
+</ProductosNoAsociados>

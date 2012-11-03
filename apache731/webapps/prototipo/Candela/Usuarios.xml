@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Usuarios>
+  <usuario nombre="Rodrigo" apellido="Huincalef" dni="35887888" userName="Rodrigo" tipoDeUsuario="3" />
+  <usuario nombre="Vader" apellido="Darth" dni="32000111" userName="Vader" tipoDeUsuario="2" />
+  <usuario nombre="Luke" apellido="SkyWalker" dni="32222111" userName="Luke" tipoDeUsuario="1">
+    <facturasImpagas factura="7" />
+  </usuario>
+  <usuario nombre="Marta" apellido="Lopez" dni="11111111" userName="Marta" tipoDeUsuario="1" />
+  <usuario nombre="Claudio" apellido="Riquelme" dni="222222" userName="Claudio" tipoDeUsuario="1" />
+  <usuario nombre="Marcelo" apellido="Gutierrez" dni="333333" userName="Marcelo" tipoDeUsuario="1" />
+  <usuario nombre="Gloria" apellido="Bianchi" dni="444444" userName="Gloria" tipoDeUsuario="1" />
+  <usuario nombre="Gabriel" apellido="postgres" dni="55555" userName="Gabriel" tipoDeUsuario="1">
+    <facturasImpagas factura="6" />
+  </usuario>
+  <usuario nombre="Admin" apellido="Admin" dni="33345146" userName="Admin" tipoDeUsuario="4" />
+</Usuarios>

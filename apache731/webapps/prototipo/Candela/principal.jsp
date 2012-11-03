@@ -1,59 +1,58 @@
 
-<%@page import="javax.swing.JOptionPane"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.sql.SQLException"%>
-<%@page import="net.java.ao.Entity"%>
-<%@page import="net.java.ao.EntityManager"%>
-<%@page import="java.awt.Desktop"%>
-<%@page import="utilidades.*"%>
-<%@page import="persistencia.*"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.sql.SQLException"%>
-<%@page import="net.java.ao.Entity"%>
-<%@page import="net.java.ao.EntityManager"%>
-<%@page import="java.awt.Desktop"%>
-<%@page import="utilidades.*"%>
-<%@page import="persistencia.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page buffer="NONE"%>
+<%@page import="javax.swing.JOptionPane"%>
 <%@page import="java.net.URI"%>
-<%@include file="GlobalVars.jsp"%>
-
-<%@page import="java.net.URI"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
+<%@page import="java.util.ArrayList"%>
+<%@page import="net.java.ao.Entity"%>
+<%@page import="net.java.ao.EntityManager"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="utilidades.*"%>
+<%@page import="persistencia.*"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.sql.SQLException"%>
 <%@page import="negocio.*"%>
-
 <%@page session="true"%>
-
+ 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
 
 <%
+	response.setHeader("Cache-Control",
+			"no-cache, no-store, must-revalidate");
+	response.setHeader("Pragma", "no-cache");
+	response.setDateHeader("Expires", 0);
+
 	String nombre = request.getParameter("usuario");
 	String contrasenia = request.getParameter("contrasenia");
-	String directorio= getServletContext().getRealPath("/");
-//Esto lo realice para obtener el path
-	
-	
+	String directorio = getServletContext().getRealPath("/");
+	//Esto lo realice para obtener el path
+HttpSession candela_sesion = request.getSession(true);
 	if ((nombre != null && contrasenia != null)
 			&& (!nombre.equals("") && !contrasenia.equals(""))) {
+		Candela candela = new Candela();
+		
 		try {
-			candela.setDirectorio(directorio); //TODO DAMIAN 11-9-12 agregue
+
+			candela.setDirectorio(directorio + "Candela/"); //TODO DAMIAN 11-9-12 agregue
+			
 			candela.iniciar();
-		} catch (SQLException e) {
-			JOptionPane panel = new JOptionPane();
+		} catch (SQLException sql) {
+			/* JOptionPane panel = new JOptionPane();
 			panel.showMessageDialog(null,
-					"Error de base de datos, imposible iniciar");
-			response.sendRedirect("Index.swf");
+					"Error de base de datos, imposible iniciar"); */
+			candela_sesion.setAttribute("mensaje", "Error de base de datos, imposible iniciar");
+			response.sendRedirect("index.jsp");
+			
 		} catch (IllegalStateException e1) {
-			JOptionPane panel = new JOptionPane();
+			/* JOptionPane panel = new JOptionPane();
 			panel.showMessageDialog(null,
-					"Error al iniciar el sistema... vuelva a internarlo");
-			response.sendRedirect("Index.swf");
+					"Error al iniciar el sistema... vuelva a internarlo"); */
+			candela_sesion.setAttribute("mensaje", "Error al iniciar el sistema... vuelva a internarlo");
+			response.sendRedirect("index.jsp");
 		}
 		if (!response.isCommitted()) {
-			HttpSession candela_sesion = request.getSession();
+		
 			candela_sesion.setAttribute("candela", candela);
 			//Guardo en la sesion un arraylist de coldetalles para utilizarlo en venta en local
 			ArrayList<DetallePedidoPersonal> colDetalles = new ArrayList<DetallePedidoPersonal>();
@@ -80,20 +79,30 @@
 									.equals(contrasenia))) {
 						//si encuentro el usuario
 						encontrado = true;
+						//Se guarda el tipo de usuario y el nombre de usuario en la sesión de candela para que sea
+						//revalidado en cada una de las vistas en jsp
+						candela_sesion
+								.setAttribute("nombreUsr", nombre);
+						candela_sesion.setAttribute("tipoUsr",
+								(Integer) usuarios.get(i)
+										.getTipoDeUsrBD()
+										.getnroTipoUsr());
+						//se guarda el nombre de usuario para mostrar el nombre de usuario
+
 						switch (usuarios.get(i).getTipoDeUsrBD()
-								.getID()) {
+								.getnroTipoUsr()) {
 
 						case Constantes.VENDEDOR:
-							response.sendRedirect("vendedor/vistaVendedor.swf");
+							response.sendRedirect("vendedor/vistaVendedor.jsp");
 							break;
 						case Constantes.DIRECTOR:
-							response.sendRedirect("director/vistaDirector.swf");
+							response.sendRedirect("director/vistaDirector.jsp");
 							break;
 						case Constantes.EJECUTIVO:
-							response.sendRedirect("ejecutivo/vistaEjecutivo.swf");
+							response.sendRedirect("ejecutivo/vistaEjecutivo.jsp");
 							break;
 						case Constantes.OPERADORDEDATOS:
-							response.sendRedirect("opDatos/vistaOpDatos.swf");
+							response.sendRedirect("opDatos/vistaOpDatos.jsp");
 							break;
 						}
 
@@ -103,10 +112,17 @@
 
 				if (!encontrado) {
 
-					response.sendRedirect("errorUsuario.swf");
+				/* 	JOptionPane panel = new JOptionPane();
+					panel.showMessageDialog(null,
+							"Usuario o contraseña incorrectas, vuelva a introducirlas..."); */
+					candela_sesion.setAttribute("mensaje", "Usuario o contraseña incorrectas, vuelva a introducirlas...");
+					response.sendRedirect("index.jsp");
 				}
 			}
 
 		}
+	}else {
+		candela_sesion.setAttribute("mensaje", "Debe ingresar tanto el usuario como la contraseña para logearse en el sistema!");
+		response.sendRedirect("index.jsp");
 	}
 %>

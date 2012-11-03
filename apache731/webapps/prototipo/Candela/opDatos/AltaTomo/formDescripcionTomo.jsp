@@ -71,12 +71,12 @@
 		
 		if(descripcion!=null){
 			int nroTomo= Integer.parseInt(nroT);
-			
+			candela_sesion.setAttribute("descripTomo",descripcion);	
 		
 	 
 			System.out.println("Se almaceno correctamente el tomo en la BD");
 				%>
-					<jsp:forward page="formAsociarProdTomo.jsp"/> 
+					<jsp:forward page="formAsociarProdTomo.swf"/> 
 				<%	
 		 
 			 

@@ -7,7 +7,6 @@
 <%@page import="java.sql.SQLException"%>
 <%@page import="net.java.ao.Entity"%>
 <%@page import="net.java.ao.EntityManager"%>
-<%@page import="java.awt.Desktop"%>
 <%@page import="utilidades.*"%>
 <%@page import="persistencia.*"%>
 <%@page import="negocio.*"%>
@@ -33,11 +32,12 @@
 			panel.showMessageDialog(null, "El precio del producto es:"
 					+ precio);
 		} catch (ProductoNoExisteExcepcion prod) {
-			prod.mensajeDialogo("Error: el producto no existe!, imposible consultar el precio");
-			response.sendRedirect("../Error-O.swf");
+			//prod.mensajeDialogo("Error: el producto no existe!, imposible consultar el precio");
+			candela_sesion.setAttribute("mensaje", "Error: el producto no existe!, imposible consultar el precio");
+			response.sendRedirect("consPrecioProd.jsp");
 		}
 		if (!response.isCommitted()){
-		response.sendRedirect("../exito-O.swf");
+		response.sendRedirect("../vistaOpDatos-producto.jsp");
 		}
 	}
 %>

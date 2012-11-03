@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<!-- charts/MultipleDataProviders.mxml -->
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" width="921.21216" height="737.42426" viewSourceURL="srcview/index.html">
+
+ 
+ 
+
+  <mx:Script><![CDATA[
+  	import mx.controls.Label;
+  	import flash.net.navigateToURL;
+  	import mx.messaging.management.Attribute;
+ 
+    import mx.collections.ArrayCollection;
+    
+
+  	 	var ruta:String="ventas.xml";
+   		var xmlExterno:XML;
+   		var valorSlider;
+   		var meses:Array= new Array ('Vacio','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
+   
+   	[Bindable]
+     public var tipo1:ArrayCollection = new ArrayCollection();
+     [Bindable]
+     public var tipo2:ArrayCollection = new ArrayCollection();
+     
+    //esta funciòn es llamada cuando el slider es movido
+      public function actualizarB():void{
+      	
+      	cargarXML();
+      	//deshabilito el cargar
+      	cargar.enabled=false;
+      	
+      }
+      //esta funcion llama al swf//no funciona mas
+      function salir():void{
+      	navigateToURL(new URLRequest("../../../ejecutivo/vistaEjecutivo.jsp"),"_self");
+      }
+      
+   function cargarXML():void{
+  		var loader:URLLoader = new URLLoader();
+  		ponerListener(loader);
+  		var peticion:URLRequest = new URLRequest(ruta);
+  		loader.load(peticion);
+  	}
+  	
+  	 function ponerListener(dispatcher:IEventDispatcher):void{
+  		dispatcher.addEventListener(Event.COMPLETE, completeHandler);
+  	}
+  	//funcion que se ejecutan cuando se completo la carga del archivo XML
+  	 function completeHandler(event:Event):void{
+  	var cargador:URLLoader = event.target as URLLoader;
+  	xmlExterno = new XML(cargador.data);
+
+	
+  	//cada nodo apunta a un tipo de producto
+  	var topemin:Number=1;
+  	var topemax:Number=12;
+  	var esPrimero:Boolean =true;
+  	for each(var nodo:XML in xmlExterno.elements()){
+  		var codigo:int= int(nodo.@codigo);
+  		for each (var subnodo:XML in nodo.elements()){
+  			//cada subnodo apunta a un mes
+  			switch(codigo){
+  				case 1:tipo1.addItem({Mes:meses[subnodo.@mes],venta:subnodo.@ventas});
+  			
+  				break;
+  				case 2:tipo2.addItem({Mes:meses[subnodo.@mes],venta:subnodo.@ventas});
+  			
+  				break;
+  				
+  			}
+  			if (esPrimero){
+  						topemin=subnodo.@mes;
+  						topemax=subnodo.@mes;
+  						esPrimero=false;
+  					}else{
+  					if (topemin > subnodo.@mes){
+  						topemin = subnodo.@mes;
+  					}
+  					if (topemax < subnodo.@mes){
+  						topemax=subnodo.@mes;
+  					}	
+  					}
+  		}
+  		
+  		
+  		
+  		}//salgo del for nodo
+  		slider.minimum=topemin;
+  		slider.maximum=topemax;
+  		slider.enabled=true;
+  		
+  	}
+  	
+  	public function actualizarSlider(valor:Number):void{
+  	
+  	tipo1.removeAll();
+  	tipo2.removeAll();
+		for each(var nodo:XML in xmlExterno.elements()){
+			var codigo:Number=nodo.@codigo;
+  		for each (var subnodo:XML in nodo.elements()){
+  			//debo cargar solamente el mes correspondiente
+  			
+  			if (subnodo.@mes == valor){
+  				switch (codigo){
+  				case 1:
+  				tipo1.addItem({Mes:meses[subnodo.@mes],venta:subnodo.@ventas});
+  				
+  				break;
+  				case 2:
+  				tipo2.addItem({Mes:meses[subnodo.@mes],venta:subnodo.@ventas});
+  				break;
+  			}
+  			
+  			
+  		}
+  	}
+  	}
+  	
+  	}
+ 
+     
+
+   
+
+  	
+
+  ]]>
+
+  </mx:Script>
+  
+  <mx:Panel title="Venta de Tipos de Productos" height="600" width="800"> 
+  
+     <mx:ColumnChart id="miGrafico" dataProvider="{tipo1}" showDataTips="true" width="779" textAlign="center" height="400">
+        <mx:horizontalAxis>
+           <mx:CategoryAxis categoryField="Mes"/>
+        </mx:horizontalAxis>
+        <mx:series>
+           <mx:ColumnSeries 
+           		id="columnaTipo1"
+                dataProvider="{tipo1}" 
+                yField="venta"
+                xField="Mes" 
+                displayName="Tipo1"
+                
+           />
+           <mx:ColumnSeries 
+           		id="columnaTipo2"
+                dataProvider="{tipo2}" 
+                yField="venta"
+                xField="Mes" 
+                displayName="Tipo2"
+               
+           />
+        </mx:series>
+     </mx:ColumnChart>
+     <mx:VBox height="154" width="777">
+        <mx:HBox width="100%">
+           <mx:Button label="Cargar" click="actualizarB()" id="cargar"/>
+           <mx:Label text="Seleccione el Mes"/>
+           <mx:HSlider id="slider" minimum="1" maximum="12" snapInterval="1" enabled="false" change="actualizarSlider(Math.round(slider.value))" width="501" height="18"/>
+        </mx:HBox>
+        <mx:Legend dataProvider="{miGrafico}" id="sample"/>
+     </mx:VBox>
+  </mx:Panel>
+</mx:Application>

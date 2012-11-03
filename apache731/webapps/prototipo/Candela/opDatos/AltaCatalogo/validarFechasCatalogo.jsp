@@ -1,3 +1,4 @@
+<%@page import="javax.swing.JOptionPane"%>
 <%@page import="java.text.ParseException"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.text.ParsePosition"%>
@@ -18,8 +19,9 @@
 	if( fecha_fin!=null && (!fecha_fin.equals("")) ){
 	
 		SimpleDateFormat fechas= new SimpleDateFormat("yyyy-MM-dd");
-		
+			
 		Date fechaMayor=null;
+		
 		try{
 			fechaMayor=(Date) fechas.parse(fecha_fin);
 			
@@ -36,9 +38,11 @@
 				
 				boolean resultado=fechaMayor.before(diaActual);
 				if(resultado==true){
-					%>
-			   			<jsp:forward page="errorFInicMenorFActual.swf"/> 
-					<%
+					JOptionPane panel= new JOptionPane();
+					Date hoy= new Date();
+					candela_sesion.setAttribute("mensaje", "Error! seleccione una fecha superior a hoy:"+hoy.getDay()+"/"+hoy.getMonth()+"/"+hoy.getYear());
+					//panel.showMessageDialog(null, "Error! seleccione una fecha superior a hoy:"+hoy.getDay()+"/"+hoy.getMonth()+"/"+hoy.getYear());
+					response.sendRedirect("formAltaCatalogoEmbed.jsp");
 				}
 		
 			//1.Se llama a candela que creara un  catalogoNuevo y lo mantendra en memoria, hasta que el registro del catalogo este completo con todos sus datos
@@ -48,14 +52,14 @@
 			// por lo que si se quiere redireccionar a otra pagina que se encuentra mas arriba, se debe usar la sintaxis: ../, que sube un 
 			// directorio en el arbol de directorios, de lo contrario Tomcat no encontrara el recurso.
 		
-			%>
-				<jsp:forward page="../AltaTomo/formAltaTomo.swf" /> 	
-			<%
+			
+			response.sendRedirect("../AltaTomo/formAltaTomoEmbed.jsp");
 		}catch(ParseException pe){
-			pe.printStackTrace();
-			%>
-				<jsp:forward page="errorFormatoFechas.swf"/>
-			<%
+			
+			//JOptionPane panel= new JOptionPane();
+			//panel.showMessageDialog(null, "Error al capturar la fecha! vuelva a intentarlo");
+			candela_sesion.setAttribute("mensaje", "Error al capturar la fecha! vuelva a intentarlo");
+			response.sendRedirect("formAltaCatalogoEmbed.jsp");
 		}
 		
 	}  %>

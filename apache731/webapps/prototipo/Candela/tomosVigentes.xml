@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tomos>
+  <tomo codigo="3" descripcion="Tomo de Ropas">
+    <producto codigoProducto="900" descripcion="Remera Ubuntu" precio="67.88" />
+    <producto codigoProducto="700" descripcion="Remera Nike" precio="21.0" />
+    <producto codigoProducto="1100" descripcion=" Medias" precio="77.9" />
+    <producto codigoProducto="1000" descripcion=" Swetter" precio="69.88" />
+  </tomo>
+  <tomo codigo="2" descripcion="Tomo de Cosmeticos">
+    <producto codigoProducto="400" descripcion=" Crema para manos" precio="43.21" />
+    <producto codigoProducto="600" descripcion="Esmalte de calcio" precio="18.35" />
+    <producto codigoProducto="200" descripcion="Lapiz labial" precio="21.0" />
+    <producto codigoProducto="500" descripcion=" Crema exfoliante" precio="19.99" />
+  </tomo>
+</Tomos>

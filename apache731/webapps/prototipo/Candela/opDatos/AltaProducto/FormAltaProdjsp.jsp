@@ -6,7 +6,6 @@
 <%@page import="java.sql.SQLException"%>
 <%@page import="net.java.ao.Entity"%>
 <%@page import="net.java.ao.EntityManager"%>
-<%@page import="java.awt.Desktop"%>
 <%@page import="utilidades.*"%>
 <%@page import="persistencia.*"%>
 <%@page import="negocio.*"%>
@@ -19,35 +18,46 @@
 	String cantidad = request.getParameter("cantidad");
 	String precio = request.getParameter("precio");
 	String descripcion = request.getParameter("descripcion");
+	String opcion= request.getParameter("opcion");
 
 	if ((codigo != null) && (precio != null) && (cantidad != null)
-			&& (descripcion != null)) {
+			&& (descripcion != null) && (opcion!=null)) {
 
 		HttpSession candela_sesion = request.getSession();
 		Candela candela = (Candela) candela_sesion
 				.getAttribute("candela");
-		JOptionPane panel = new JOptionPane();
+	
 		try {
 			candela.altaDeProducto(Integer.parseInt(codigo),
 					descripcion, Double.parseDouble(precio),
 					Integer.parseInt(cantidad));
-		} catch (SQLException s) {
-			panel.showMessageDialog(null,
-					"Error de base de datos:" + s.toString());
-		response.sendRedirect("../Error-O.swf");
-		} catch (ProductoExisteExcepcion p){
-			panel.showMessageDialog(null, "Error: el producto existe!, imposible dar alta");
-			response.sendRedirect("../Error-O.swf");
 			
-		}
-		if (!response.isCommitted()){
-		//Debo llamar al generador de XML
-		GeneradorXML xml = new GeneradorXML(candela);
-		xml.generarXMLProductos();
-		response.sendRedirect("../exito-O.swf");
-		}
+		} catch (SQLException s) {
+			s.printStackTrace();
+			response.sendRedirect("../Error-O.jsp");
+		} catch (ProductoExisteExcepcion p) {
 		
+			
+			candela_sesion.setAttribute("mensaje","Error: el producto existe! imposible dar alta" );
+			response.sendRedirect("altaProducto.jsp");
 
+		}catch(NumberFormatException formato){
+		
+			candela_sesion.setAttribute("mensaje", "El formato del precio es inapropiado, la plantilla es: ENTERO.DECIMAL");
+			response.sendRedirect("altaProducto.jsp");
+		}
+		if (!response.isCommitted()) {
+			//Debo llamar al generador de XML
+			GeneradorXML xml = new GeneradorXML(candela);
+			xml.generarXMLProductos();
+			xml.generarProductosNoAsociados();
+			
+			if (opcion.equals("si")) {
+				response.sendRedirect("altaProducto.jsp");
+			} else {
+				response.sendRedirect("../vistaOpDatos-producto.jsp");
+			}
+
+		}
 	}
-	
 %>

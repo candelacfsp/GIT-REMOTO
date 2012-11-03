@@ -467,7 +467,7 @@ public class GeneradorXML {
 									}
 								}
 								if (!mesEncontrado){
-									ColMeses mes= new GeneradorXML.Lista(codigo).new ColMeses(mesFactura,1);
+									ColMeses mes= new GeneradorXML.Lista(codigo,tipos.get(l).getDescripcion()).new ColMeses(mesFactura,1);
 									meses.add(mes);
 									tipos.get(l).setMes(meses);
 								}
@@ -478,12 +478,18 @@ public class GeneradorXML {
 						if (!encontrado){
 
 							//si no encuentro el tipo de codigo
-							Lista lista = new Lista(codigo);
-							ArrayList<ColMeses> meses= new ArrayList<GeneradorXML.Lista.ColMeses>();
-							ColMeses mes = new GeneradorXML.Lista(codigo).new ColMeses(mesFactura,1);
-							meses.add(mes);
-							lista.setMes(meses);
-							tipos.add(lista);
+							//tengo que crear la tupla lista
+							for (int l = 0; l < candela.getColTipoDeProducto().size(); l++) {
+								if (candela.getColTipoDeProducto().get(l).getCodTipoProd()== codigo){
+									Lista lista = new Lista(codigo,candela.getColTipoDeProducto().get(l).getDescripcion());
+									ArrayList<ColMeses> meses= new ArrayList<GeneradorXML.Lista.ColMeses>();
+									ColMeses mes = new GeneradorXML.Lista(codigo,candela.getColTipoDeProducto().get(l).getDescripcion()).new ColMeses(mesFactura,1);
+									meses.add(mes);
+									lista.setMes(meses);
+									tipos.add(lista);
+								}
+							}
+							
 
 						}
 
@@ -497,6 +503,7 @@ public class GeneradorXML {
 			if (tipos.get(i)!= null){
 				Element tipoProd= new Element("tipoProducto");
 				tipoProd.setAttribute("codigo",Integer.toString(tipos.get(i).getCodigo()));
+				tipoProd.setAttribute("descripcion",tipos.get(i).getDescripcion());
 				for (int j = 0; j < tipos.get(i).getMes().size(); j++) {
 					if (tipos.get(i).getMes().get(j)!= null){
 						Element mes= new Element("mes");
@@ -520,9 +527,9 @@ public class GeneradorXML {
 
 
 			XMLOutputter salida = new XMLOutputter(Format.getPrettyFormat());
-			FileOutputStream file = new FileOutputStream(directorioActual+"flex/estadistica/bin-debug/ventas.xml");
+			FileOutputStream file = new FileOutputStream(candela.getDirectorio()+"flex/ventas.xml");
 			salida.output(doc, file);
-
+			System.out.println(candela.getDirectorio()+"flex/ventas.xml");
 			file.flush();
 			file.close();
 			salida.output(doc, System.out);
@@ -962,15 +969,23 @@ public class GeneradorXML {
 
 	public class Lista{
 		int codigo;
+		String descripcion;
 		ArrayList<ColMeses> mes;
-		public Lista(int codigo){
+		public Lista(int codigo, String descripcion){
 			this.codigo= codigo;
 			this.mes=  new ArrayList<Lista.ColMeses>();
+			this.descripcion=descripcion;
 		}
 		public int getCodigo() {
 			return codigo;
 		}
 
+		public String getDescripcion() {
+			return descripcion;
+		}
+		public void setDescripcion(String descripcion) {
+			this.descripcion = descripcion;
+		}
 		public void setCodigo(int codigo) {
 			this.codigo = codigo;
 		}

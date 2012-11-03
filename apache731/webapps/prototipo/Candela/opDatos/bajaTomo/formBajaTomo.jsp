@@ -42,18 +42,21 @@
 			
 			System.out.println("Ocurrio un error al manipular los tomos con la BD! ");
 			sql.printStackTrace();
-			response.sendRedirect("../Error.swf");
+			response.sendRedirect("../Error-O.jsp");
 		
 		}catch(TomoNoExisteExcepcion tne){
-			tne.mensajeDialogo("No se encuentr registrado el tomo en el Sistema");
-			response.sendRedirect("../Error.swf");
+			//tne.mensajeDialogo("No se encuentra registrado el tomo en el Sistema");
+			candela_sesion.setAttribute("mensaje", "No se encuentra registrado el tomo en el Sistema");
+			response.sendRedirect("bajaTomo.jsp");
 		}
 		if (!response.isCommitted()){
 				//Despues de dar de baja un tomo en el sistema,se llama a generarTomosXML()
 				//que actualiza el XML que contiene los tomos actuales y desde donde lee AS2.
 				GeneradorXML gen=new GeneradorXML(candela);
 				gen.generarXMLTomos();
-				response.sendRedirect("tomoDadoBaja.swf");
+				gen.generarProductosNoAsociados();
+				gen.generarTomosVigentes();
+				response.sendRedirect("tomoDadoBaja.jsp");
 		}
 		
 	}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Ventas>
+  <tipoProducto codigo="2" descripcion="Perfume">
+    <mes mes="7" ventas="7" />
+    <mes mes="8" ventas="3" />
+    <mes mes="6" ventas="4" />
+  </tipoProducto>
+  <tipoProducto codigo="1" descripcion="ROPA">
+    <mes mes="7" ventas="2" />
+    <mes mes="8" ventas="1" />
+    <mes mes="6" ventas="2" />
+  </tipoProducto>
+    <tipoProducto codigo="1" descripcion="ROPA">
+    <mes mes="7" ventas="2" />
+    <mes mes="8" ventas="1" />
+    <mes mes="6" ventas="2" />
+  </tipoProducto>
+</Ventas>

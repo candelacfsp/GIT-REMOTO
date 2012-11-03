@@ -44,15 +44,12 @@
 		try{
 			usr.usrMarcarFactImp(posFactImp);
 		}catch(SQLException sql){
-			%>
-				<jsp:forward page="errorBD.html"/>
-			<%
+			response.sendRedirect("../Error-E.jsp");
 		}
 		//Se borran las variables tamporales que se emplearon en la sesion
 		candela_sesion.removeAttribute("nroFactImp");
 		candela_sesion.removeAttribute("dni");
+		candela_sesion.setAttribute("mensaje", "Factura abonada correctamente!");
+		response.sendRedirect("pagoFactImpaga.jsp");
 %>
-			<!--<jsp:forward page="formPagoFacturaImpaga.jsp"/>-->
-			<jsp:forward page="facturaPagadaOK.swf"/>
-</body>
-</html>
+			

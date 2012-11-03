@@ -139,7 +139,7 @@
 		//Si el producto existe, y no esta asociado al tomo nuevo ni a ninguno de los actuales ENTONCES:
 			//Crear el Tomo y agregar el tomo a la coleccion de tomos del catalogoVigente
 			
-			Tomo tom1= new Tomo(candela.getEm());
+			Tomo tom1= new Tomo(candela.getConexion());
 			tom1.setCodigoTomo(codigoTomo);
 			tom1.setDescripcion(descripcion);
 			catalogo.getTomos().add(tom1);
@@ -208,7 +208,7 @@
 				t1[0].save();	
 			
  			//2.3 Asignar el producto al Tomo en la BD, por medio de metodo :asignarProdTomo() 
-			tomosNuevoCat.get(postomo).AsignarProdTomo(codigoProducto, codigoTomo);					
+			tomosNuevoCat.get(postomo).AsignarProdTomo(codigoProducto, codigoTomo,descripcion);					
 						
 			//2.4 Pisar el catalogoVigente en memoria con el catalogo de la Sesion (CatalogoNuevo)
 			// y cambiar la Variable Global que tiene el numero de TomoActual

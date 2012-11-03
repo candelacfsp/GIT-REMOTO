@@ -5,7 +5,7 @@
 <%@page import="java.sql.SQLException"%>
 <%@page import="net.java.ao.Entity"%>
 <%@page import="net.java.ao.EntityManager"%>
-<%@page import="java.awt.Desktop"%>
+
 <%@page import="utilidades.*"%>
 <%@page import="persistencia.*"%>
 <%@page import="negocio.*"%>
@@ -39,59 +39,94 @@
 							.getAttribute("colDetalles");
 
 					DetallePedidoPersonal detalle = new DetallePedidoPersonal(
-							candela.getEm(), producto);
+							candela.getConexion(), producto);
 					if (color != null && talle != null) {
 						detalle.setColor(color);
 						detalle.setTalle(talle);
+						detalle.setCantidad(Integer.parseInt(cantidadStock));
 
 						colDetalles.add(detalle);
 					}
-					response.sendRedirect("pedidoVentaLocal.swf");
+					candela.actualizarColProdConDetalle(colDetalles);
+					response.sendRedirect("pedidoVentaLocal.jsp");
 
 				}
 			}
-		} else {
-			if (((ArrayList<DetallePedidoPersonal>) candela_sesion
-					.getAttribute("colDetalles")) != null) {
-				//si la coleccion existe
+		} else {//si selecciono que no!
+			if (!response.isCommitted()) {//pregunto si ya se desplego en otra pagina
+
+				//referencio a la coleccion de detalles
 				ArrayList<DetallePedidoPersonal> colDetalles = (ArrayList<DetallePedidoPersonal>) candela_sesion
 						.getAttribute("colDetalles");
+				if (colDetalles.size()== 0) {//si es null la creo
+					colDetalles = new ArrayList<DetallePedidoPersonal>();
+				}
 				for (int i = 0; i < candela.getColUsuarios().size(); i++) {
+					//busco al usuario y si lo encuentro
 					if (candela.getColUsuarios().get(i).getNombreUsr()
 							.equals(userName)) {
-						//Creo el producto seleccionado
-						Producto producto = candela.getColProductos()
-								.get(i);
+						//busco el producto con el codigo proporcionado
+						for (int j = 0; j < candela.getColProductos()
+								.size(); j++) {
+							System.out.println("candela:"
+									+ candela.getColProductos().get(j)
+											.getCodigo() + "codigo:"
+									+ codigo);
+							if (candela.getColProductos().get(j)
+									.getCodigo() == Integer
+									.parseInt(codigo)) {
+								//Creo el producto seleccionado
+								Producto producto = candela
+										.getColProductos().get(j);
 
-						//creo el detalle almacenandolo en el array de candela
+								//creo el detalle almacenandolo en el array de candela siempre y cuando cumpla
+								//con que la cantidad solicitada es menor
+								if (Integer.parseInt(cantidadStock) <= producto
+										.getCantidadEnStock()) {
 
-						DetallePedidoPersonal detalle = new DetallePedidoPersonal(
-								candela.getEm(), producto);
-						if (color != null && talle != null) {
-							detalle.setColor(color);
-							detalle.setTalle(talle);
-							detalle.setCantidad(Integer
-									.parseInt(cantidadStock));
+									DetallePedidoPersonal detalle = new DetallePedidoPersonal(
+											candela.getConexion(), producto);
+									if (color != null && talle != null) {
+										detalle.setColor(color);
+										detalle.setTalle(talle);
 
-							colDetalles.add(detalle);
-						}
+										detalle.setCantidad(Integer
+												.parseInt(cantidadStock));
+
+										colDetalles.add(detalle);
+									}//guardo el detalle y lo almaceno en la coleccion de detalles
+								 //salgo del if de color y talle
+								}else{// tengo que mostrar que la cantidad introducida no es valida
+									JOptionPane panel= new JOptionPane();
+								panel.showMessageDialog(null, "La cantidad introducida no es válida, cantidad introducida <= cantidad en stock");
+								}
+							}//aca termina el if de si encuentro el producto o no
+						}// termino de armar el paquete de colecciones de detalle ciclo for
 						try {
+							if (colDetalles.size() > 0){
+							candela.actualizarColProdConDetalle(colDetalles);
 							candela.ventaEnLocal(candela
 									.getColUsuarios().get(i),
 									colDetalles);
+							//si todo va bien redirijo a vista ejecutivo
+							//debería vaciar colDetalles
+							colDetalles.clear();
+							}
+							response.sendRedirect("vistaEjecutivo-stock.jsp");
+							
 						} catch (SQLException sql) {
+							sql.printStackTrace();
 							JOptionPane panel = new JOptionPane();
 							panel.showMessageDialog(null,
 									"Error de base de datos");
-						}
-						response.sendRedirect("vistaEjecutivo.swf");
-					}
-					break;//corto la iteracion
+							response.sendRedirect("Error-E.jsp");
+						} //fin del catch
 
-				}
+					}// fin del si encuentro el usuario
+				}// fin del for que busca un usuario
+			}// fin del if de commit
 
-			}
+		} // fin del else, si eligió el usuario NO
 
-		}
-	}
+	} //si los parametros vienen con null
 %>

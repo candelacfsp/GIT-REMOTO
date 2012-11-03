@@ -1,3 +1,4 @@
+<%@page import="javax.swing.JOptionPane"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -20,7 +21,7 @@
 	//Luego redirige a facturaPagadaOK.jsp, que emite el comprobante de pago en formato HTML.
 	
 	String nroFactImp=request.getParameter("nroFacturaImpaga");
-
+	
 	
 	if(nroFactImp!=null && (!nroFactImp.equals(""))){
 		
@@ -44,6 +45,7 @@
 		//Se obtiene el numero de dni ingresado en la session desde el JSP anterior.
 		Integer nroDni=(Integer)candela_sesion.getAttribute("dni");
 		int dni=nroDni.intValue();
+		JOptionPane panel= new JOptionPane();
 		
 		int posUsuario=candela.verificarUsuario(dni);
 		
@@ -62,15 +64,14 @@
 			candela_sesion.setAttribute("nroFactImp",new Integer(nroFactImpaga));
 			
 			//Se redirecciona a un archivo.jsp que formatea la emision de un comprobante
-			%>
-				<jsp:forward page="facturaPagadaOK.jsp"/>
-		
-			<%
+			response.sendRedirect("marcarFactImp.jsp");
 		}else{
-			%>
-				<jsp:forward page="errorFactImpagaNoValida.html"/>
-			<%		
+				//panel.showMessageDialog(null, "La factura es inválida...");
+				candela_sesion.setAttribute("mensaje","La factura es inválida");
+				response.sendRedirect("mostrarFacturaImpaga.jsp");
 		}
-		
+	if (!response.isCommitted()){
+		response.sendRedirect("../vistaEjecutivo-factura.jsp");
+	}
 	}
 %>

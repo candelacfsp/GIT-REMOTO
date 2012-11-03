@@ -1,3 +1,5 @@
+<%@page import="utilidades.GeneradorXML"%>
+<%@page import="javax.swing.JOptionPane"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="net.java.ao.EntityManager"%>
 <%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
@@ -21,6 +23,7 @@
 		//1.Buscar la facturaFabrica en la coleccion de facturas de Candela.
 		int posFacturaFab=0;
 		posFacturaFab=candela.verificarFacturaFabrica(numeroFactFab);
+		//JOptionPane panel= new JOptionPane();
 		
 		if(posFacturaFab!=Constantes.ERROR){//Si la factura existe
 			
@@ -42,30 +45,43 @@
 				try{
 				
 					candela.guardar_Facts_Fabrica(posFacturaFab);	
+					
+					
+					//panel.showMessageDialog(null, "La factura a fábrica se ha registrado como paga correctamente");
+					candela_sesion.setAttribute("mensaje", "La factura a fábrica se ha registrado como paga correctamente");
+					
+					GeneradorXML xml= new GeneradorXML(candela);
+					xml.generarXMLFacturasFabrica();
+					response.sendRedirect("pagoFabrica.jsp");
+					
+					//response.sendRedirect("../vistaEjecutivo.swf");
+					
 				
 				}catch(SQLException sql){
 					//Se vuelve a setear la factura Fabrica como Impaga
 					candela.getFacturasFabrica().get(posFacturaFab).setPagada(false);
 					sql.printStackTrace();
-					%>
-						<jsp:forward page="errorGuardarFacturaBD.html"/>
-					<%
+					response.sendRedirect("../Error-E.swf");
 				}	
 				
-			%>
-				<jsp:forward page="FacturaAnadidaOK.jsp"/>
-			<%			
+				
 			
 			}else{
-			%>	
-				<jsp:forward page="errorFacturaYaPagada.html"/>
-			<%
+				if (!response.isCommitted()){
+					//panel.showMessageDialog(null, "La factura se encuentra pagada!");
+			
+					candela_sesion.setAttribute("mensaje","La factura se encuentra pagada!");
+					response.sendRedirect("pagoFabrica.jsp");
+				}
 			}
 			
 		}else{ //Si la factua no existe
-			%>
-				<jsp:forward page="errorNoExisteFact.html"/>
-			<%
+			if (!response.isCommitted()){
+			//	panel.showMessageDialog(null, "La factura seleccionada no existe!");
+			//response.sendRedirect("../vistaEjecutivo.swf");
+				candela_sesion.setAttribute("mensaje", "La factura seleccionada no existe!");
+				response.sendRedirect("pagoFabrica.jsp");
+			}
 		}
 	}
  %>
