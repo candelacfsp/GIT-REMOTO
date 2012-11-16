@@ -18,7 +18,7 @@
 				<textElement textAlignment="Center">
 					<font isBold="false" isItalic="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Código_de_Producto]]></text>
+				<text><![CDATA[Código de Producto]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="6fa1d015-166e-43fd-9705-18e3bafd67ed" x="111" y="0" width="68" height="41"/>
@@ -32,21 +32,21 @@
 				<textElement textAlignment="Center">
 					<font isBold="false" isItalic="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Descripción_de_producto]]></text>
+				<text><![CDATA[Descripción de producto]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="b33b9eb7-8414-442b-b0a2-68c664c1c989" x="439" y="0" width="69" height="41"/>
 				<textElement textAlignment="Center">
 					<font isBold="false" isItalic="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Cantidad_en_Stock]]></text>
+				<text><![CDATA[Cantidad en Stock]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="b83dabc3-3f32-496e-989d-d8d90e71ccb0" x="508" y="1" width="47" height="41"/>
 				<textElement textAlignment="Center">
 					<font isBold="false" isItalic="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Tipo_de_Producto]]></text>
+				<text><![CDATA[Tipo de Producto]]></text>
 			</staticText>
 		</band>
 	</columnHeader>

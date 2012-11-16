@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="facturasPeriodo" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1d38a46e-1049-4712-b2fb-7a7a3aefafa6">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="95"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/home/damian/repositorioGit/prototipo/WebContent/Candela/reportes/"]]></defaultValueExpression>
 	</parameter>
@@ -32,7 +32,7 @@
 				<textElement textAlignment="Center">
 					<font size="24" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Facturación_por_período]]></text>
+				<text><![CDATA[Facturación por período]]></text>
 			</staticText>
 		</band>
 	</title>
