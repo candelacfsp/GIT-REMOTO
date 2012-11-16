@@ -18,6 +18,10 @@ public class DetallePedidoPersonal {
 	private Producto prod;
 	private String talle;
 	private String color;
+	//Este precio es el precio calculado que figura ademas en BD, y que es: cantidad*precioProducto.
+	private double precio;//TODO RODRIGO 15-11-2012
+	
+	
 	public DetallePedidoPersonal(Connection conn, Producto prod){
 		this.conn=conn;
 		this.prod=prod;
@@ -35,9 +39,20 @@ public class DetallePedidoPersonal {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-
+	
+	
+	
+	
 	public float subtotal(){
 		return (float) (prod.getPrecio()*cantidad);
+	}
+	//TODO RODRIGO 15-11-2012
+	public double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
 	}
 
 	public void crearDetalle(PedidoPersonal pedido, ArrayList<Producto> colProductos) throws SQLException {

@@ -43,11 +43,11 @@
 				}
 				facts.add(candela.getFacturasFabrica().get(posFacturaFab));
 				try{
-				
+					//Se paga la factura fabrica en memoria y en BD
 					candela.guardar_Facts_Fabrica(posFacturaFab);	
 					
 					
-					//panel.showMessageDialog(null, "La factura a fábrica se ha registrado como paga correctamente");
+					
 					candela_sesion.setAttribute("mensaje", "La factura a fábrica se ha registrado como paga correctamente");
 					
 					GeneradorXML xml= new GeneradorXML(candela);

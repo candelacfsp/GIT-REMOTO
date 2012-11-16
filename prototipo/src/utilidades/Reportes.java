@@ -442,23 +442,38 @@ public class Reportes {
 	public class tuplaFactura{
 		int numero;
 		Date fecha;
-		int tipo;
+		String tipo;
 		String pagada;
 		int dni;
 		String nombre;
 		String apellido;
 		List detallesDS;
+		float total;
 
 		public tuplaFactura(int numero, Date fecha, int tipo, String pagada,
-				ArrayList detallesDS, int dni, String nombre, String apellido) {
+				ArrayList detallesDS, int dni, String nombre, String apellido, float total) {
 			this.numero= numero;
 			this.fecha= fecha;
-			this.tipo=tipo;
+			if (tipo == 1){
+				this.tipo="A";
+			}else{
+				this.tipo="B";
+			}
+	
 			this.pagada= pagada;
 			this.detallesDS= detallesDS;
 			this.dni= dni;
 			this.apellido=apellido;
 			this.nombre=nombre;
+			this.total=total;
+		}
+
+		public float getTotal() {
+			return total;
+		}
+
+		public void setTotal(float total) {
+			this.total = total;
 		}
 
 		public int getNumero() {
@@ -477,11 +492,11 @@ public class Reportes {
 			this.fecha = fecha;
 		}
 
-		public int getTipo() {
+		public String getTipo() {
 			return tipo;
 		}
 
-		public void setTipo(int tipo) {
+		public void setTipo(String tipo) {
 			this.tipo = tipo;
 		}
 
@@ -532,17 +547,29 @@ public class Reportes {
 	}
 	public class tuplaDetalle{
 
-		int cantidad,codigoProducto,tipoProducto;
-		String color,talle,descripcion;
+		int cantidad,codigoProducto;
+		
+		String color,talle,descripcion,tipoProducto;
 		double precio;
 
 
 		public tuplaDetalle(int cantidad, String color, String talle,
-				int codigoProducto, String descripcion, double precio, int tipoProducto) {
+				int codigoProducto, String descripcion, double precio, String tipoProducto) {
 			this.cantidad=cantidad;
 			this.codigoProducto=codigoProducto;
-			this.color= color;
-			this.talle= talle;
+			if (talle != null){
+				this.talle= talle;
+			}else{
+				this.talle="N/A";//no aplicable
+			}
+			if (color !=null){
+				this.color= color;
+			}else{
+				this.color="N/A"; //no aplicable
+				
+			}
+			
+			
 			this.descripcion= descripcion;
 			this.precio= precio;
 			this.tipoProducto= tipoProducto;
@@ -570,12 +597,12 @@ public class Reportes {
 		}
 
 
-		public int getTipoProducto() {
+		public String getTipoProducto() {
 			return tipoProducto;
 		}
 
 
-		public void setTipoProducto(int tipoProducto) {
+		public void setTipoProducto(String tipoProducto) {
 			this.tipoProducto = tipoProducto;
 		}
 
@@ -644,12 +671,22 @@ public class Reportes {
 						if (facUsr.get(j).getPagada()){
 							msgPagada="SI";
 						}
-						tuplaFactura tf = new tuplaFactura(facUsr.get(j).getNumero(),facUsr.get(j).getFecha(),facUsr.get(j).getTipo(),msgPagada,new ArrayList(),dni,nombre,apellido);
+						tuplaFactura tf = new tuplaFactura(facUsr.get(j).getNumero(),facUsr.get(j).getFecha(),facUsr.get(j).getTipo(),msgPagada,new ArrayList(),dni,nombre,apellido, facUsr.get(j).total());
 						ArrayList<DetallePedidoPersonal> colDetalles = facUsr.get(j).getPedidoPers().getDetalles();
 						for (int k = 0; k < colDetalles.size(); k++) {
+							//busco la descripcion del tipo de producto
+							String descripcion=null;
+							for (int k2 = 0; k2 < candela.getColTipoDeProducto().size(); k2++) {
+								if (candela.getColTipoDeProducto().get(k2).getCodTipoProd()==  colDetalles.get(k).getProd().getTipoProducto()){
+									descripcion=candela.getColTipoDeProducto().get(k2).getDescripcion();
+									break;
+								}
+							}
+							
 							//por cada detalle creo tuplas y las agrego a tuplaDetalle
 
-							tuplaDetalle td= new tuplaDetalle(colDetalles.get(k).getCantidad(), colDetalles.get(k).getColor(), colDetalles.get(k).getTalle(), colDetalles.get(k).getProd().getCodigo(), colDetalles.get(k).getProd().getDescripcion(), colDetalles.get(k).getProd().getPrecio(), colDetalles.get(k).getProd().getTipoProducto());
+							
+							tuplaDetalle td= new tuplaDetalle(colDetalles.get(k).getCantidad(), colDetalles.get(k).getColor(), colDetalles.get(k).getTalle(), colDetalles.get(k).getProd().getCodigo(), colDetalles.get(k).getProd().getDescripcion(), colDetalles.get(k).getProd().getPrecio(), descripcion);
 							//agrego a la tuplafactura la tupla detalle
 							tf.addDetalleDS(td);
 						}//termino de recorrer los detalles

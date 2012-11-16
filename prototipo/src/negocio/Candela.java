@@ -446,13 +446,24 @@ public class Candela {
 					//Se crea el detalle en memoria con todos los datos de su objeto persistente
 					DetallePedidoPersonal d1=new DetallePedidoPersonal(this.conexion, colProductos.get(posProducto));
 					d1.setCantidad(dets[i].getCantidad());
-
+					
+					//TODO RODRIGO 15-11-2012
+					//Si el color y el detalle son distintos se setean al detalle en memoria.
+					if(dets[i].getColor()!=null){
+						d1.setColor(dets[i].getColor());
+					}
+					if(dets[i].getTalle()!=null){
+						d1.setTalle(dets[i].getTalle());
+					}
+					d1.setPrecio(dets[i].getPrecio());
+					
 					//Se guarda el detalle la coleccion de detalles de memoria
 					detallesRAM.add(d1);
 
 				}//Fin de busqueda y carga de detalles en memoria			
 
 				//Una vez que se levantaron los detalles del pedido en Memoria, se carga el pedido
+				System.out.println("Numero de Ped. Personal: "+p1.getNumeroPedido());
 				pedidosPersonal.add(new PedidoPersonal(this.conexion,detallesRAM,p1.getNumeroPedido(),p1.getFechaEmision(),p1.getFechaRecepcion()));
 
 

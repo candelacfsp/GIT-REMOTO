@@ -564,31 +564,32 @@ public class GeneradorXML {
 					Element factImp= new Element("facturaImpaga");
 					factImp.setAttribute("numeroFact", Integer.toString(factsImpUsr.get(j).getNumero()));
 					factImp.setAttribute("tipoFact", Integer.toString(factsImpUsr.get(j).getTipo()));
+					factImp.setAttribute("total", Float.toString(factsImpUsr.get(j).total()));
 
-
-					//Se castea la fecha de la factura a String
-					SimpleDateFormat formato=new SimpleDateFormat("aaaa-MM-dd");
-					String fecha= formato.format( factsImpUsr.get(j).getFecha()); 
-
-
+					GregorianCalendar gc= (GregorianCalendar) Calendar.getInstance();
+					gc.setGregorianChange(factsImpUsr.get(j).getFecha());
+					
+					
+					String fecha= gc.get(Calendar.YEAR)+"-"+gc.get(Calendar.MONTH)+"-"+gc.get(Calendar.DAY_OF_MONTH);
 					factImp.setAttribute("fechaFact", fecha);
 
-
 					//Se crea el subnodo detalle de Factura
-					Element detalle= new Element("detalle");
+					//Element detalle= new Element("detalle");
 					ArrayList<DetallePedidoPersonal> detsFacts= factsImpUsr.get(j).getPedidoPers().getDetalles();
 
 					for (int k = 0; k < detsFacts.size(); k++) {
+						Element detalle= new Element("detalle");
 						detalle.setAttribute("codigoProd",Integer.toString(detsFacts.get(k).getProd().getCodigo()));
 						detalle.setAttribute("descrip",detsFacts.get(k).getProd().getDescripcion());
 						detalle.setAttribute("cantProd",Double.toString(detsFacts.get(k).getCantidad()));
 						detalle.setAttribute("precio", Double.toString(detsFacts.get(k).getProd().getPrecio()));
 
+						//Se a�ade detalle al nodo superior factImp
+						factImp.addContent(detalle);	
 
 					}
-					//Se a�ade detalle al nodo superior factImp
-					factImp.addContent(detalle);
 
+					
 					//Se a�ade el elemento a la raiz del XML
 					root.addContent(factImp);
 				}

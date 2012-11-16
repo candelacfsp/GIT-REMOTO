@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Pedidos_a_fabrica>
   <pedido nroPedido="1" />
+  <pedido nroPedido="2" />
+  <pedido nroPedido="3" />
+  <pedido nroPedido="4" />
 </Pedidos_a_fabrica>
