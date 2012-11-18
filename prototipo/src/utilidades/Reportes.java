@@ -287,7 +287,16 @@ public class Reportes {
 				//por cada producto creo una tuplaProducto y asigno a tuplaTomos
 				for (int j = 0; j < productos.size(); j++) {
 					Producto prod = productos.get(j);
-					tuplaProducto tp1 = new tuplaProducto(prod.getCodigo(), prod.getPrecio(), prod.getDescripcion(), prod.getCantidadEnStock(), prod.getTipoProducto());
+					
+					//busco la descripcion del tipo de producto
+					String descripcion=null;
+					for (int k2 = 0; k2 < candela.getColTipoDeProducto().size(); k2++) {
+						if (candela.getColTipoDeProducto().get(k2).getCodTipoProd()==  productos.get(j).getTipoProducto()){
+							descripcion=candela.getColTipoDeProducto().get(k2).getDescripcion();
+							break;
+						}
+					}
+					tuplaProducto tp1 = new tuplaProducto(prod.getCodigo(), prod.getPrecio(), prod.getDescripcion(), prod.getCantidadEnStock(), descripcion);
 					tomoT.addTuplaTomoDS(tp1);
 				}
 				tuplasTomos.add(tomoT);
@@ -380,14 +389,14 @@ public class Reportes {
 		double precio;
 		String descripcionProducto;
 		int cantidadEnStock;
-		int tipoProducto;
+		String tipoProducto;
 
-		public tuplaProducto(int codigoProducto, double precio, String descripcionProducto, int cantidadEnStock, int tipoProducto){
+		public tuplaProducto(int codigoProducto, double precio, String descripcionProducto, int cantidadEnStock, String descripcion){
 			this.codigoProducto= codigoProducto;
 			this.precio= precio;
 			this.descripcionProducto = descripcionProducto;
 			this.cantidadEnStock= cantidadEnStock;
-			this.tipoProducto=tipoProducto;
+			this.tipoProducto=descripcion;
 			/*if (tipoProducto <0){
 				this.tipoProducto= "NO Asig.";
 			}else{
@@ -429,11 +438,11 @@ public class Reportes {
 			this.cantidadEnStock = cantidadEnStock;
 		}
 
-		public int getTipoProducto() {
+		public String getTipoProducto() {
 			return tipoProducto;
 		}
 
-		public void setTipoProducto(int tipoProducto) {
+		public void setTipoProducto(String tipoProducto) {
 			this.tipoProducto = tipoProducto;
 		}
 
@@ -448,10 +457,10 @@ public class Reportes {
 		String nombre;
 		String apellido;
 		List detallesDS;
-		float total;
+		
 
 		public tuplaFactura(int numero, Date fecha, int tipo, String pagada,
-				ArrayList detallesDS, int dni, String nombre, String apellido, float total) {
+				ArrayList detallesDS, int dni, String nombre, String apellido) {
 			this.numero= numero;
 			this.fecha= fecha;
 			if (tipo == 1){
@@ -465,16 +474,10 @@ public class Reportes {
 			this.dni= dni;
 			this.apellido=apellido;
 			this.nombre=nombre;
-			this.total=total;
+		
 		}
 
-		public float getTotal() {
-			return total;
-		}
-
-		public void setTotal(float total) {
-			this.total = total;
-		}
+	
 
 		public int getNumero() {
 			return numero;
@@ -551,10 +554,10 @@ public class Reportes {
 		
 		String color,talle,descripcion,tipoProducto;
 		double precio;
-
+		float total;
 
 		public tuplaDetalle(int cantidad, String color, String talle,
-				int codigoProducto, String descripcion, double precio, String tipoProducto) {
+				int codigoProducto, String descripcion, double precio, String tipoProducto, float total) {
 			this.cantidad=cantidad;
 			this.codigoProducto=codigoProducto;
 			if (talle != null){
@@ -573,8 +576,28 @@ public class Reportes {
 			this.descripcion= descripcion;
 			this.precio= precio;
 			this.tipoProducto= tipoProducto;
+			this.total=total;
 
 		}
+
+
+		
+		
+		
+		public float getTotal() {
+			return total;
+		}
+
+
+
+
+
+		public void setTotal(float total) {
+			this.total = total;
+		}
+
+
+
 
 
 		public int getCantidad() {
@@ -671,7 +694,8 @@ public class Reportes {
 						if (facUsr.get(j).getPagada()){
 							msgPagada="SI";
 						}
-						tuplaFactura tf = new tuplaFactura(facUsr.get(j).getNumero(),facUsr.get(j).getFecha(),facUsr.get(j).getTipo(),msgPagada,new ArrayList(),dni,nombre,apellido, facUsr.get(j).total());
+						tuplaFactura tf = new tuplaFactura(facUsr.get(j).getNumero(),facUsr.get(j).getFecha(),facUsr.get(j).getTipo(),
+								msgPagada,new ArrayList(),dni,nombre,apellido);
 						ArrayList<DetallePedidoPersonal> colDetalles = facUsr.get(j).getPedidoPers().getDetalles();
 						for (int k = 0; k < colDetalles.size(); k++) {
 							//busco la descripcion del tipo de producto
@@ -684,9 +708,11 @@ public class Reportes {
 							}
 							
 							//por cada detalle creo tuplas y las agrego a tuplaDetalle
-
 							
-							tuplaDetalle td= new tuplaDetalle(colDetalles.get(k).getCantidad(), colDetalles.get(k).getColor(), colDetalles.get(k).getTalle(), colDetalles.get(k).getProd().getCodigo(), colDetalles.get(k).getProd().getDescripcion(), colDetalles.get(k).getProd().getPrecio(), descripcion);
+							
+							tuplaDetalle td= new tuplaDetalle(colDetalles.get(k).getCantidad(), colDetalles.get(k).getColor(), colDetalles.get(k).getTalle(),
+									colDetalles.get(k).getProd().getCodigo(), colDetalles.get(k).getProd().getDescripcion(), colDetalles.get(k).getProd().getPrecio(),
+									descripcion,facUsr.get(j).total());
 							//agrego a la tuplafactura la tupla detalle
 							tf.addDetalleDS(td);
 						}//termino de recorrer los detalles

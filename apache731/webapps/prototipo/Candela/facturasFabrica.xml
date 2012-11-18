@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Facturas_A_Fabrica />
+<Facturas_A_Fabrica>
+  <Factura numero="1" />
+  <Factura numero="2" />
+  <Factura numero="3" />
+  <Factura numero="4" />
+</Facturas_A_Fabrica>

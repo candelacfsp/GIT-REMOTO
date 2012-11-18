@@ -20,7 +20,7 @@
 	if (cand.esCatalogoNuevo() == true) {
 		//Se reestablece la referenica de CatalogoNuevo a null.
 		cand.setCatalogoNuevo(null);
-		response.sendRedirect("../AltaCatalogo/formAltaCatalogoEmbed.jsp");
+		response.sendRedirect("../AltaCatalogo/formaltaCatalogoEmbed.jsp");
 
 	} else {
 		response.sendRedirect("formAltaTomoEmbed.jsp");

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rankingVendedores" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a8bd9209-9390-4e9f-989a-23658b082c96">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="5"/>
 	<field name="nombreVend" class="java.lang.String"/>
 	<field name="importeVentas" class="java.lang.Double"/>
 	<field name="numeroVendedor" class="java.lang.Integer"/>
@@ -21,11 +21,11 @@
 	<pageHeader>
 		<band height="38" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="81fd0fd0-b594-41ab-baa0-3085e3fd5f76" x="92" y="0" width="400" height="35" forecolor="#CE31B8"/>
+				<reportElement uuid="81fd0fd0-b594-41ab-baa0-3085e3fd5f76" x="119" y="0" width="354" height="35" forecolor="#CE31B8"/>
 				<textElement>
 					<font fontName="Serif" size="22" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[Ranking_de_ventas_de_Candela]]></text>
+				<text><![CDATA[Ranking de ventas de Candela]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -46,7 +46,7 @@
 				<textElement>
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Importe_total_de_ventas]]></text>
+				<text><![CDATA[Importe total de ventas]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="a816ebb7-3813-42ac-bc82-0af641ad42a9" x="14" y="12" width="40" height="20"/>
@@ -87,9 +87,17 @@
 		<band height="45" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement uuid="935c46b9-0f47-48a5-97ab-2950bbfa8c34" x="218" y="24" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="01f062a7-9f4b-4166-bc04-763da553c5ee" x="298" y="24" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>

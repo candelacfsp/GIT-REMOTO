@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Pedidos_personal>
-  <pedido nroPedido="1" />
-  <pedido nroPedido="2" />
-  <pedido nroPedido="3" />
-  <pedido nroPedido="4" />
-  <pedido nroPedido="5" />
-  <pedido nroPedido="6" />
   <pedido nroPedido="7" />
   <pedido nroPedido="8" />
   <pedido nroPedido="9" />
   <pedido nroPedido="10" />
   <pedido nroPedido="11" />
+  <pedido nroPedido="6" />
   <pedido nroPedido="12" />
   <pedido nroPedido="13" />
   <pedido nroPedido="14" />
@@ -21,4 +16,13 @@
   <pedido nroPedido="19" />
   <pedido nroPedido="20" />
   <pedido nroPedido="21" />
+  <pedido nroPedido="4" />
+  <pedido nroPedido="5" />
+  <pedido nroPedido="1" />
+  <pedido nroPedido="2" />
+  <pedido nroPedido="3" />
+  <pedido nroPedido="22" />
+  <pedido nroPedido="23" />
+  <pedido nroPedido="24" />
+  <pedido nroPedido="25" />
 </Pedidos_personal>

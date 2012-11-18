@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Tomos />
+<Tomos>
+  <tomo codigo="3" descripcion="Tomo de Ropas" />
+  <tomo codigo="2" descripcion="Tomo de Cosmeticos" />
+</Tomos>

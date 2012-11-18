@@ -48,7 +48,7 @@
 			width="800" height="600">
 			<param name="movie" value="vistaOpDatos-catalogo.swf" />
 			<param name="quality" value="high" />
-			<embed src="vistaOpDatos-catalogo.swf?var1=<%=nombreUsuario%>?mensaje=<%=mensaje%>" quality="high"
+			<embed src="vistaOpDatos-catalogo.swf?var1=<%=nombreUsuario%>&mensaje=<%=mensaje%>" quality="high"
 				type="application/x-shockwave-flash" width="800" height="600"
 				align="middle"
 				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>

@@ -29,10 +29,19 @@ public class FacturaFabrica extends Factura{
 	 * @param fecha: fecha de creacion de la factura a f�brica.
 	 */
 	 public FacturaFabrica(Connection em,PedidoFabrica ped, int numero, int tipo, Date fecha){
-		 super(em,numero,tipo,fecha);
+		 //Constructor que por defecto crea una factura fabrica impaga. Se usa en CU pagoAFabrica
+		  super(em,numero,tipo,fecha);
 		 this.pagada=false;
 		 this.pedidofab=ped;
 	 }
+	 
+	 public FacturaFabrica(Connection em,PedidoFabrica ped, int numero, int tipo, Date fecha,boolean pagada){
+		 //Constructor que por defecto crea una factura fabrica impaga. Se usa al cargar las facturas Fabrica en la coleccion de facts de Candela.
+		 super(em,numero,tipo,fecha);
+		 this.pagada=pagada;
+		 this.pedidofab=ped;
+	 }	 
+	 
 
 	 /**
 	  * getPedidofab

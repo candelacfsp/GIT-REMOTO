@@ -54,7 +54,6 @@
 			}
 		} else {//si selecciono que no!
 			if (!response.isCommitted()) {//pregunto si ya se desplego en otra pagina
-
 				//referencio a la coleccion de detalles
 				ArrayList<DetallePedidoPersonal> colDetalles = (ArrayList<DetallePedidoPersonal>) candela_sesion
 						.getAttribute("colDetalles");
@@ -96,9 +95,6 @@
 										colDetalles.add(detalle);
 									}//guardo el detalle y lo almaceno en la coleccion de detalles
 								 //salgo del if de color y talle
-								}else{// tengo que mostrar que la cantidad introducida no es valida
-									JOptionPane panel= new JOptionPane();
-								panel.showMessageDialog(null, "La cantidad introducida no es válida, cantidad introducida <= cantidad en stock");
 								}
 							}//aca termina el if de si encuentro el producto o no
 						}// termino de armar el paquete de colecciones de detalle ciclo for
@@ -116,9 +112,6 @@
 							
 						} catch (SQLException sql) {
 							sql.printStackTrace();
-							JOptionPane panel = new JOptionPane();
-							panel.showMessageDialog(null,
-									"Error de base de datos");
 							response.sendRedirect("Error-E.jsp");
 						} //fin del catch
 

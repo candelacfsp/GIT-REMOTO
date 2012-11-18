@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Pedidos_personal>
-  <pedido nroPedido="50" />
-  <pedido nroPedido="250" />
-  <pedido nroPedido="350" />
-  <pedido nroPedido="450" />
+  <pedido nroPedido="7" />
+  <pedido nroPedido="8" />
+  <pedido nroPedido="9" />
+  <pedido nroPedido="10" />
+  <pedido nroPedido="11" />
+  <pedido nroPedido="6" />
+  <pedido nroPedido="12" />
+  <pedido nroPedido="4" />
+  <pedido nroPedido="5" />
+  <pedido nroPedido="1" />
+  <pedido nroPedido="2" />
+  <pedido nroPedido="3" />
+  <pedido nroPedido="22" />
+  <pedido nroPedido="25" />
+  <pedido nroPedido="26" />
+  <pedido nroPedido="27" />
+  <pedido nroPedido="28" />
+  <pedido nroPedido="29" />
+  <pedido nroPedido="30" />
+  <pedido nroPedido="31" />
+  <pedido nroPedido="32" />
+  <pedido nroPedido="33" />
+  <pedido nroPedido="34" />
+  <pedido nroPedido="35" />
+  <pedido nroPedido="36" />
 </Pedidos_personal>

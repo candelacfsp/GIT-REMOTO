@@ -14,78 +14,78 @@
 				<reportElement uuid="91d1a802-7083-4f52-809b-00c7d63f4984" x="5" y="1" width="550" height="40"/>
 			</rectangle>
 			<staticText>
-				<reportElement uuid="1f2fab2b-4557-49d2-a4b0-814faa2a3739" x="0" y="0" width="111" height="41"/>
+				<reportElement uuid="1f2fab2b-4557-49d2-a4b0-814faa2a3739" x="0" y="0" width="59" height="41"/>
 				<textElement textAlignment="Center">
 					<font isBold="false" isItalic="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Código_de_Producto]]></text>
+				<text><![CDATA[Código de Producto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="6fa1d015-166e-43fd-9705-18e3bafd67ed" x="111" y="0" width="68" height="41"/>
+				<reportElement uuid="6fa1d015-166e-43fd-9705-18e3bafd67ed" x="59" y="0" width="68" height="41"/>
 				<textElement textAlignment="Center">
 					<font isBold="false" isItalic="true" isUnderline="false"/>
 				</textElement>
 				<text><![CDATA[Precio]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1470e398-ab27-4ebf-8491-50d048b8e7bc" x="179" y="0" width="260" height="41"/>
+				<reportElement uuid="1470e398-ab27-4ebf-8491-50d048b8e7bc" x="127" y="0" width="260" height="41"/>
 				<textElement textAlignment="Center">
 					<font isBold="false" isItalic="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Descripción_de_producto]]></text>
+				<text><![CDATA[Descripción de producto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="b33b9eb7-8414-442b-b0a2-68c664c1c989" x="439" y="0" width="69" height="41"/>
+				<reportElement uuid="b33b9eb7-8414-442b-b0a2-68c664c1c989" x="387" y="0" width="69" height="41"/>
 				<textElement textAlignment="Center">
 					<font isBold="false" isItalic="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Cantidad_en_Stock]]></text>
+				<text><![CDATA[Cantidad en Stock]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="b83dabc3-3f32-496e-989d-d8d90e71ccb0" x="508" y="1" width="47" height="41"/>
+				<reportElement uuid="b83dabc3-3f32-496e-989d-d8d90e71ccb0" x="456" y="1" width="99" height="41"/>
 				<textElement textAlignment="Center">
 					<font isBold="false" isItalic="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Tipo_de_Producto]]></text>
+				<text><![CDATA[Tipo de Producto]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="23" splitType="Stretch">
 			<textField>
-				<reportElement uuid="5fc7e0d9-edc1-47de-84d0-6fa95b947a6e" x="0" y="0" width="111" height="20"/>
+				<reportElement uuid="5fc7e0d9-edc1-47de-84d0-6fa95b947a6e" x="0" y="0" width="59" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{codigoProducto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="a272478b-ecb8-4ff4-9421-b824d57e416c" x="111" y="0" width="68" height="20"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="97f21161-a6f2-4fd3-aa82-0a51a19e2c16" x="179" y="0" width="260" height="20"/>
+				<reportElement uuid="97f21161-a6f2-4fd3-aa82-0a51a19e2c16" x="127" y="0" width="260" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descripcionProducto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="36be0ece-a5fc-4327-916f-ef0103f2c828" x="439" y="0" width="69" height="20"/>
+				<reportElement uuid="36be0ece-a5fc-4327-916f-ef0103f2c828" x="387" y="0" width="69" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidadEnStock}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="398197ae-427a-473f-b715-cffe617950fe" x="508" y="0" width="47" height="20"/>
+				<reportElement uuid="398197ae-427a-473f-b715-cffe617950fe" x="456" y="0" width="99" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tipoProducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a272478b-ecb8-4ff4-9421-b824d57e416c" x="59" y="1" width="68" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

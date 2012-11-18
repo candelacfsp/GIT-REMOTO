@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rankingVendedores" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a8bd9209-9390-4e9f-989a-23658b082c96">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="71"/>
+	<property name="ireport.y" value="5"/>
 	<field name="nombreVend" class="java.lang.String"/>
 	<field name="importeVentas" class="java.lang.Double"/>
 	<field name="numeroVendedor" class="java.lang.Integer"/>
@@ -14,7 +14,7 @@
 		<band height="79" splitType="Stretch">
 			<image>
 				<reportElement uuid="ebcc88de-35c9-4f5c-990f-a1cb1e7149c3" x="236" y="0" width="86" height="79"/>
-				<imageExpression><![CDATA["/home/rodrigo/repositorioGit/prototipo/WebContent/Candela/reportes/coronaDorada.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["/home/damian/repositorioGit/prototipo/WebContent/Candela/reportes/coronaDorada.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -87,9 +87,17 @@
 		<band height="45" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement uuid="935c46b9-0f47-48a5-97ab-2950bbfa8c34" x="218" y="24" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="01f062a7-9f4b-4166-bc04-763da553c5ee" x="298" y="24" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>

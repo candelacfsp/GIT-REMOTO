@@ -50,7 +50,6 @@
 		Date fechaFactura = null;
 		try {
 			SimpleDateFormat fechas = new SimpleDateFormat("yyyy-MM-dd");
-			//Date fechaFactura= fechas.parse(fechafact,new ParsePosition(0));
 			fechaFactura = (Date) fechas.parse(fechafact);
 
 			//Marcar el pedido ingresado como "Recibido" en memoria
@@ -71,7 +70,8 @@
 			} else {
 				tipoFactura = 2;
 			}
-
+			//Se crea la factura fabrica en memoria y en BD.
+			
 			candela.agregarFacturaImpaga(peds.get(posPedido),
 					tipoFactura, fechaFactura);
 			
@@ -81,7 +81,7 @@
 			response.sendRedirect("../Error-E.jsp");
 		} catch (ParseException pe) {
 			
-			candela_sesion.setAttribute("mensaje", "Error al introducir la fecha, debe ser del estilo año-mes-dia:aaaa-mm-dd");
+			candela_sesion.setAttribute("mensaje", "Error debe seleccionar una fecha de recepción de la factura de fábrica.");
 			response.sendRedirect("../vistaEjecutivo-stock.jsp");
 		}
 	}

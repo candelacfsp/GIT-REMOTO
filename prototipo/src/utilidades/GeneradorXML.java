@@ -171,10 +171,7 @@ public class GeneradorXML {
 		}
 
 		Document doc = new Document(root);//Creamos el documento
-
 		try {
-
-
 			XMLOutputter salida = new XMLOutputter(Format.getPrettyFormat());
 			FileOutputStream file = new FileOutputStream(directorioActual+"TipoDeUsr.xml");
 			salida.output(doc, file);
@@ -197,14 +194,12 @@ public class GeneradorXML {
 			usuario.setAttribute("apellido",colUsuarios.get(i).getApellido());
 			usuario.setAttribute("dni",Integer.toString(colUsuarios.get(i).getDni()));
 			usuario.setAttribute("userName",colUsuarios.get(i).getNombreUsuario());
-			usuario.setAttribute("tipoDeUsuario",Integer.toString(colUsuarios.get(i).getTipoDeUsuario()));
-
-			
-			
+			usuario.setAttribute("tipoDeUsuario",Integer.toString(colUsuarios.get(i).getTipoDeUsuario()));			
 			for (int j = 0; j < colUsuarios.get(i).getFacturaPers().size(); j++) {
 				if (!colUsuarios.get(i).getFacturaPers().get(j).getPagada()){
+					//NOTA el atributo factura = pedido, no se cambia por motivos de reestructuraciòn del código
 					Element facturas=new Element("facturasImpagas");
-					facturas.setAttribute("factura",Integer.toString(colUsuarios.get(i).getFacturaPers().get(j).getNumero()));
+					facturas.setAttribute("factura",Integer.toString(colUsuarios.get(i).getFacturaPers().get(j).getPedidoPers().getNumeroPedido()));
 					usuario.addContent(facturas);
 
 
@@ -214,7 +209,6 @@ public class GeneradorXML {
 
 			root.addContent(usuario);
 		}
-
 		Document doc = new Document(root);//Creamos el documento
 
 		try {
@@ -390,7 +384,7 @@ public class GeneradorXML {
 		Element root = new Element("ProductosEnStock");
 		for (int i = 0; i < productos.size(); i++) {
 
-			if (productos.get(i).getCantidadEnStock() > 0){
+			if (productos.get(i).getCantidadEnStock() > 0 && productos.get(i).getTipoProducto()>0){
 				Element producto = new Element("Producto");
 				producto.setAttribute("codigo",
 						Integer.toString(productos.get(i).getCodigo()));
@@ -400,6 +394,7 @@ public class GeneradorXML {
 						Double.toString(productos.get(i).getPrecio()));
 				producto.setAttribute("cantidad", Integer.toString(productos
 						.get(i).getCantidadEnStock()));
+				producto.setAttribute("tipo",Integer.toString(productos.get(i).getTipoProducto()));
 
 				root.addContent(producto);
 			}
@@ -436,7 +431,7 @@ public class GeneradorXML {
 		Date hoy= new Date();
 		for (int i = 0; i < facturas.size(); i++) {
 			//si la fecha de la factura supera a la de 3 meses se incluye en el trimestre
-			if (facturas.get(i).getFecha().getMonth()>=(hoy.getMonth()-3)){
+			if ((facturas.get(i).getFecha().getMonth()>=(hoy.getMonth()-3)) && (facturas.get(i).esPagada())){
 				//obtengo los pedidos de las facturas
 
 				//TODO ver el tema de utilizar DATE debe sumarle 1 al mes (0-11)
@@ -541,9 +536,7 @@ public class GeneradorXML {
 	}
 
 	synchronized public void generarFacturasImpagasUsuario(int dni){
-
-
-
+		
 		Element root=null;
 		//Se busca el Vendedor en memoria por medio de su DNI.
 		int i=0;
@@ -555,11 +548,9 @@ public class GeneradorXML {
 			//Recorrer sus facturas impagas
 			ArrayList<FacturaPersonal> factsImpUsr=candela.getcolUSRSOFTWARE().get(i).obtenerFactImpagas();
 			if(factsImpUsr!=null){// SI el usuario tiene facturas impagas, se crea el elemento raiz y se a�aden sus hijos
-
 				root=new Element("facturas_impagas");
 
 				//Se recorre la coleccion de facts impagas y se a�aden los hijos
-
 				for (int j = 0; j < factsImpUsr.size(); j++) {
 					Element factImp= new Element("facturaImpaga");
 					factImp.setAttribute("numeroFact", Integer.toString(factsImpUsr.get(j).getNumero()));
@@ -569,31 +560,25 @@ public class GeneradorXML {
 					GregorianCalendar gc= (GregorianCalendar) Calendar.getInstance();
 					gc.setGregorianChange(factsImpUsr.get(j).getFecha());
 					
-					
 					String fecha= gc.get(Calendar.YEAR)+"-"+gc.get(Calendar.MONTH)+"-"+gc.get(Calendar.DAY_OF_MONTH);
 					factImp.setAttribute("fechaFact", fecha);
 
 					//Se crea el subnodo detalle de Factura
 					//Element detalle= new Element("detalle");
 					ArrayList<DetallePedidoPersonal> detsFacts= factsImpUsr.get(j).getPedidoPers().getDetalles();
-
 					for (int k = 0; k < detsFacts.size(); k++) {
 						Element detalle= new Element("detalle");
 						detalle.setAttribute("codigoProd",Integer.toString(detsFacts.get(k).getProd().getCodigo()));
 						detalle.setAttribute("descrip",detsFacts.get(k).getProd().getDescripcion());
-						detalle.setAttribute("cantProd",Double.toString(detsFacts.get(k).getCantidad()));
+						detalle.setAttribute("cantProd",Integer.toString(detsFacts.get(k).getCantidad()));
 						detalle.setAttribute("precio", Double.toString(detsFacts.get(k).getProd().getPrecio()));
 
 						//Se a�ade detalle al nodo superior factImp
 						factImp.addContent(detalle);	
-
 					}
-
-					
 					//Se a�ade el elemento a la raiz del XML
 					root.addContent(factImp);
 				}
-
 			}
 			//Se crea el documento con la raiz root
 			Document doc=new Document(root);

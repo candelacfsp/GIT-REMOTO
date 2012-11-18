@@ -65,10 +65,10 @@ public class Candela {
 	private ArrayList<Usuario> colUSRSOFTWARE;
 
 
-	
-	
-	
-	
+
+
+
+
 
 	/**
 	 * getColProductos
@@ -266,7 +266,6 @@ public class Candela {
 		this.cargarPedidoFabrica();
 		//Cargar FacturaFabrica
 		this.cargarFacturasFabrica();
-
 		//cargar usuarios
 		this.cargarUsuarios();
 
@@ -338,7 +337,7 @@ public class Candela {
 				TipoDeUsrBD tipoUsr = usuarios[i].getTipoDeUsrBD();
 				int tipoDeUsuario=-1;
 				if (tipoUsr !=null){
-					 tipoDeUsuario= tipoUsr.getnroTipoUsr();
+					tipoDeUsuario= tipoUsr.getnroTipoUsr();
 				}
 				//Aï¿œado el usaurio a la coleccion de usuarios de Candela, junto con todas sus facturas.
 				try{	colUSRSOFTWARE.add(new Usuario(usuarios[i].getNombreUsr(), usuarios[i].getContrasenia(),
@@ -446,7 +445,7 @@ public class Candela {
 					//Se crea el detalle en memoria con todos los datos de su objeto persistente
 					DetallePedidoPersonal d1=new DetallePedidoPersonal(this.conexion, colProductos.get(posProducto));
 					d1.setCantidad(dets[i].getCantidad());
-					
+
 					//TODO RODRIGO 15-11-2012
 					//Si el color y el detalle son distintos se setean al detalle en memoria.
 					if(dets[i].getColor()!=null){
@@ -456,7 +455,7 @@ public class Candela {
 						d1.setTalle(dets[i].getTalle());
 					}
 					d1.setPrecio(dets[i].getPrecio());
-					
+
 					//Se guarda el detalle la coleccion de detalles de memoria
 					detallesRAM.add(d1);
 
@@ -580,7 +579,6 @@ public class Candela {
 	}//Fin de Carga de PedidoFabrica
 
 	private void cargarFacturasFabrica() {
-
 		//Encontrar todas las facturas a Fabrica
 		FacturaFabricaBD [] facturasFab=null;
 		try {
@@ -590,26 +588,20 @@ public class Candela {
 			e.printStackTrace();
 			System.exit(Constantes.EXCEPCION_SQL);
 		}
-
 		if(facturasFab.length>0){
-
 			//Por cada factura a Fabrica obtener el numero de PedidoFabricaBD que corresponda, y utilizarlo para
 			//buscar en la coleccion de pedidosFabrica de Candela. Luego a�adirlo a una segunda coleccion de PeidosFabrica y
 			// al final agregar la nueva factura a fabrica con su pedido a la coleccion de Candela
 			for (int i = 0; i < facturasFab.length; i++) {
 				int nroPedFab= facturasFab[i].getPedidoFabricaBD().getNumeroPedido();
-
 				//Busco el pedidoFabrica en la coleccion en memoria de Candela
 				int posPedidoFab=0;
 				while( posPedidoFab<pedidosFabricaNoFacturados.size() && nroPedFab!=pedidosFabricaNoFacturados.get(posPedidoFab).getNumeroPedido()){
 					posPedidoFab++;
 				}
-
-				facturasFabrica.add(new FacturaFabrica(conexion,pedidosFabricaNoFacturados.get(posPedidoFab),facturasFab[i].getNumero(),facturasFab[i].getTipo(),facturasFab[i].getFecha()));
-
-
+				facturasFabrica.add(new FacturaFabrica(conexion,pedidosFabricaNoFacturados.get(posPedidoFab),facturasFab[i].getNumero(),facturasFab[i].getTipo(),
+						facturasFab[i].getFecha(),facturasFab[i].getPagada()));
 			}//Fin de recorrido FacturasFabBD
-
 		}else{
 			System.out.println("No se detectaron facturas a fabrica cargadas en la BD! ");
 		}
@@ -952,13 +944,13 @@ public class Candela {
 			//TODO NOTA: SI NO HAY CATALOGO CREADO EN LA BD: CREAR UN CATALOGO EN MEMORIA CON  FECHA DE INCIO COMO LA FECHA ACTUAL,
 			// Y UNA FECHA DE FIN = FECHA_INICIO+30 DIAS.
 
-		//	try {
-				//Version anterior
-				//catalogoVigente= new Catalogo(this.conexion, new Date());
-				  catalogoVigente= new Catalogo(this.conexion);
+			//	try {
+			//Version anterior
+			//catalogoVigente= new Catalogo(this.conexion, new Date());
+			catalogoVigente= new Catalogo(this.conexion);
 			//} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				//System.out.println("Excepcion al cargar el catalogo vigente!!!");
+			// TODO Auto-generated catch block
+			//System.out.println("Excepcion al cargar el catalogo vigente!!!");
 			//	e.printStackTrace();
 			//}
 			/*catalogoVigente.setTomos(new ArrayList<Tomo>());
@@ -1120,8 +1112,8 @@ public class Candela {
 	}
 
 	/**
-	 * Este metodo se encarga de a�adir a la coleccion de facturas Fabrica  de Candela una nueva factura impaga y realizar
-	 * las modificaicones correspondientes en la BD.
+	 * Este metodo se encarga de a�adir a la coleccion de facturas Fabrica  de Candela una nueva factura fabrica impaga y añadirla
+	 *  en la BD.
 	 * @param pedido
 	 * @param nroPedido
 	 * @param tipoFactura
@@ -1129,31 +1121,35 @@ public class Candela {
 	 */
 	public void agregarFacturaImpaga(PedidoFabrica pedidofab, int tipoFactura, Date fechaFactura) throws SQLException{
 
-		
+
 		//Se recupera el ultimo numero de factura de Candela y se lo incrementa (autonumerico)
-		
+
 		int nroFactFab= this.facturasFabrica.size()+1;
-		
-		
-		
-		
-		
+
+
+		FacturaFabrica fb= new FacturaFabrica(this.conexion,pedidofab,nroFactFab,tipoFactura,fechaFactura);
+
+
 		//Crear y a�adir la facturaImpaga del pedido seleccionado.
-		facturasFabrica.add( new FacturaFabrica(this.conexion,pedidofab,nroFactFab,tipoFactura,fechaFactura) );
+		facturasFabrica.add( fb );
+		try{
+			//Crear factura Fabrica Impaga en base de Datos
 
-		//Crear factura Fabrica Impaga en base de Datos
 
+			FacturaFabricaBD factfab=this.em.create(FacturaFabricaBD.class);
+			factfab.setNumero(nroFactFab);
+			factfab.setTipo(tipoFactura);
+			factfab.setFecha(fechaFactura);
+			factfab.setPagada(false);
+			//Buscar el pedido a fabrica de esa facturaFabrica
+			PedidoFabricaBD [] pedd= this.em.find(PedidoFabricaBD.class,"numeropedido=?",pedidofab.getNumeroPedido());
 
-		FacturaFabricaBD factfab=this.em.create(FacturaFabricaBD.class);
-		factfab.setNumero(nroFactFab);
-		factfab.setTipo(tipoFactura);
-		factfab.setFecha(fechaFactura);
-		factfab.setPagada(false);
-		//Buscar el pedido a fabrica de esa facturaFabrica
-		PedidoFabricaBD [] pedd= this.em.find(PedidoFabricaBD.class,"numeropedido=?",pedidofab.getNumeroPedido());
-
-		factfab.setPedidoFabricaBD(pedd[0]);
-		factfab.save();
+			factfab.setPedidoFabricaBD(pedd[0]);
+			factfab.save();
+		}catch(Exception e){
+			facturasFabrica.remove(fb);
+			throw new SQLException();
+		}
 
 	}
 
@@ -1166,7 +1162,12 @@ public class Candela {
 	public void guardar_Facts_Fabrica(int posFactFab) throws SQLException{
 		//Setear la facturaFabrica como factura paga en memoria 
 		facturasFabrica.get(posFactFab).setPagada(true);
-		this.almacenar_facts_fab(facturasFabrica.get(posFactFab).getNumero());
+		try{
+			this.almacenar_facts_fab(facturasFabrica.get(posFactFab).getNumero());
+		}catch(Exception e){
+			facturasFabrica.get(posFactFab).setPagada(false);
+			throw new SQLException();
+		}
 	}
 
 	private void almacenar_facts_fab(int numeroFactFab)throws SQLException{
@@ -1177,87 +1178,131 @@ public class Candela {
 		fact[0].save();
 
 	}
-
-
 	//TODO Parte de Damian
 	@SuppressWarnings("deprecation")
 	public void anulacionPedido(int nroPedido, String userName) throws SQLException, FacturaVencidaExcepcion, FacturaPagadaExcepcion, ProductoNoExisteExcepcion{
 		//Busco el usuario
-		ArrayList<usuarioBD> usuarios=this.getColUsuarios();
+		ArrayList<Usuario> usuarios=this.getcolUSRSOFTWARE();
 		for (int i = 0; i < usuarios.size(); i++) {
-			if (usuarios.get(i).getNombreUsr().equals(userName)){
-				//si encuentro al usuario busco todas las facturas de ese usuario
-				FacturaPersonalBD[] facturas=usuarios.get(i).getColFacturas();
+			if (usuarios.get(i).getNombreUsuario().equals(userName)){
+				ArrayList<FacturaPersonal> colFactUsuario = usuarios.get(i).getFacturaPers();
 				//busco la factura con el pedido
-				for (int j = 0; j < facturas.length; j++) {
-					if (facturas[j].getNumero() == nroPedido){
-						//Obtengo primero el dia de hoy
-						Date hoy= new Date();
-						//reviso si a lo mucho la facturacion se realizo un mes antes
-						if (facturas[j].getFecha().getMonth() + 1 >= hoy.getMonth()){
-							//si la factura no se encuentra paga
-							if (!facturas[j].getPagada()){
-								for (int j2 = 0; j2 < this.getFacturasPersonal().size(); j2++) {
-									if (this.getFacturasPersonal().get(j2).getNumero()==facturas[j].getNumero()){
-										//Obtengo el pedido de la factura para eliminarlo
-										PedidoPersonalBD pedido=facturas[j].getPedidoPersonalBD();
-										//me fijo en memoria si se solicit� si integra el pedido a fabrica si fuera asi actualizo el stock de producto
-										ArrayList<PedidoFabrica> pedidosFabrica = this.getPedidosFabricaNoFacturados();
-										for (int k = 0; k < pedidosFabrica.size(); k++) {
-											ArrayList<PedidoPersonal> pedidosMemoria = pedidosFabrica.get(k).getPedidos();
-											for (int l = 0; l < pedidosMemoria.size(); l++) {
-												if (pedidosMemoria.get(l).getNumeroPedido() == pedido.getNumeroPedido()){
-													actualizarStock(pedido);
-												}
+				for (int j = 0; j < colFactUsuario.size(); j++) {
+					if (colFactUsuario.get(j).getPedidoPers().getNumeroPedido()==nroPedido){
+						//Si encuentro el pedido asociado a la factura
+						//obtengo el día
+						Date hoy = new Date();
+						if ((colFactUsuario.get(j).getFecha().getMonth() + 1 )>= hoy.getMonth()){
+							//si la factura tiene a lo mucho 1 mes de vencimiento
+							if (!colFactUsuario.get(j).getPagada()){
+								//Si no esta pagada, se borra el pedido de memoria
+								actualizarStock(colFactUsuario.get(j).getPedidoPers());
+								//debo eliminar los detalles de memoria
+								// obtengo el pedido
+														
+								//SE ELIMINAR LOS DETALLES ASOCIADOS A UN PEDIDO (MEMORIA)
+								PedidoPersonal pedido = colFactUsuario.get(j).getPedidoPers();
+								for (int k = 0; k < pedido.getDetalles().size(); k++) {
+									pedido.getDetalles().remove(k);
+									
+								}
+								//debo eliminar la factura personal impaga de memoria(coleccion de candela y colFac de usuarios) y bd,
+								int numeroFactura=colFactUsuario.get(j).getNumero();
+								//elimino la factura perteneciente a candela Memoria
+								
+								this.facturasPersonal.remove(colFactUsuario.get(j));
+								//elimino la factura perteneciente al usuario Memoria
+								colFactUsuario.remove(colFactUsuario.get(j));
+								//debo eliminar la factura de base
+								//busco la factura
+								FacturaPersonalBD[] factura = this.em.find(FacturaPersonalBD.class,"numero=?",numeroFactura);
+								if (factura.length>0){
+									factura[0].setPedidoPersonalBD(null);
+									usuarioBD[] usuario = this.em.find(usuarioBD.class,"nombreUsr=?",userName);
+									if (usuario.length>0){
+										for (int k = 0; k < usuario[0].getColFacturas().length; k++) {
+											if (usuario[0].getColFacturas()[k].getNumero()==numeroFactura){
+												usuario[0].getColFacturas()[k].setUsuario(null);
+												usuario[0].getColFacturas()[k].save();
+												
 											}
-										}
-										//busco el pedido dentro de la coleccion en memoria para eliminarlo
-										for (int k = 0; k < getPedidosPersonal().size(); k++) {
-											if (getPedidosPersonal().get(k).getNumeroPedido() == pedido.getNumeroPedido()){
-												//si encuentro el pedido lo elimino de memoria
-												this.pedidosPersonal.remove(k);
-												//remuevo la factura
-												this.facturasPersonal.remove(j2);
-												//Las saco de base de datos a la factura y al pedido
-												em.delete(facturas[j]);
-												em.delete(pedido);
-											}
+											
 										}
 									}
+									factura[0].save();
+									this.em.delete(factura[0]);
 								}
+								//debo eliminar el pedido de la coleccion de candela en memoria, BD y los detalles BD
+								//almaceno el numero de pedido
+								nroPedido= pedido.getNumeroPedido();
+								//elimino el pedido de la col de candela
+								this.getPedidosPersonal().remove(pedido);
+								
+								
+								
+								PedidoPersonalBD[] pedidoBD = this.em.find(PedidoPersonalBD.class, "numeroPedido=?",nroPedido);
+								if (pedidoBD.length> 0){
+									DetallePedidoPersonalBD[] detallesBD = pedidoBD[0].getColDetallesPedidoPersonalBD();
+									for (int k = 0; k < detallesBD.length; k++) {
+										//desreferencio los detalles del pedido
+										detallesBD[k].setPedidoPersonalBD(null);
+										detallesBD[k].save();
+										//Se elimina de base el detalle
+										this.em.delete(detallesBD[k]);
+										
+									}
+									//elimino el pedido de base de datos
+									this.em.delete(pedidoBD[0]);
+									
+								}
+								
+								GeneradorXML xml = new GeneradorXML(this);
+								xml.generarXMLUsuarios();
+								
+								
 							}else{
 								throw new FacturaPagadaExcepcion();
+								
 							}
 						}else{
 							throw new FacturaVencidaExcepcion();
 						}
 					}
+					
 				}
 			}
+			
 		}
 	}
-
-	private void actualizarStock(PedidoPersonalBD pedido) throws SQLException, ProductoNoExisteExcepcion {
+			
+/***
+ * actualizarStock actualiza en memoria el stok de productos, y en base la cantidad de productos
+ * @param pedidoPersonal
+ * @throws SQLException
+ * @throws ProductoNoExisteExcepcion
+ */
+	private void actualizarStock(PedidoPersonal pedidoPersonal) throws SQLException, ProductoNoExisteExcepcion {
 		//obtengo la coleccion de detalles
-		DetallePedidoPersonalBD[] colDetalles = pedido.getColDetallesPedidoPersonalBD();
+		 ArrayList<DetallePedidoPersonal> colDetalles = pedidoPersonal.getDetalles();
 
 
 
 
-		for (int i = 0; i < colDetalles.length; i++) {
+		for (int i = 0; i < colDetalles.size(); i++) {
 			//por cada detalle sumo la cantidad a producto en base de datos
 			for (int j = 0; j < colProductos.size(); j++) {
 				//por cada producto busco en el detalle el producto apuntado
-				if (colProductos.get(j).getCodigo() == colDetalles[i].getProductoBD().getCodigo()){
+				if (colProductos.get(j).getCodigo() == colDetalles.get(i).getProd().getCodigo()){
 					//actualizo en memoria
-					colProductos.get(j).setCantidadEnStock(colProductos.get(j).getCantidadEnStock()+colDetalles[i].getCantidad());
+					colProductos.get(j).setCantidadEnStock(colProductos.get(j).getCantidadEnStock()+colDetalles.get(i).getCantidad());
 					//modifico el producto agregando el nuevo valor de ColProductos
+					//Se llama al modificarProducto de Candela, modifica en memoria --> BD.
 					modDeProducto(colProductos.get(j).getCodigo(), colProductos.get(j).getPrecio(), colProductos.get(j).getCantidadEnStock());
 				}
 
 			}
 		}
-		em.delete(colDetalles);
+		
 	}
 
 
@@ -1294,22 +1339,22 @@ public class Candela {
 		//Se crea el pedido en BD con los detalles y los productos.
 		pedido.crearPedido(colDetalles, getColProductos());
 
-		
+
 		//si no tuve problemas al crear el pedido con sus detalles
-		
+
 		//TODO RODRIGO AUTONUMERICO.
 		int nroFactura= this.getFacturasPersonal().size()+1;
-		
+		//Las facturas personal creadas en local son de tipo:1  (tipo A) y se registran como pagadas:true
 		FacturaPersonal facturaPersonal= new FacturaPersonal(conexion, pedido, nroFactura, 1, pedido.getFecha_emision(),true);
 		//Se envia directamente el numero de pedido que se obtiene del pedido en memoria
 
 		//Se guarda en factura en BD.
-		
+
 		//EN lugar de pasar el numero de pedido como numero de factura, se autoincrementa.,
 		facturaPersonal.crearFactura(facturaPersonal, usuario, nroFactura);
 
 
-		//facturaPersonal.crearFactura(facturaPersonal, usuario,pedidoBD);
+
 		//actualizar en memoria los productos, el pedido, la factura de personal
 		//primero actualizo los productos
 

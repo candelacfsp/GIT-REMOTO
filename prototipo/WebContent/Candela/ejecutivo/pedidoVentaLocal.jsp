@@ -19,12 +19,21 @@
 	String estado = request.getParameter("estado");
 	String talle = request.getParameter("talle");
 	String color = request.getParameter("color");
+	String cancelar= request.getParameter("cancelar");
+	HttpSession candela_sesion = request.getSession();
 
+	if (cancelar!= null){
+	candela_sesion.setAttribute("colDetalles", null);
+		response.sendRedirect("vistaEjecutivo-stock.jsp");
+	}
+	if (!response.isCommitted()){
 	if (userName != null && codigo != null) {
-		HttpSession candela_sesion = request.getSession();
+	
 		Candela candela = (Candela) candela_sesion
 				.getAttribute("candela");
 		if (estado.equals("si")) {
+			candela_sesion.setAttribute("estado", estado);
+			candela_sesion.setAttribute("userName", userName);
 			for (int i = 0; i < candela.getColProductos().size(); i++) {
 				//busco el producto que me pasaron por parametros
 				if (candela.getColProductos().get(i).getCodigo() == Integer
@@ -48,13 +57,15 @@
 						colDetalles.add(detalle);
 					}
 					candela.actualizarColProdConDetalle(colDetalles);
-					response.sendRedirect("pedidoVentaLocal.jsp");
+					response.sendRedirect("pedidoVentaLocalEmbed.jsp");
 
 				}
 			}
 		} else {//si selecciono que no!
+			candela_sesion.removeAttribute("estado");
+			candela_sesion.removeAttribute("userName");
+			
 			if (!response.isCommitted()) {//pregunto si ya se desplego en otra pagina
-
 				//referencio a la coleccion de detalles
 				ArrayList<DetallePedidoPersonal> colDetalles = (ArrayList<DetallePedidoPersonal>) candela_sesion
 						.getAttribute("colDetalles");
@@ -96,9 +107,6 @@
 										colDetalles.add(detalle);
 									}//guardo el detalle y lo almaceno en la coleccion de detalles
 								 //salgo del if de color y talle
-								}else{// tengo que mostrar que la cantidad introducida no es valida
-									JOptionPane panel= new JOptionPane();
-								panel.showMessageDialog(null, "La cantidad introducida no es válida, cantidad introducida <= cantidad en stock");
 								}
 							}//aca termina el if de si encuentro el producto o no
 						}// termino de armar el paquete de colecciones de detalle ciclo for
@@ -116,9 +124,6 @@
 							
 						} catch (SQLException sql) {
 							sql.printStackTrace();
-							JOptionPane panel = new JOptionPane();
-							panel.showMessageDialog(null,
-									"Error de base de datos");
 							response.sendRedirect("Error-E.jsp");
 						} //fin del catch
 
@@ -129,4 +134,5 @@
 		} // fin del else, si eligió el usuario NO
 
 	} //si los parametros vienen con null
+	}
 %>

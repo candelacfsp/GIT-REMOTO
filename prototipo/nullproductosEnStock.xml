@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ProductosEnStock>
-  <Producto codigo="800" descripcion="Medias de Nailon" precio="15.0" cantidad="20" />
-  <Producto codigo="1300" descripcion="Prueba" precio="12.3" cantidad="3" />
-  <Producto codigo="96965" descripcion="555" precio="8585.0" cantidad="600" />
-  <Producto codigo="1500" descripcion="Prueba" precio="12.3" cantidad="63" />
-  <Producto codigo="1800" descripcion="Crema" precio="12.3" cantidad="63" />
-  <Producto codigo="1818" descripcion="Agregame" precio="212.0" cantidad="36" />
-  <Producto codigo="6585" descripcion="prueba de agregar" precio="125.0" cantidad="366" />
-  <Producto codigo="5555" descripcion="555" precio="55.0" cantidad="55" />
-  <Producto codigo="100" descripcion="Producto Obsoleto :( " precio="21.99" cantidad="100" />
-  <Producto codigo="700" descripcion="Remera Gastada" precio="21.0" cantidad="1" />
-  <Producto codigo="600" descripcion="Esmalte para u�as" precio="18.35" cantidad="11" />
-  <Producto codigo="500" descripcion=" Crema exfoliante" precio="19.99" cantidad="10" />
-  <Producto codigo="400" descripcion=" Crema para manos" precio="43.21" cantidad="23" />
-  <Producto codigo="200" descripcion="Pintalabios" precio="21.0" cantidad="5" />
+  <Producto codigo="500" descripcion=" Crema exfoliante" precio="19.99" cantidad="1" tipo="1" />
+  <Producto codigo="700" descripcion="Crema para cuerpo" precio="21.0" cantidad="1" tipo="1" />
+  <Producto codigo="1400" descripcion="Remera Escote en V" precio="36.0" cantidad="6" tipo="2" />
+  <Producto codigo="1700" descripcion="Chalina Gris" precio="120.1" cantidad="22" tipo="2" />
+  <Producto codigo="2600" descripcion="Spray fijador" precio="25.0" cantidad="10" tipo="1" />
+  <Producto codigo="2700" descripcion="Talco para pies" precio="39.99" cantidad="5" tipo="1" />
+  <Producto codigo="2800" descripcion="Quitaesmalte" precio="23.44" cantidad="20" tipo="1" />
+  <Producto codigo="600" descripcion="Esmalte de calcio" precio="18.35" cantidad="1" tipo="1" />
+  <Producto codigo="400" descripcion=" Crema para manos" precio="43.21" cantidad="15" tipo="1" />
+  <Producto codigo="200" descripcion="Lapiz labial" precio="21.0" cantidad="11" tipo="1" />
+  <Producto codigo="2000" descripcion="Swetter" precio="13.22" cantidad="1" tipo="2" />
+  <Producto codigo="3100" descripcion="Campera de cuero" precio="900.0" cantidad="14" tipo="2" />
+  <Producto codigo="3000" descripcion="Mocasines" precio="400.0" cantidad="22" tipo="2" />
+  <Producto codigo="1600" descripcion="Remera de Ubuntu" precio="232.0" cantidad="5" tipo="2" />
+  <Producto codigo="1800" descripcion="Campera de Jean" precio="149.9" cantidad="8" tipo="2" />
+  <Producto codigo="1500" descripcion="Medias de lana" precio="23.3" cantidad="144" tipo="2" />
+  <Producto codigo="300" descripcion="Gel" precio="54.33" cantidad="8" tipo="1" />
+  <Producto codigo="100" descripcion="Crema exfoliante" precio="21.99" cantidad="6" tipo="1" />
 </ProductosEnStock>

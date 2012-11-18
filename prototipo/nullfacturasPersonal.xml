@@ -1,5 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Facturas_A_Personal>
-  <Factura numero="2000" />
-  <Factura numero="2000" />
-</Facturas_A_Personal>
+<Facturas_A_Personal />

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Usuarios>
   <usuario nombre="Rodrigo" apellido="Huincalef" dni="35887888" userName="Rodrigo" tipoDeUsuario="3" />
-  <usuario nombre="Vader" apellido="Darth" dni="32000111" userName="Vader" tipoDeUsuario="2" />
+  <usuario nombre="Vader" apellido="Darth" dni="32000111" userName="Vader" tipoDeUsuario="2">
+    <facturasImpagas factura="23" />
+    <facturasImpagas factura="24" />
+  </usuario>
   <usuario nombre="Luke" apellido="SkyWalker" dni="32222111" userName="Luke" tipoDeUsuario="1" />
   <usuario nombre="Marta" apellido="Lopez" dni="11111111" userName="Marta" tipoDeUsuario="1">
     <facturasImpagas factura="16" />

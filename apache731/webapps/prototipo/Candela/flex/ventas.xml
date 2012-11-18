@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Ventas />
+<Ventas>
+  <tipoProducto codigo="1" descripcion="Cosmetico">
+    <mes mes="11" ventas="40" />
+  </tipoProducto>
+  <tipoProducto codigo="2" descripcion="Ropa">
+    <mes mes="11" ventas="27" />
+  </tipoProducto>
+</Ventas>

@@ -32,6 +32,7 @@
 	<field name="talle" class="java.lang.String"/>
 	<field name="descripcion" class="java.lang.String"/>
 	<field name="precio" class="java.lang.Double"/>
+	<field name="total" class="java.lang.Float"/>
 	<variable name="variable1" class="java.lang.String" calculation="Sum"/>
 	<variable name="contadorTotales" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{cantidad}*$F{precio}]]></variableExpression>
@@ -49,14 +50,14 @@
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Codigo_Producto]]></text>
+				<text><![CDATA[Codigo Producto]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="565fbba3-9098-40e9-83e9-33bd79641e59" x="100" y="0" width="100" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Tipo_Producto]]></text>
+				<text><![CDATA[Tipo Producto]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="9cd5cb11-7452-435d-93cb-f9d12f2b4cde" x="202" y="0" width="263" height="20"/>
@@ -147,13 +148,27 @@
 		</band>
 	</detail>
 	<summary>
-		<band height="25">
+		<band height="50">
 			<line>
-				<reportElement uuid="4966a5b5-b95d-457e-9307-aa54088889a2" x="0" y="9" width="842" height="1"/>
+				<reportElement uuid="4966a5b5-b95d-457e-9307-aa54088889a2" x="0" y="11" width="842" height="1"/>
 				<graphicElement>
 					<pen lineWidth="3.0" lineStyle="Dashed" lineColor="#1526E3"/>
 				</graphicElement>
 			</line>
+			<textField>
+				<reportElement uuid="1bab72f7-2a4d-4bf3-8591-3e724f6ba62f" x="465" y="20" width="100" height="20"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="c9e39acc-546f-4f4b-bd7a-84b5a7dd3c40" x="202" y="20" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
 		</band>
 	</summary>
 </jasperReport>

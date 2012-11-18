@@ -16,7 +16,9 @@
 
 	HttpSession candela_sesion = request.getSession(false);
 	Integer tipoUsr = (Integer) candela_sesion.getAttribute("tipoUsr");
-	String mensaje=(String) candela_sesion.getAttribute("mensaje");
+	String estado=(String) candela_sesion.getAttribute("estado");
+	String userName=(String) candela_sesion.getAttribute("userName");
+	
 	
 	if (tipoUsr == null) {
 		response.sendRedirect("../Index.swf");
@@ -38,14 +40,14 @@
 
 		}
 %>
-	<%		if(mensaje!=null){ %>
+	<%		if(estado!=null){ %>
 	<center>
 		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 			codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10.0.0.0"
 			width="800" height="600">
-			<param name="movie" value="pedidoVentaLocal.swf?mensaje=<%=mensaje%>" />
+			<param name="movie" value="pedidoVentaLocal.swf?estado=<%=estado %>&userName=<%=userName%>" />
 			<param name="quality" value="high" />
-			<embed src="pedidoVentaLocal.swf?mensaje=<%=mensaje %>" quality="high"
+			<embed src="pedidoVentaLocal.swf?estado=<%=estado %>&userName=<%=userName%>" quality="high"
 				type="application/x-shockwave-flash" width="800" height="600"
 				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 		</object>

@@ -39,23 +39,19 @@
 			
 			candela_sesion.setAttribute("mensaje", "La factura se encuentra vencida, imposible anular.");
 			response.sendRedirect("anulacionPedidoEmbed.jsp");
-			//VERSION VIEJA
-			//vencida.mensajeDialogo("La factura se encuentra vencida, imposible anular");
-			//response.sendRedirect("../vistaEjecutivo.jsp");
+		
 
 		} catch (FacturaPagadaExcepcion pagada) {
 			candela_sesion.setAttribute("mensaje", "La factura se encuentra paga, imposible anular.");
 			response.sendRedirect("anulacionPedidoEmbed.jsp");
 			
-			//pagada.mensajeDialogo("La factura se encuentra paga, imposible anular");
-			//response.sendRedirect("../vistaEjecutivo.jsp");
+		
 			
 		} catch (ProductoNoExisteExcepcion noExiste) {
 			candela_sesion.setAttribute("mensaje", "Error en la actualizacion de stock de los productos, el producto a actualizar no existe");
 			response.sendRedirect("anulacionPedidoEmbed.jsp");
 			
-			/*noExiste.mensajeDialogo("Error en actualizacion de stock de los productos, el producto a actualizar no existe!!!");
-			response.sendRedirect("../vistaEjecutivo.jsp");*/
+		
 		}
 		if (!response.isCommitted()){
 			GeneradorXML xml = new GeneradorXML(candela);

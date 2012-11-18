@@ -48,16 +48,14 @@ public class PedidoFabrica extends Pedido {
 	 */
 	public void marcarPedidoRecibido(int nroPedido, Date fechaPedido)throws SQLException{
 
-
 		//Marcar el pedido  como Recibido en memoria.
 		this.pedido_recibido=true;
-
+		
 		//Luego por cada pedidoPersonal en el pedidoFabrica, se setea la fecha de recepcion de los
 		//pedidos personal.
 		for (int i = 0; i < pedidosPers.size(); i++) {
 			pedidosPers.get(i).setFecha_recepcion(fechaPedido);
 		}
-
 		//INICIO DE STORED PROCEDURES
 		//Marcar el pedido ingresado como "Recibido" en la Base de Datos
 		//2.Se  llama a los procedimientos almacenados.
@@ -84,38 +82,50 @@ public class PedidoFabrica extends Pedido {
 		}
 	*/
 		//FIN DE STORED PROCEDURE
-		
 		//INICIO DE ENTITYMANAGER
+		
 		EntityManager em= new EntityManager(Constantes.URL,Constantes.USUARIO,Constantes.PASS);
-
-
 		PedidoFabricaBD [] pedFab=em.find(PedidoFabricaBD.class,"numeropedido=?",nroPedido);
-
 		if(pedFab.length>0){
+			
+		 try{
 			pedFab[0].setRecibido(true);
 			//Cuando se marca un pedido como recibido, se debe ademas establecer la fecha de recepcion
 
 			//Calendar diaActual= Calendar.getInstance();
 			//Date fechaEmision= diaActual.getTime();
 			//pedFab[0].setFechaEmision(fechaEmision);
-
 			//TODO MODIFICADO RODRIGO
 			pedFab[0].setFechaRecepcion(fechaPedido);			
 			pedFab[0].save();
-
 			PedidoPersonalBD [] pedPers=null;
 			pedPers=pedFab[0].getColPedidoPersonalBD();
-
+			
 			if(pedPers.length>0){
+				for (int i = 0; i < pedPers.length; i++) {
 
-				pedPers[0].setFechaRecepcion(fechaPedido);
-				pedPers[0].save();
+					pedPers[i].setFechaRecepcion(fechaPedido);
+					pedPers[i].save();	
+				}
 
+				
+			}
+			}catch(Exception sql){
+				//Se atrapa la excepcion de BD y se deshacen los cambios de memoria.
+				this.pedido_recibido=false;
+				for (int i = 0; i < pedidosPers.size(); i++) {
+					pedidosPers.get(i).setFecha_recepcion(null);
+				}
+				
+				throw new SQLException();
+			}	
+				
+				
 			}else{
 				throw new SQLException(); //TODO REVISAR
 			}
 
-		}
+		
 		//FIN DE ENTITYMANAGER
 
  
