@@ -1,3 +1,5 @@
+<%@page import="utilidades.GeneradorXML"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -16,18 +18,44 @@
 
 	HttpSession candela_sesion = request.getSession();
 	Candela cand = (Candela) candela_sesion.getAttribute("candela");
-
-	if (cand.esCatalogoNuevo() == true) {
-		//Se reestablece la referenica de CatalogoNuevo a null.
-		cand.getCatalogoNuevo().cancelarAltaCatalogo();
-		cand.setCatalogoNuevo(null);
-		response.sendRedirect("../AltaCatalogo/formaltaCatalogoEmbed.jsp");
-
-	} else {
+	boolean esCatNuevo=cand.esCatalogoNuevo();
+	ArrayList<Integer> codigosTomo=(ArrayList<Integer>) candela_sesion.getAttribute("CodigosTomos");
+	
+	GeneradorXML gen= new GeneradorXML(cand);
+	
+	//Si se cancelo y no se dio de alta nigun
 		
-		response.sendRedirect("../vistaOpDatos-catalogo.swf");
-
-	}
+		if ( esCatNuevo == true) {
+		
+			cand.getCatalogoNuevo().cancelarAltaCatalogo(esCatNuevo,codigosTomo);			
+			//Se reestablece la referenica de CatalogoNuevo a null.
+			cand.setCatalogoNuevo(null);
+				//Se elimina la coleccion de codigos de tomo en la sesion
+			if(candela_sesion.getAttribute("CodigosTomos")!=null){
+				candela_sesion.removeAttribute("CodigosTomos");
+			}
+			//Se actualizan los XML que son leidos por los demas CU
+			//se actualiza el archivo xml que posee los tomos que que se pueden dar de baja		
+			gen.generarProductosNoAsociados();
+			gen.generarTomosVigentes();
+			gen.generarXMLTomos();
+			response.sendRedirect("../AltaCatalogo/formaltaCatalogoEmbed.jsp");
+	
+		} else {
+			cand.getCatalogoVigente().cancelarAltaCatalogo(esCatNuevo,codigosTomo);
+			//Se elimina la coleccion de codigos de tomo en la sesion
+			if(candela_sesion.getAttribute("CodigosTomos")!=null){
+				candela_sesion.removeAttribute("CodigosTomos");
+			}
+			//Se actualizan los XML que son leidos por los demas CU
+			gen.generarProductosNoAsociados();
+			//se actualiza el archivo xml que posee los tomos que que se pueden dar de baja
+			gen.generarTomosVigentes();
+			gen.generarXMLTomos();
+			
+			response.sendRedirect("../vistaOpDatos-catalogo.jsp");
+		}
+	
 %>
 
 
