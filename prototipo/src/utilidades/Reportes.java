@@ -291,10 +291,16 @@ public class Reportes {
 					//busco la descripcion del tipo de producto
 					String descripcion=null;
 					for (int k2 = 0; k2 < candela.getColTipoDeProducto().size(); k2++) {
-						if (candela.getColTipoDeProducto().get(k2).getCodTipoProd()==  productos.get(j).getTipoProducto()){
-							descripcion=candela.getColTipoDeProducto().get(k2).getDescripcion();
+						if(productos.get(j).getTipoProducto()==-1){
+							descripcion="N/A"; //Atributo No aplicable.
 							break;
+						}else{
+							if (candela.getColTipoDeProducto().get(k2).getCodTipoProd()==  productos.get(j).getTipoProducto()){
+								descripcion=candela.getColTipoDeProducto().get(k2).getDescripcion();
+								break;
+							}
 						}
+						
 					}
 					tuplaProducto tp1 = new tuplaProducto(prod.getCodigo(), prod.getPrecio(), prod.getDescripcion(), prod.getCantidadEnStock(), descripcion);
 					tomoT.addTuplaTomoDS(tp1);

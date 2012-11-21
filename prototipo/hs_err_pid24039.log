@@ -1,0 +1,495 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (javaCalls.cpp:59), pid=24039, tid=2139786096
+#  guarantee(thread->is_Java_thread()) failed: crucial check - the VM thread cannot and must not escape to Java code
+#
+# JRE version: 7.0-b147
+# Java VM: Java HotSpot(TM) Server VM (21.0-b17 mixed mode linux-x86 )
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.sun.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x084f6c00):  VMThread [stack: 0x7f829000,0x7f8a9000] [id=24049]
+
+Stack: [0x7f829000,0x7f8a9000],  sp=0x7f8a7460,  free space=505k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0x6dd0c9]  VMError::report_and_die()+0x199
+V  [libjvm.so+0x2cf6be]  report_vm_error(char const*, int, char const*, char const*)+0x3e
+V  [libjvm.so+0x3e3684]  JavaCallWrapper::JavaCallWrapper(methodHandle, Handle, JavaValue*, Thread*)+0x224
+V  [libjvm.so+0x3e40cd]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0x11d
+V  [libjvm.so+0x59c599]  os::os_exception_wrapper(void (*)(JavaValue*, methodHandle*, JavaCallArguments*, Thread*), JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0x19
+V  [libjvm.so+0x3e30df]  JavaCalls::call(JavaValue*, methodHandle, JavaCallArguments*, Thread*)+0x2f
+V  [libjvm.so+0x3e31e2]  JavaCalls::call_special(JavaValue*, KlassHandle, Symbol*, Symbol*, JavaCallArguments*, Thread*)+0x72
+V  [libjvm.so+0x33544f]  Exceptions::new_exception(Thread*, Symbol*, Symbol*, JavaCallArguments*, Handle, Handle, Handle)+0x26f
+V  [libjvm.so+0x3355cb]  Exceptions::new_exception(Thread*, Symbol*, char const*, Handle, Handle, Handle, Exceptions::ExceptionMsgToUtf8Mode)+0x16b
+V  [libjvm.so+0x3356a6]  Exceptions::new_exception(Thread*, Symbol*, char const*, Exceptions::ExceptionMsgToUtf8Mode)+0x26
+V  [libjvm.so+0x377bf5]  GenerateOopMap::verify_error(char const*, ...)+0x95
+V  [libjvm.so+0x37b115]  GenerateOopMap::ppload(CellTypeState*, int)+0xd5
+V  [libjvm.so+0x37cd5e]  GenerateOopMap::interp1(BytecodeStream*)+0x54e
+V  [libjvm.so+0x37d721]  GenerateOopMap::interp_bb(BasicBlock*)+0x161
+V  [libjvm.so+0x37e37f]  GenerateOopMap::compute_map(Thread*)+0x29f
+V  [libjvm.so+0x597a7f]  OopMapForCacheEntry::compute_map(Thread*)+0x9f
+V  [libjvm.so+0x5989e1]  OopMapCacheEntry::fill(methodHandle, int)+0xe1
+V  [libjvm.so+0x599107]  OopMapCache::lookup(methodHandle, int, InterpreterOopMap*)+0x287
+V  [libjvm.so+0x565de0]  methodOopDesc::mask_for(int, InterpreterOopMap*)+0x50
+V  [libjvm.so+0x6d3934]  interpretedVFrame::locals() const+0xe4
+V  [libjvm.so+0x4a4130]  VM_GetOrSetLocal::doit()+0xf0
+V  [libjvm.so+0x6e54a1]  VM_Operation::evaluate()+0x41
+V  [libjvm.so+0x6e3e48]  VMThread::evaluate_operation(VM_Operation*)+0x78
+V  [libjvm.so+0x6e4387]  VMThread::loop()+0x1a7
+V  [libjvm.so+0x6e4a15]  VMThread::run()+0x85
+V  [libjvm.so+0x5a2f21]  java_start(Thread*)+0x111
+C  [libpthread.so.0+0x57b0]  start_thread+0xa0
+
+VM_Operation (0x7f44ff2c): GetOrSetLocal, mode: safepoint, requested by thread 0x08543800
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x0855d400 JavaThread "Service Thread" daemon [_thread_blocked, id=24064, stack(0x7f211000,0x7f261000)]
+  0x08551c00 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=24063, stack(0x7f261000,0x7f2e1000)]
+  0x0854f800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=24062, stack(0x7f2e1000,0x7f361000)]
+  0x08547c00 JavaThread "JDWP Command Reader" daemon [_thread_in_native, id=24059, stack(0x7f361000,0x7f3b1000)]
+  0x08546400 JavaThread "JDWP Event Helper Thread" daemon [_thread_blocked, id=24058, stack(0x7f3b1000,0x7f401000)]
+  0x08543800 JavaThread "JDWP Transport Listener: dt_socket" daemon [_thread_blocked, id=24055, stack(0x7f401000,0x7f451000)]
+  0x08539c00 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=24053, stack(0x7f451000,0x7f4a1000)]
+  0x084fe400 JavaThread "Finalizer" daemon [_thread_blocked, id=24051, stack(0x7f4a1000,0x7f4f1000)]
+  0x084fc800 JavaThread "Reference Handler" daemon [_thread_blocked, id=24050, stack(0x7f4f1000,0x7f541000)]
+  0x08451c00 JavaThread "main" [_thread_blocked, id=24041, stack(0xb69b3000,0xb6a03000)]
+
+Other Threads:
+=>0x084f6c00 VMThread [stack: 0x7f829000,0x7f8a9000] [id=24049]
+  0x0855f000 WatcherThread [stack: 0x7f191000,0x7f211000] [id=24065]
+
+VM state:at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x0844f748] Threads_lock - owner thread: 0x084f6c00
+
+Heap
+ PSYoungGen      total 57984K, used 56739K [0xa38b0000, 0xa9d40000, 0xb36b0000)
+  eden space 48256K, 97% used [0xa38b0000,0xa669a868,0xa67d0000)
+  from space 9728K, 99% used [0xa67d0000,0xa714e440,0xa7150000)
+  to   space 12864K, 0% used [0xa90b0000,0xa90b0000,0xa9d40000)
+ PSOldGen        total 32512K, used 18370K [0x83cb0000, 0x85c70000, 0xa38b0000)
+  object space 32512K, 56% used [0x83cb0000,0x84ea0b90,0x85c70000)
+ PSPermGen       total 16384K, used 4967K [0x7fcb0000, 0x80cb0000, 0x83cb0000)
+  object space 16384K, 30% used [0x7fcb0000,0x80189e50,0x80cb0000)
+
+Code Cache  [0xb3773000, 0xb39b3000, 0xb6773000)
+ total_blobs=551 nmethods=431 adapters=80 free_code_cache=47389Kb largest_free_block=48485568
+
+Dynamic libraries:
+08048000-08049000 r-xp 00000000 08:05 481401     /usr/java/jdk1.7.0/jre/bin/java
+08049000-0804a000 rw-p 00000000 08:05 481401     /usr/java/jdk1.7.0/jre/bin/java
+08446000-08d85000 rw-p 00000000 00:00 0          [heap]
+7db00000-7dbd8000 rw-p 00000000 00:00 0 
+7dbd8000-7dc00000 ---p 00000000 00:00 0 
+7dd00000-7def8000 rw-p 00000000 00:00 0 
+7def8000-7df00000 ---p 00000000 00:00 0 
+7df00000-7dff9000 rw-p 00000000 00:00 0 
+7dff9000-7e000000 ---p 00000000 00:00 0 
+7e000000-7e0ff000 rw-p 00000000 00:00 0 
+7e0ff000-7e100000 ---p 00000000 00:00 0 
+7e200000-7e300000 rw-p 00000000 00:00 0 
+7e400000-7e4fe000 rw-p 00000000 00:00 0 
+7e4fe000-7e500000 ---p 00000000 00:00 0 
+7e600000-7e7ff000 rw-p 00000000 00:00 0 
+7e7ff000-7e800000 ---p 00000000 00:00 0 
+7e800000-7e8fd000 rw-p 00000000 00:00 0 
+7e8fd000-7e900000 ---p 00000000 00:00 0 
+7e923000-7e927000 r--s 000f6000 08:05 167915     /usr/java/jdk1.7.0/jre/lib/ext/localedata.jar
+7e927000-7e930000 r--s 00254000 08:05 489331     /usr/java/jdk1.7.0/jre/lib/resources.jar
+7e930000-7e944000 r-xp 00000000 08:05 142649     /usr/java/jdk1.7.0/jre/lib/i386/libnet.so
+7e944000-7e945000 rw-p 00014000 08:05 142649     /usr/java/jdk1.7.0/jre/lib/i386/libnet.so
+7e945000-7e953000 r-xp 00000000 08:05 142633     /usr/java/jdk1.7.0/jre/lib/i386/libnio.so
+7e953000-7e954000 rw-p 0000e000 08:05 142633     /usr/java/jdk1.7.0/jre/lib/i386/libnio.so
+7e954000-7e959000 r--s 00010000 08:07 1725993    /home/damian/repositorioGit/jars/xml-apis-ext.jar
+7e959000-7e96f000 r--s 00110000 08:07 1725992    /home/damian/repositorioGit/jars/xercesImpl-2.7.0.jar
+7e96f000-7e994000 r--s 002e3000 08:07 1725989    /home/damian/repositorioGit/jars/xalan-2.7.1.jar
+7e994000-7e9a2000 r--s 000b7000 08:07 1725987    /home/damian/repositorioGit/jars/velocity-1.7-dep.jar
+7e9a2000-7e9a3000 r--s 00004000 08:07 1725984    /home/damian/repositorioGit/jars/tomcat-util.jar
+7e9a3000-7e9a5000 r--s 0000b000 08:07 1725983    /home/damian/repositorioGit/jars/tomcat-i18n-ja.jar
+7e9a5000-7e9a8000 r--s 0000a000 08:07 1725982    /home/damian/repositorioGit/jars/tomcat-i18n-fr.jar
+7e9a8000-7e9ab000 r--s 0000e000 08:07 1725981    /home/damian/repositorioGit/jars/tomcat-i18n-es.jar
+7e9ab000-7e9af000 r--s 00036000 08:07 1725980    /home/damian/repositorioGit/jars/tomcat-dbcp.jar
+7e9af000-7e9bb000 r--s 000ab000 08:07 1725979    /home/damian/repositorioGit/jars/tomcat-coyote.jar
+7e9bb000-7e9c2000 r--s 00040000 08:07 1725977    /home/damian/repositorioGit/jars/spring-core-2.5.5.jar
+7e9c2000-7ea00000 r--s 0025b000 08:07 1725990    /home/damian/repositorioGit/jars/xbean.jar
+7ea00000-7eaf8000 rw-p 00000000 00:00 0 
+7eaf8000-7eb00000 ---p 00000000 00:00 0 
+7eb02000-7eb0c000 r--s 0006d000 08:07 1725976    /home/damian/repositorioGit/jars/spring-beans-2.5.5.jar
+7eb0c000-7eb0e000 r--s 00016000 08:07 1725973    /home/damian/repositorioGit/jars/servlet-api-2.4.jar
+7eb0e000-7eb12000 r--s 00028000 08:07 1725974    /home/damian/repositorioGit/jars/servlet-api.jar
+7eb12000-7eb15000 r--s 00041000 08:07 1725972    /home/damian/repositorioGit/jars/serializer.jar
+7eb15000-7eb1d000 r--s 00028000 08:07 1725994    /home/damian/repositorioGit/jars/xml-apis.jar
+7eb1d000-7eb1f000 r--s 00003000 08:07 1725971    /home/damian/repositorioGit/jars/saaj-api-1.3.jar
+7eb1f000-7eb2b000 r--s 000e5000 08:07 1725970    /home/damian/repositorioGit/jars/rhino-1.7R1.jar
+7eb2b000-7eb31000 r--s 0007f000 08:07 1726053    /home/damian/repositorioGit/jars/postgresql-9.0-802.jdbc4(1).jar
+7eb31000-7eb35000 r--s 0005c000 08:07 1725620    /home/damian/repositorioGit/jars/postgresql-8.2-512.jdbc2.jar
+7eb35000-7ebb4000 r--s 0034a000 08:07 1725968    /home/damian/repositorioGit/jars/poi-ooxml-schemas-3.7-20101029.jar
+7ebb4000-7ebbb000 r--s 00073000 08:07 1725967    /home/damian/repositorioGit/jars/poi-ooxml-3.7-20101029.jar
+7ebbb000-7ebd8000 r--s 0017c000 08:07 1725966    /home/damian/repositorioGit/jars/poi-3.7-20101029.jar
+7ebd8000-7ebd9000 r--s 00002000 08:07 1725963    /home/damian/repositorioGit/jars/png-encoder-1.5.jar
+7ebd9000-7ebdc000 r--s 0001f000 08:07 1725763    /home/damian/repositorioGit/jars/pljava.jar
+7ebdc000-7ec04000 r--s 0025e000 08:07 1725912    /home/damian/repositorioGit/jars/mondrian-3.1.1.12687.jar
+7ec04000-7ec0b000 r--s 00059000 08:07 1725910    /home/damian/repositorioGit/jars/log4j-1.2.15.jar
+7ec0b000-7ec17000 r--s 000aa000 08:07 1725908    /home/damian/repositorioGit/jars/jxl-2.6.10.jar
+7ec17000-7ec1a000 r--s 00013000 08:07 1725906    /home/damian/repositorioGit/jars/jsp-api.jar
+7ec1a000-7ec1d000 r--s 00009000 08:07 1725905    /home/damian/repositorioGit/jars/jpa.jar
+7ec1d000-7ec2d000 r--s 0013f000 08:07 1725904    /home/damian/repositorioGit/jars/jfreechart-1.0.12.jar
+7ec2d000-7ec37000 r--s 0011e000 08:07 1725902    /home/damian/repositorioGit/jars/jdt-compiler-3.1.1.jar
+7ec37000-7ec40000 r--s 000bd000 08:07 1725898    /home/damian/repositorioGit/jars/jdom-2.0.2-sources.jar
+7ec40000-7ec48000 r--s 0006b000 08:07 1725897    /home/damian/repositorioGit/jars/jdom-2.0.2-junit.jar
+7ec48000-7ec50000 r--s 000ed000 08:07 1725895    /home/damian/repositorioGit/jars/jdom-2.0.2-javadoc.jar
+7ec50000-7ec54000 r--s 00021000 08:07 1725891    /home/damian/repositorioGit/jars/jdom-2.0.2-contrib.jar
+7ec54000-7ec5a000 r--s 00043000 08:07 1725899    /home/damian/repositorioGit/jars/jdom-2.0.2.jar
+7ec5a000-7ec60000 r--s 00046000 08:07 1725890    /home/damian/repositorioGit/jars/jcommon-1.0.15.jar
+7ec60000-7ec66000 r--s 00032000 08:07 1725888    /home/damian/repositorioGit/jars/jaxen-1.1.1.jar
+7ec66000-7ecab000 r--s 00394000 08:07 1725886    /home/damian/repositorioGit/jars/jasperreports-javaflow-4.7.0.jar
+7ecab000-7ecad000 r--s 0025c000 08:07 1725885    /home/damian/repositorioGit/jars/jasperreports-fonts-4.7.0.jar
+7ecad000-7ecb6000 r--s 0006e000 08:07 1725884    /home/damian/repositorioGit/jars/jasperreports-applet-4.7.0.jar
+7ecb6000-7ecfc000 r--s 00389000 08:07 1725883    /home/damian/repositorioGit/jars/jasperreports-4.7.0.jar
+7ecfc000-7ecfe000 r--s 0001c000 08:07 1725881    /home/damian/repositorioGit/jars/jasper-el.jar
+7ecfe000-7ed06000 r--s 00088000 08:07 1725882    /home/damian/repositorioGit/jars/jasper.jar
+7ed06000-7ed14000 r--s 000b0000 08:07 1725880    /home/damian/repositorioGit/jars/jackson-mapper-asl-1.9.4.jar
+7ed14000-7ed18000 r--s 00034000 08:07 1725877    /home/damian/repositorioGit/jars/jackson-core-asl-1.9.4.jar
+7ed18000-7ed24000 r--s 00108000 08:07 1725873    /home/damian/repositorioGit/jars/iText-2.1.7.jar
+7ed24000-7ed2d000 r--s 000a4000 08:07 1725871    /home/damian/repositorioGit/jars/hsqldb-1.8.0-10.jar
+7ed2d000-7ed45000 r--s 00181000 08:07 1725869    /home/damian/repositorioGit/jars/hibernate3.jar
+7ed45000-7ed97000 r--s 004e9000 08:07 1725867    /home/damian/repositorioGit/jars/groovy-all-1.7.5.jar
+7ed97000-7ed99000 r--s 00009000 08:07 1725762    /home/damian/repositorioGit/jars/examples.jar
+7ed99000-7ed9b000 r--s 00009000 08:07 1725865    /home/damian/repositorioGit/jars/el-api.jar
+7ed9b000-7edaa000 r--s 00190000 08:07 1725864    /home/damian/repositorioGit/jars/ecj-3.6.2.jar
+7edaa000-7edaf000 r--s 00048000 08:07 1725863    /home/damian/repositorioGit/jars/dom4j-1.6.1.jar
+7edaf000-7edb1000 r--s 0000d000 08:07 1725862    /home/damian/repositorioGit/jars/commons-logging-1.1.1.jar
+7edb1000-7edb4000 r--s 00015000 08:07 1725861    /home/damian/repositorioGit/jars/commons-javaflow-20060411.jar
+7edb4000-7edba000 r--s 0002b000 08:07 1725860    /home/damian/repositorioGit/jars/commons-digester-2.1.jar
+7edba000-7edc0000 r--s 00025000 08:07 1725859    /home/damian/repositorioGit/jars/commons-collections-2.1.1.jar
+7edc0000-7edc5000 r--s 00034000 08:07 1725858    /home/damian/repositorioGit/jars/commons-beanutils-1.8.0.jar
+7edc5000-7edca000 r--s 0003a000 08:07 1725854    /home/damian/repositorioGit/jars/catalina-tribes.jar
+7edca000-7edcc000 r--s 0001e000 08:07 1725853    /home/damian/repositorioGit/jars/catalina-ha.jar
+7edcc000-7edce000 r--s 0000c000 08:07 1725852    /home/damian/repositorioGit/jars/catalina-ant.jar
+7edce000-7eddf000 r--s 00150000 08:07 1725855    /home/damian/repositorioGit/jars/catalina.jar
+7eddf000-7edee000 r--s 000c3000 08:07 1725850    /home/damian/repositorioGit/jars/castor-1.2.jar
+7edee000-7edf3000 r--s 00040000 08:07 1725849    /home/damian/repositorioGit/jars/bsh-2.0b4.jar
+7edf3000-7edfd000 r--s 00079000 08:07 1725847    /home/damian/repositorioGit/jars/bcel-5.2.jar
+7edfd000-7ee00000 r--s 0001d000 08:07 1725843    /home/damian/repositorioGit/jars/batik-util.jar
+7ee00000-7ef00000 rw-p 00000000 00:00 0 
+7ef00000-7ef01000 r--s 00001000 08:07 1725978    /home/damian/repositorioGit/jars/tomcat-api.jar
+7ef01000-7ef02000 r--s 00002000 08:07 1725837    /home/damian/repositorioGit/jars/batik-ext.jar
+7ef02000-7ef06000 r--s 00027000 08:07 1725836    /home/damian/repositorioGit/jars/batik-dom.jar
+7ef06000-7ef0e000 r--s 00045000 08:07 1725835    /home/damian/repositorioGit/jars/batik-css.jar
+7ef0e000-7ef18000 r--s 00080000 08:07 1725834    /home/damian/repositorioGit/jars/batik-bridge.jar
+7ef18000-7ef1f000 r--s 0005c000 08:07 1725833    /home/damian/repositorioGit/jars/batik-awt-util.jar
+7ef1f000-7ef22000 r--s 00015000 08:07 1725832    /home/damian/repositorioGit/jars/batik-anim.jar
+7ef22000-7ef27000 r--s 0003a000 08:07 1725830    /home/damian/repositorioGit/jars/barcode4j-2.0.jar
+7ef27000-7ef2a000 r--s 00014000 08:07 1725827    /home/damian/repositorioGit/jars/barbecue-1.5-beta1.jar
+7ef2a000-7ef2f000 r--s 00066000 08:07 1725825    /home/damian/repositorioGit/jars/antlr-2.7.5.jar
+7ef2f000-7ef43000 r--s 0012f000 08:07 1725823    /home/damian/repositorioGit/jars/ant-1.7.1.jar
+7ef43000-7ef44000 r--s 00003000 08:07 1725821    /home/damian/repositorioGit/jars/annotations-api.jar
+7ef44000-7ef48000 r--s 00068000 08:07 1725820    /home/damian/repositorioGit/jars/activeobjects-0.8.2.jar
+7ef48000-7ef4f000 r--s 00083000 08:07 253477     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/postgresql-9.1-902.jdbc4.jar
+7ef4f000-7ef6c000 r--s 0017c000 08:07 253476     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/poi-3.7-20101029.jar
+7ef6c000-7efb1000 r--s 00394000 08:07 253467     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/jasperreports-javaflow-4.7.0.jar
+7efb1000-7efba000 r--s 0006e000 08:07 253465     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/jasperreports-applet-4.7.0.jar
+7efba000-7f000000 r--s 00389000 08:07 253464     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/jasperreports-4.7.0.jar
+7f000000-7f0fb000 rw-p 00000000 00:00 0 
+7f0fb000-7f100000 ---p 00000000 00:00 0 
+7f100000-7f105000 r--s 00030000 08:07 1725842    /home/damian/repositorioGit/jars/batik-svggen.jar
+7f105000-7f112000 r--s 00087000 08:07 1725841    /home/damian/repositorioGit/jars/batik-svg-dom.jar
+7f112000-7f115000 r--s 0000d000 08:07 1725840    /home/damian/repositorioGit/jars/batik-script.jar
+7f115000-7f117000 r--s 00010000 08:07 1725839    /home/damian/repositorioGit/jars/batik-parser.jar
+7f117000-7f118000 r--s 00002000 08:07 253475     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/png-encoder-1.5.jar
+7f118000-7f128000 r--s 0013f000 08:07 253474     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/jfreechart-1.0.12.jar
+7f128000-7f12e000 r--s 00043000 08:07 253473     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/jdom-2.0.2.jar
+7f12e000-7f137000 r--s 000bd000 08:07 253472     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/jdom-2.0.2-sources.jar
+7f137000-7f13f000 r--s 0006b000 08:07 253471     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/jdom-2.0.2-junit.jar
+7f13f000-7f191000 r--s 004e9000 08:07 253462     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/groovy-all-1.7.5.jar
+7f191000-7f192000 ---p 00000000 00:00 0 
+7f192000-7f211000 rw-p 00000000 00:00 0 
+7f211000-7f214000 ---p 00000000 00:00 0 
+7f214000-7f261000 rw-p 00000000 00:00 0 
+7f261000-7f264000 ---p 00000000 00:00 0 
+7f264000-7f2e1000 rw-p 00000000 00:00 0 
+7f2e1000-7f2e4000 ---p 00000000 00:00 0 
+7f2e4000-7f361000 rw-p 00000000 00:00 0 
+7f361000-7f364000 ---p 00000000 00:00 0 
+7f364000-7f3b1000 rw-p 00000000 00:00 0 
+7f3b1000-7f3b4000 ---p 00000000 00:00 0 
+7f3b4000-7f401000 rw-p 00000000 00:00 0 
+7f401000-7f404000 ---p 00000000 00:00 0 
+7f404000-7f451000 rw-p 00000000 00:00 0 
+7f451000-7f454000 ---p 00000000 00:00 0 
+7f454000-7f4a1000 rw-p 00000000 00:00 0 
+7f4a1000-7f4a4000 ---p 00000000 00:00 0 
+7f4a4000-7f4f1000 rw-p 00000000 00:00 0 
+7f4f1000-7f4f4000 ---p 00000000 00:00 0 
+7f4f4000-7f541000 rw-p 00000000 00:00 0 
+7f541000-7f700000 r--s 039fa000 08:05 489338     /usr/java/jdk1.7.0/jre/lib/rt.jar
+7f700000-7f800000 rw-p 00000000 00:00 0 
+7f800000-7f801000 r--s 00001000 08:07 1725761    /home/damian/repositorioGit/jars/deploy.jar
+7f801000-7f805000 r--s 00038000 08:07 1725838    /home/damian/repositorioGit/jars/batik-gvt.jar
+7f805000-7f80d000 r--s 000ed000 08:07 253470     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/jdom-2.0.2-javadoc.jar
+7f80d000-7f811000 r--s 00021000 08:07 253469     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/jdom-2.0.2-contrib.jar
+7f811000-7f817000 r--s 00046000 08:07 253468     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/jcommon-1.0.15.jar
+7f817000-7f823000 r--s 00108000 08:07 253463     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/iText-2.1.7.jar
+7f823000-7f829000 r--s 0002b000 08:07 253459     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/commons-digester-2.1.jar
+7f829000-7f82a000 ---p 00000000 00:00 0 
+7f82a000-7f8f4000 rw-p 00000000 00:00 0 
+7f8f4000-7f8f5000 ---p 00000000 00:00 0 
+7f8f5000-7f974000 rw-p 00000000 00:00 0 
+7f974000-7f975000 ---p 00000000 00:00 0 
+7f975000-7f9fc000 rw-p 00000000 00:00 0 
+7f9fc000-7fa14000 rw-p 00000000 00:00 0 
+7fa14000-7fa24000 rw-p 00000000 00:00 0 
+7fa24000-7fb12000 rw-p 00000000 00:00 0 
+7fb12000-7fb1a000 rw-p 00000000 00:00 0 
+7fb1a000-7fb32000 rw-p 00000000 00:00 0 
+7fb32000-7fb42000 rw-p 00000000 00:00 0 
+7fb42000-7fc30000 rw-p 00000000 00:00 0 
+7fc30000-7fc63000 rw-p 00000000 00:00 0 
+7fc63000-7fcaf000 rw-p 00000000 00:00 0 
+7fcaf000-80cb0000 rw-p 00000000 00:00 0 
+80cb0000-83cb0000 rw-p 00000000 00:00 0 
+83cb0000-85c70000 rw-p 00000000 00:00 0 
+85c70000-a38b0000 rw-p 00000000 00:00 0 
+a38b0000-a9d40000 rw-p 00000000 00:00 0 
+a9d40000-b36b0000 rw-p 00000000 00:00 0 
+b36b0000-b36b1000 r--s 00007000 08:07 1725844    /home/damian/repositorioGit/jars/batik-xml.jar
+b36b1000-b36b3000 r--s 0025c000 08:07 253466     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/jasperreports-fonts-4.7.0.jar
+b36b3000-b36bc000 rw-p 00000000 00:00 0 
+b36bc000-b3773000 rw-p 00000000 00:00 0 
+b3773000-b39b3000 rwxp 00000000 00:00 0 
+b39b3000-b6773000 rw-p 00000000 00:00 0 
+b6773000-b678a000 r-xp 00000000 08:05 142641     /usr/java/jdk1.7.0/jre/lib/i386/libzip.so
+b678a000-b678b000 rw-p 00017000 08:05 142641     /usr/java/jdk1.7.0/jre/lib/i386/libzip.so
+b678b000-b6795000 r-xp 00000000 08:05 42749      /lib/libnss_files-2.11.3.so
+b6795000-b6796000 r--p 00009000 08:05 42749      /lib/libnss_files-2.11.3.so
+b6796000-b6797000 rw-p 0000a000 08:05 42749      /lib/libnss_files-2.11.3.so
+b6797000-b679f000 r-xp 00000000 08:05 41147      /lib/libnss_nis-2.11.3.so
+b679f000-b67a0000 r--p 00008000 08:05 41147      /lib/libnss_nis-2.11.3.so
+b67a0000-b67a1000 rw-p 00009000 08:05 41147      /lib/libnss_nis-2.11.3.so
+b67a1000-b67b4000 r-xp 00000000 08:05 42746      /lib/libnsl-2.11.3.so
+b67b4000-b67b5000 r--p 00012000 08:05 42746      /lib/libnsl-2.11.3.so
+b67b5000-b67b6000 rw-p 00013000 08:05 42746      /lib/libnsl-2.11.3.so
+b67b6000-b67b8000 rw-p 00000000 00:00 0 
+b67b8000-b67be000 r-xp 00000000 08:05 42764      /lib/libnss_compat-2.11.3.so
+b67be000-b67bf000 r--p 00006000 08:05 42764      /lib/libnss_compat-2.11.3.so
+b67bf000-b67c0000 rw-p 00007000 08:05 42764      /lib/libnss_compat-2.11.3.so
+b67c0000-b67c2000 r--s 0000d000 08:07 253461     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/commons-logging-1.1.1.jar
+b67c2000-b67c8000 r--s 00025000 08:07 253458     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/commons-collections-2.1.1.jar
+b67c8000-b67cd000 r--s 00034000 08:07 253457     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar
+b67cd000-b67d1000 r--s 00068000 08:07 1832067    /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/activeobjects-0.8.2.jar
+b67d1000-b67d9000 rw-s 00000000 08:05 472593     /tmp/hsperfdata_damian/24039
+b67d9000-b694e000 r--p 00000000 08:05 73371      /usr/lib/locale/locale-archive
+b694e000-b6985000 r-xp 00000000 08:05 142626     /usr/java/jdk1.7.0/jre/lib/i386/libjdwp.so
+b6985000-b6986000 rw-p 00037000 08:05 142626     /usr/java/jdk1.7.0/jre/lib/i386/libjdwp.so
+b6986000-b69a9000 r-xp 00000000 08:05 142670     /usr/java/jdk1.7.0/jre/lib/i386/libjava.so
+b69a9000-b69aa000 rw-p 00022000 08:05 142670     /usr/java/jdk1.7.0/jre/lib/i386/libjava.so
+b69aa000-b69b1000 r-xp 00000000 08:05 42761      /lib/librt-2.11.3.so
+b69b1000-b69b2000 r--p 00006000 08:05 42761      /lib/librt-2.11.3.so
+b69b2000-b69b3000 rw-p 00007000 08:05 42761      /lib/librt-2.11.3.so
+b69b3000-b69b6000 ---p 00000000 00:00 0 
+b69b6000-b6a03000 rw-p 00000000 00:00 0 
+b6a03000-b6a27000 r-xp 00000000 08:05 42744      /lib/libm-2.11.3.so
+b6a27000-b6a28000 r--p 00023000 08:05 42744      /lib/libm-2.11.3.so
+b6a28000-b6a29000 rw-p 00024000 08:05 42744      /lib/libm-2.11.3.so
+b6a29000-b718d000 r-xp 00000000 08:05 142676     /usr/java/jdk1.7.0/jre/lib/i386/server/libjvm.so
+b718d000-b71d8000 rw-p 00763000 08:05 142676     /usr/java/jdk1.7.0/jre/lib/i386/server/libjvm.so
+b71d8000-b75f8000 rw-p 00000000 00:00 0 
+b75f8000-b7736000 r-xp 00000000 08:05 42762      /lib/libc-2.11.3.so
+b7736000-b7737000 ---p 0013e000 08:05 42762      /lib/libc-2.11.3.so
+b7737000-b7739000 r--p 0013e000 08:05 42762      /lib/libc-2.11.3.so
+b7739000-b773a000 rw-p 00140000 08:05 42762      /lib/libc-2.11.3.so
+b773a000-b773d000 rw-p 00000000 00:00 0 
+b773d000-b773f000 r-xp 00000000 08:05 42743      /lib/libdl-2.11.3.so
+b773f000-b7740000 r--p 00001000 08:05 42743      /lib/libdl-2.11.3.so
+b7740000-b7741000 rw-p 00002000 08:05 42743      /lib/libdl-2.11.3.so
+b7741000-b7754000 r-xp 00000000 08:05 142637     /usr/java/jdk1.7.0/jre/lib/i386/jli/libjli.so
+b7754000-b7755000 rw-p 00012000 08:05 142637     /usr/java/jdk1.7.0/jre/lib/i386/jli/libjli.so
+b7755000-b7756000 rw-p 00000000 00:00 0 
+b7756000-b776a000 r-xp 00000000 08:05 42752      /lib/libpthread-2.11.3.so
+b776a000-b776b000 ---p 00014000 08:05 42752      /lib/libpthread-2.11.3.so
+b776b000-b776c000 r--p 00014000 08:05 42752      /lib/libpthread-2.11.3.so
+b776c000-b776d000 rw-p 00015000 08:05 42752      /lib/libpthread-2.11.3.so
+b776d000-b776f000 rw-p 00000000 00:00 0 
+b776f000-b7772000 r--s 00015000 08:07 253460     /home/damian/repositorioGit/prototipo/WebContent/WEB-INF/lib/commons-javaflow-20060411.jar
+b7772000-b7775000 r-xp 00000000 08:05 142660     /usr/java/jdk1.7.0/jre/lib/i386/libdt_socket.so
+b7775000-b7776000 rw-p 00002000 08:05 142660     /usr/java/jdk1.7.0/jre/lib/i386/libdt_socket.so
+b7776000-b7778000 r-xp 00000000 08:05 142645     /usr/java/jdk1.7.0/jre/lib/i386/libnpt.so
+b7778000-b7779000 rw-p 00002000 08:05 142645     /usr/java/jdk1.7.0/jre/lib/i386/libnpt.so
+b7779000-b777a000 rw-p 00000000 00:00 0 
+b777a000-b777b000 ---p 00000000 00:00 0 
+b777b000-b7787000 r-xp 00000000 08:05 142643     /usr/java/jdk1.7.0/jre/lib/i386/libverify.so
+b7787000-b7788000 rw-p 0000c000 08:05 142643     /usr/java/jdk1.7.0/jre/lib/i386/libverify.so
+b7788000-b778a000 rw-p 00000000 00:00 0 
+b778a000-b778b000 r-xp 00000000 00:00 0          [vdso]
+b778b000-b77a6000 r-xp 00000000 08:05 42755      /lib/ld-2.11.3.so
+b77a6000-b77a7000 r--p 0001b000 08:05 42755      /lib/ld-2.11.3.so
+b77a7000-b77a8000 rw-p 0001c000 08:05 42755      /lib/ld-2.11.3.so
+bfc5d000-bfc74000 rw-p 00000000 00:00 0          [stack]
+
+VM Arguments:
+jvm_args: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:49211 -Dfile.encoding=utf-8 
+java_command: utilidades.CargadorBDFinal
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=/usr/java/jdk1.7.0
+JRE_HOME=/usr/java/jdk1.7.0/jre
+CLASSPATH=/usr/java/jdk1.7.0/src.zip:/usr/java/jdk1.7.0/lib/tools.jar:/home/damian/PL-JAVA/pljava.jar:/home/damian/PL-JAVA/deploy.jar:/home/damian/PL-JAVA/jdbc.jar
+PATH=/usr/local/pgsql/bin:/usr/java/jdk1.7.0/bin:/usr/java/jdk1.7.0/jre/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+USERNAME=damian
+LD_LIBRARY_PATH=/usr/java/jdk1.7.0/jre/lib/i386/server:/usr/java/jdk1.7.0/jre/lib/i386:/usr/java/jdk1.7.0/jre/../lib/i386:/usr/java/jdk1.7.0/jre/lib/i386/client:/usr/java/jdk1.7.0/jre/lib/i386:
+SHELL=/bin/bash
+DISPLAY=:0.0
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0x6ddc10], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGBUS: [libjvm.so+0x6ddc10], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGFPE: [libjvm.so+0x59e1e0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGPIPE: [libjvm.so+0x59e1e0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGXFSZ: [libjvm.so+0x59e1e0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGILL: [libjvm.so+0x59e1e0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGUSR1: SIG_DFL, sa_mask[0]=0x00000000, sa_flags=0x00000000
+SIGUSR2: [libjvm.so+0x59dae0], sa_mask[0]=0x00000004, sa_flags=0x10000004
+SIGHUP: [libjvm.so+0x5a01f0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGINT: [libjvm.so+0x5a01f0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGTERM: [libjvm.so+0x5a01f0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGQUIT: [libjvm.so+0x5a01f0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+
+
+---------------  S Y S T E M  ---------------
+
+OS:6.0.6
+
+uname:Linux 2.6.32-5-686 #1 SMP Sun Sep 23 09:49:36 UTC 2012 i686
+libc:glibc 2.11.3 NPTL 2.11.3 
+rlimit: STACK 8192k, CORE 0k, NPROC infinity, NOFILE 1024, AS infinity
+load average:0,00 0,02 0,00
+
+/proc/meminfo:
+MemTotal:        3114624 kB
+MemFree:          177884 kB
+Buffers:           32072 kB
+Cached:           358992 kB
+SwapCached:         6532 kB
+Active:           852800 kB
+Inactive:         408660 kB
+Active(anon):     676992 kB
+Inactive(anon):   212108 kB
+Active(file):     175808 kB
+Inactive(file):   196552 kB
+Unevictable:          24 kB
+Mlocked:              24 kB
+HighTotal:       2240008 kB
+HighFree:          65576 kB
+LowTotal:         874616 kB
+LowFree:          112308 kB
+SwapTotal:       2102264 kB
+SwapFree:        2031108 kB
+Dirty:               212 kB
+Writeback:             0 kB
+AnonPages:        865860 kB
+Mapped:          1753068 kB
+Shmem:             18704 kB
+Slab:              32224 kB
+SReclaimable:      13056 kB
+SUnreclaim:        19168 kB
+KernelStack:        3136 kB
+PageTables:         7536 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     3659576 kB
+Committed_AS:    4375740 kB
+VmallocTotal:     122880 kB
+VmallocUsed:       18608 kB
+VmallocChunk:      93952 kB
+HardwareCorrupted:     0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       4096 kB
+DirectMap4k:       12280 kB
+DirectMap4M:      892928 kB
+
+
+CPU:total 2 (2 cores per cpu, 1 threads per core) family 16 model 6 stepping 2, cmov, cx8, fxsr, mmx, sse, sse2, sse3, popcnt, mmxext, 3dnowpref, lzcnt
+
+/proc/cpuinfo:
+processor	: 0
+vendor_id	: AuthenticAMD
+cpu family	: 16
+model		: 6
+model name	: AMD Athlon(tm) II Dual-Core M320
+stepping	: 2
+cpu MHz		: 800.000
+cache size	: 512 KB
+physical id	: 0
+siblings	: 2
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fdiv_bug	: no
+hlt_bug		: no
+f00f_bug	: no
+coma_bug	: no
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm 3dnowext 3dnow constant_tsc nonstop_tsc extd_apicid pni monitor cx16 popcnt lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a 3dnowprefetch osvw ibs skinit wdt
+bogomips	: 4198.85
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 48 bits physical, 48 bits virtual
+power management: ts ttp tm stc 100mhzsteps hwpstate
+
+processor	: 1
+vendor_id	: AuthenticAMD
+cpu family	: 16
+model		: 6
+model name	: AMD Athlon(tm) II Dual-Core M320
+stepping	: 2
+cpu MHz		: 1500.000
+cache size	: 512 KB
+physical id	: 0
+siblings	: 2
+core id		: 1
+cpu cores	: 2
+apicid		: 1
+initial apicid	: 1
+fdiv_bug	: no
+hlt_bug		: no
+f00f_bug	: no
+coma_bug	: no
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm 3dnowext 3dnow constant_tsc nonstop_tsc extd_apicid pni monitor cx16 popcnt lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a 3dnowprefetch osvw ibs skinit wdt
+bogomips	: 4188.43
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 48 bits physical, 48 bits virtual
+power management: ts ttp tm stc 100mhzsteps hwpstate
+
+
+
+Memory: 4k page, physical 3114624k(177884k free), swap 2102264k(2031108k free)
+
+vm_info: Java HotSpot(TM) Server VM (21.0-b17) for linux-x86 JRE (1.7.0-b147), built on Jun 27 2011 01:49:33 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
+
+time: Tue Nov 20 21:05:28 2012
+elapsed time: 387 seconds
+

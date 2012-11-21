@@ -728,8 +728,23 @@ public class GeneradorXML {
 					producto.setAttribute("descripcion", prodsTomo.get(j).getDescripcion());
 					producto.setAttribute("precio", Double.toString(prodsTomo.get(j).getPrecio()));
 					producto.setAttribute("cantidad", Integer.toString(prodsTomo.get(j).getCantidadEnStock()));
-
-					producto.setAttribute("tipoDeProducto", Integer.toString(prodsTomo.get(j).getTipoProducto()));
+						
+					
+					//Si el tipo de producto es null, el atributo tipoDeProducto se setea en N/A,
+					//sino se recorre la coleccion de tipos de producto de candela buscando ese tipo de producto.
+					if(prodsTomo.get(j).getTipoProducto()==-1){
+						producto.setAttribute("tipoDeProducto", "N/A");
+						
+					}else{
+						ArrayList<TipoDeProductoBD> tiposDeProducto = candela.getColTipoDeProducto();
+						for (int k = 0; k < tiposDeProducto.size(); k++) {
+							if(tiposDeProducto.get(k).getCodTipoProd()==prodsTomo.get(j).getTipoProducto()){
+								String descripcion=tiposDeProducto.get(k).getDescripcion();
+								producto.setAttribute("tipoDeProducto", descripcion);
+								
+							}
+						}
+					}
 
 
 					root.addContent(producto);

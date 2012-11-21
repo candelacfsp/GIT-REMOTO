@@ -35,21 +35,16 @@
 			--Si se elige FINALIZAR se llama a: redirigir.jsp
 	 */
 
-	//COSAS PARA REVISAR:
-	//1. PROBAR REEMPLAZANDO EL CAMPO DE TEXOT DE LA DESCRIPCION POR UN TEXTAREA PARA QUE TOME LA DESCRIPCION
-	//COMPLETA. --ARREGLADO
-	//2. PROBAR LA PARTE DE INGRESO DE PRODUCTOS  A ASOCIAR A UN TOMO, CUANDO EL TOMO YA TIENE UN PRODUCTO, YA QUE EL FORM
-	//TIRA UN VALOR NULL.
-	//3.CORREGIR REDIRIGIR.JSP, QUE REDIRIGE MAL. --ARREGLADO
+	
 
 	HttpSession candela_sesion = request.getSession();
 	Candela candela = (Candela) candela_sesion.getAttribute("candela");
 	String mensaje = (String) candela_sesion.getAttribute("mensaje");
 
-	//String codT= request.getParameter("codigoTomo");
+	
 	String codP = request.getParameter("codProducto");
 	String opcion = request.getParameter("opcion");
-	//String descripcion=request.getParameter("descripTomo");
+	
 	JOptionPane panel = new JOptionPane();
 	if (codP != null && (!codP.equals(""))) {
 		GeneradorXML xml = new GeneradorXML(candela);
@@ -120,8 +115,6 @@
 				catNuevo = candela.getCatalogoNuevo();
 				if (catNuevo.estaProdAsocTomo(codigoProducto) == true) {
 
-				/*	panel.showMessageDialog(null,
-							"El producto se encuentra asociado al tomo");*/
 					xml.generarProductosNoAsociados();
 					candela_sesion.setAttribute("mensaje", "El producto se encuentra asociado al tomo");
 					response.sendRedirect("formAsociarProdTomoEmbed.jsp");
@@ -158,7 +151,11 @@
 							"¿Desea volver a asignar otro producto?",
 							"Carga de Producto",
 							JOptionPane.YES_NO_OPTION);*/
+					
 					if (opcion.equals("si")) {
+						
+						
+						xml.generarTomosVigentes();
 						
 						xml.generarProductosNoAsociados();
 						response.sendRedirect("formAsociarProdTomoEmbed.jsp");
@@ -167,6 +164,7 @@
 										
 						response.sendRedirect("redirigir.jsp");
 					}
+					
 				}
 
 			} catch (TomoNoEncontradoException tne) {

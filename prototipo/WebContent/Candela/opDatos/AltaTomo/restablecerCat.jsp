@@ -11,19 +11,21 @@
 <%@page import="negocio.Catalogo"%>
 <%@page session="true"%>
 <%
-	//Utilizo este .jsp para restablecer la referencia del catalogoVigente con el catalogoActual
-	// si un usuario cancela alta de tomo o AsociarProducto a Tomo
+	/*Utilizo restablecerCat.jsp para restablecer la referencia del catalogoVigente con el catalogoActual
+	 si un usuario cancela alta de tomo o AsociarProducto a Tomo */
 
 	HttpSession candela_sesion = request.getSession();
 	Candela cand = (Candela) candela_sesion.getAttribute("candela");
 
 	if (cand.esCatalogoNuevo() == true) {
 		//Se reestablece la referenica de CatalogoNuevo a null.
+		cand.getCatalogoNuevo().cancelarAltaCatalogo();
 		cand.setCatalogoNuevo(null);
 		response.sendRedirect("../AltaCatalogo/formaltaCatalogoEmbed.jsp");
 
 	} else {
-		response.sendRedirect("formAltaTomoEmbed.jsp");
+		
+		response.sendRedirect("../vistaOpDatos-catalogo.swf");
 
 	}
 %>

@@ -14,7 +14,8 @@
 	<%
 		/*redirigir.jsp tiene como objetivo hacer las tareas finales de asignacion de catalogo, y
 			verifica si debe redirigir a un form de alta tomo o de alta catalogo, en funcion de si
-			el catalogoNuevo es null o no.
+			el catalogoNuevo es null o no. redirigir.jsp, se encarga de generar el historico y generar
+			los XML con los productos y tomos del nuevo catalogo.
 		 */
 
 		HttpSession candela_sesion = request.getSession();

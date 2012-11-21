@@ -106,6 +106,77 @@ public class Catalogo {
 	}
 
 	/**
+	 * cancelarCatalogo
+	 * Este metodo se encarga de realizar la desasociacion del tomo y de los productos
+	 * en memoria y en BD si un usuario cancela el alta de tomo en el CU
+	 * "Asociacion de productos a Tomo".
+	 * Este metodo se llama en restablecerCat.jsp.
+	 */
+	public void cancelarAltaCatalogo(){
+		
+		EntityManager em= new EntityManager(Constantes.URL, Constantes.USUARIO, Constantes.PASS);
+		//1. Eliminar los productos de los tomos del catalogo nuevo en memoria y en BD
+		for (int i = 0; i < tomos.size(); i++) {
+			//Se recorren por cada uno de los tomos sus productos.
+			ArrayList<Producto> prods = tomos.get(i).getProductos();
+			for (int j = 0; j < prods.size(); j++) {
+				int codigo=prods.get(j).getCodigo();
+				prods.remove(prods.get(j));
+				
+				
+				ProductoBD[] productosBD=null;
+				try {
+					 productosBD= em.find(ProductoBD.class,"codigo=?",codigo);
+					if (productosBD.length > 0) {
+						productosBD[0].setTomoBD(null);
+						productosBD[0].save();
+						
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}//FIn del for de los productos
+			//2. Desaociar el/los tomos del catalogo nuevo en memoria y en BD
+			int codigoT=tomos.get(i).getCodigoTomo();
+			
+			tomos.remove(tomos.get(i));
+			try{
+				TomoBD[] tomo = em.find(TomoBD.class,"codigoTomo=?",codigoT);
+				if(tomo.length>0){
+					tomo[0].setCatalogoBD(null);
+					tomo[0].save();
+					em.delete(tomo[0]);
+					
+				}
+			}catch(SQLException sql){
+				
+				sql.printStackTrace();
+			}
+			
+		}//Fin del for de los tomos 
+		
+		
+		
+		
+		
+		//3.Eliminar el catalogo nuevo de BD. La eliminacion del catalogo nuevo en memoria
+		//se realiza desde Candela que tiene la referencia en restablecerCat.jsp
+		try {
+			
+			CatalogoBD[] catalogo = em.find(CatalogoBD.class);
+			//Se obtiene del conjunto de catalogos en la BD el ultimo.
+			int ID=(catalogo.length-1);
+			em.delete(catalogo[ID]);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
+	
+	/**
 	 * altaTomo
 	 * Da de alta un tomo al catalogo. 
 	 * @param codigo: codigo del tomo
@@ -114,13 +185,16 @@ public class Catalogo {
 	 */
 	public void altaTomo(int codigo, String descripcion,boolean esCatalogoNuevo) throws SQLException{
 		//Se da de alta el tomo en memoria y en BD.
-
+		
 		//1.Se crea y asigna el tomo al Catalogo en memoria
 		this.asignarTomoACatalogo(codigo,descripcion);
 
 		//2.Se  llama a los procedimientos almacenados.
 		CallableStatement sentencia=null;
 
+		//NOTA: En el altatomo  si es un catalogoNuevo se da de alta
+		//sino se obtiene la referencia al ultimo catalogoBD.
+		
 		sentencia= conn.prepareCall("{call altatomo(?,?,?,?)}");
 
 		//Seteo los argumentos de la funcion.
@@ -128,14 +202,12 @@ public class Catalogo {
 		sentencia.setString(2, descripcion);
 		sentencia.setBoolean(3,esCatalogoNuevo);
 		sentencia.setInt(4, anioVigencia);
-
-		//Seteo parametro de salida
-
-		//sentencia.registerOutParameter(1, java.sql.Types.VARCHAR);
-		
 		
 		sentencia.execute();
 
+		
+		
+		
 	}
 	/**
 	 * bajaTomo
@@ -192,7 +264,7 @@ public class Catalogo {
 		boolean resultado=false; //Se asume que el tomo no existe en el catalogoNuevo
 
 		int i=0;
-		while (i<tomos.size() && tomos.get(i).getCodigoTomo()!=nroTomo){
+		while (i<tomos.size() && (tomos.get(i).getCodigoTomo()!=nroTomo)){
 			i++;
 		}
 		//Si encontre el tomo altero la var. resultado, sino envio el resultado como esta
