@@ -1,5 +1,6 @@
 package utilidades;
 
+import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -85,8 +86,8 @@ public class CargadorBDFinal {
 		tom2.setCodigoTomo(20);
 		tom3.setCodigoTomo(30);
 		tom1.setDescripcion("Indumentaria");
-		tom2.setDescripcion("Perfumeria");
-		tom3.setDescripcion("Accesorios");
+		tom2.setDescripcion("Cosmeticos");
+		tom3.setDescripcion("Articulos para el hogar");
 		tom1.save();
 		tom2.save();
 		tom3.save();
@@ -102,8 +103,8 @@ public class CargadorBDFinal {
 		tipos[2].setCodTipoProd(30);
 		
 		tipos[0].setDescripcion("Indumentaria");
-		tipos[1].setDescripcion("Perfumeria");
-		tipos[2].setDescripcion("Accesorios");
+		tipos[1].setDescripcion("Cosmeticos");
+		tipos[2].setDescripcion("Articulos para el hogar");
 		
 		tipos[0].save();
 		tipos[1].save();
@@ -118,6 +119,33 @@ public class CargadorBDFinal {
 		
 		//carga de productos
 		
+		String[] descripcion= {"Jean Taverniti","Jean Fox","Jean Store", "Chomba Prescott", "Chomba Taverniti",
+								"Camisas Polo Ralph", "Camisa de vestir", "Sparks", "chombas tommy Hilfier", "blusas",
+								"Camisa entallada", "campera canguro", "campera gabardina", "campera de cuero", "Abrigos trenchs",
+								"Campera microfibra", "Campera tapado", "Saco", "Chaleco", "Short Rugby",
+								"Calza chupin", "Traje de neoprene", "camisetas de futbol", "Remeras adidas", "Guantes wind",
+								
+										"shamps perfume", "bolsa de filesina", "fame lady gaga perfume", "perfume antonio banderas", "lady millions",
+										"perfume nina", "alcohol de cereal","esmalte", "perfume carolina herrera", "kenzo flowers", 
+										"gel de limpieza", "tonico facial", "gel hidratante", "corrector de arrugas", "maquillar",
+										"jabon hipoalergenico", "mascara removedora", "Locion anti acne", "jabon secativo", "portacosmeticos",
+										"aceite de argan", "demaquillante dual", "organoil crema dia", "organoil crema noche", "organoil crema contorno",
+										
+								"Holla essen grande", "Holla essen mediana", "Holla essen sarten", "Panquequera essen", "Holla horno essen", 
+								"Holla bifera essen", "hervidor essen", "Holla essen chica", "Holla horno essen con teflon", "Rallador de metal",
+								"cascanueces de metal", "picador de hielo", "colador de mano tamaño 1", "colador de fideos plastico", "colador de mano tamaño 2",
+								"colador de fideos metal", "vasos de cocina", "copas semil cristal", "vasos para whisky", "fuente de vidrio tamaño 1 metal",
+								"fuente de vidrio tamaño 2 metal", "fuente de vidrio tamaño 3 metal", "fuente de vidrio tamaño 1 plastico", "fuente de vidrio tamaño 2 plastico", "fuente de vidrio tamaño 3 plastico",
+								"fuente para pescado", "Vaso para mesa", "Ensaladera de plastico", "Ensaladera de vidrio", "Juego de cubiertos acero inoxidable",
+								"juego de cubiertos plata", "juego de cubiertos de bronce", "juego de cubiertos tramontina", "pinza para ensalada", "pinza de hielo",
+								"balde para hielo", "corta papas", "rallador de queso", "cortador de queso", "pisapapas", 
+								"mate de metal", "mate de loza","bombilla inoxidable", "pava de acero inoxidable", "termo de acero inoxidable", 
+								"termo de plastico", "temporizador", "juego de tazas", "platos para bebe", "vaso para bebe"};
+		//Descripción 1 a 25 Indumentaria
+		//Perfumeria 26-50
+		//Accesorios 51-100
+		String [] descripcionNoAsoc= {"Lapiz labial", "Brillo labial", "Arqueador de pestañas", "Mascara para pestañas", "Base maquillaje", 
+										"Base maquillaje con filtro solar", "Calcio para uñas", "Lima de carton para uñas", "Rubor", "Lapiz delineador de ojos"};
 		
 		ProductoBD [] productos = new ProductoBD[100];
 		for (int i = 0; i < productos.length; i++) {
@@ -125,7 +153,7 @@ public class CargadorBDFinal {
 			productos[i].setCodigo(100*(i+1));
 			productos[i].setCantidadEnStock(r.nextInt(100));
 			productos[i].setPrecio(Double.valueOf(formato.format(r.nextDouble()*r.nextInt(100)+1)));//numero aleatorio con techo 1000
-			productos[i].setDescripcion(String.valueOf(i*333));//una descripcion aleatoria
+			productos[i].setDescripcion(descripcion[i]);//una descripcion aleatoria
 					
 		}
 		//desde el 0 hasta la cuarta parte
@@ -150,13 +178,13 @@ public class CargadorBDFinal {
 			
 		}
 		
-		ProductoBD [] productosNoAsociados = new ProductoBD[50];
+		ProductoBD [] productosNoAsociados = new ProductoBD[10];
 		for (int i = 0; i < productosNoAsociados.length; i++) {
 			productosNoAsociados[i]=em.create(ProductoBD.class);
 			productosNoAsociados[i].setCodigo(10000*(i+1));
 			productosNoAsociados[i].setCantidadEnStock(r.nextInt(100)+1);
 			productosNoAsociados[i].setPrecio(r.nextDouble()*r.nextInt(100)+1);//numero aleatorio con techo 1000
-			productosNoAsociados[i].setDescripcion(String.valueOf(i*666));//una descripcion aleatoria
+			productosNoAsociados[i].setDescripcion(descripcionNoAsoc[i]);//una descripcion aleatoria
 			productosNoAsociados[i].save();
 					
 		}
@@ -168,7 +196,7 @@ public class CargadorBDFinal {
 			pedidos[i] = em.create(PedidoPersonalBD.class);
 			Date dia = new Date();
 			Calendar dia1 = GregorianCalendar.getInstance();
-			dia1.set(2012, ((r.nextInt(11)+1)), r.nextInt(30)+1);
+			dia1.set(2012, ((r.nextInt(12))), r.nextInt(30)+1);
 		
 			
 			pedidos[i].setFechaEmision(dia1.getTime());
@@ -176,7 +204,7 @@ public class CargadorBDFinal {
 
 			pedidos[i].setFechaRecepcion(dia1.getTime());
 			pedidos[i].setPedidoFabricaBD(null);
-			pedidos[i].setNumeroPedido(i+1);
+			pedidos[i].setNumeroPedido(i);
 			pedidos[i].save();
 		}
 		//carga de los detalles
@@ -276,6 +304,8 @@ public class CargadorBDFinal {
 		String[] userName= {"Rodrigo","Admin","Vader","Luke","Marta","Claudio","Marcelo","Gloria","Gabriel","Anahi",	"Jonhatan","Cristian","Davies","Carolina"};
 		
 		String contrasenia= "1234";
+		Calendar dia1 = GregorianCalendar.getInstance();
+		
 		
 		for (int j = 0; j < nombres.length; j++) {
 			usuarioBD usuario= em.create(usuarioBD.class);
@@ -284,6 +314,9 @@ public class CargadorBDFinal {
 			usuario.setDni(dni[j]);
 			usuario.setNombre(nombres[j]);
 			usuario.setNombreUsr(userName[j]);
+			dia1.set(r.nextInt(100)+1900, ((r.nextInt(11)+1)), r.nextInt(30)+1);
+			usuario.setFecha_nacimiento(dia1.getTime());
+
 			switch (j) {
 			case 0:usuario.setTipoDeUsrBD(tipoUsr[2]);
 			break;
@@ -318,73 +351,153 @@ public class CargadorBDFinal {
 				}
 				//TODO tienen que existir usuarios vendedores
 				FacturaPersonalBD facturasP[] = new FacturaPersonalBD[100];
+				//fechasFacturasR es el arreglo que guarda dependiendo el mes, las posiciones de los pedidos en los respectivos meses
+				int  fechasFacturasR[][]= new int [12][100];
+				int [] contador = new int[12];
 				boolean bandera=true;
+				int [] facturasUsuario= new int [11];
 				for (int j = 0; j < facturasP.length; j++) {
 					facturasP[j]=em.create(FacturaPersonalBD.class);
-					facturasP[j].setNumero(j+1);
+					facturasP[j].setNumero(j);
 					facturasP[j].setPedidoPersonalBD(pedidos[j]);
-					if (bandera){
-						facturasP[j].setPagada(true);
-						bandera=false;
-					}else{
-						facturasP[j].setPagada(false);
-						bandera=true;
-					}
-					facturasP[j].setTipo(1);
-					facturasP[j].setFecha(pedidos[j].getFechaRecepcion());
 					
-					int elegirUsuario= (r.nextInt(cantidadVendedores+1)+1);
-					facturasP[j].setUsuario(vendedores[elegirUsuario]);
+					facturasP[j].setTipo(1);
+					
+					Date fechaFacturaP=pedidos[j].getFechaRecepcion();
+					fechaFacturaP.setDate(fechaFacturaP.getDate());
+					facturasP[j].setFecha(fechaFacturaP);
+					switch (facturasP[j].getFecha().getMonth()) {
+					case 0: //mes enero
+						
+						fechasFacturasR[0][contador[0]++]=j;
+						break;
+					case 1: 
+						fechasFacturasR[1][contador[1]++]=j;
+						break;
+					case 2: 
+						fechasFacturasR[2][contador[2]++]=j;
+						break;
+					case 3: 
+						fechasFacturasR[3][contador[3]++]=j;
+						break;
+					case 4: 
+						fechasFacturasR[4][contador[4]++]=j;
+						break;
+					case 5: 
+						fechasFacturasR[5][contador[5]++]=j;
+						break;
+					case 6: 
+						fechasFacturasR[6][contador[6]++]=j;
+						break;
+					case 7:
+						fechasFacturasR[7][contador[7]++]=j;
+						break;
+					case 8:
+						fechasFacturasR[8][contador[8]++]=j;
+						break;
+					case 9:
+						fechasFacturasR[9][contador[9]++]=j;
+						break;
+						//En el mes 10 y 11 pagan
+					case 10: //mes noviembre
+						fechasFacturasR[10][contador[10]++]=j;
+						break;
+					case 11: //mes diciembre
+						fechasFacturasR[11][contador[11]++]=j;
+						break;
+
+					
+					}
+					//todas las facturas se encuentra pagas.
+					if ((facturasP[j].getFecha().getMonth()>9) && (facturasP[j].getFecha().getMonth()<=11)){
+						facturasP[j].setPagada(false);
+						//todas las facturas personales desde octubre a diciembre
+					}else{
+						facturasP[j].setPagada(true);
+					}
+					
 					facturasP[j].save();
 										
 				}
 				//debo crear los pedidos a fabrica
 				
 				PedidoFabricaBD[] pedidosFabrica = new PedidoFabricaBD[10];
+				int puntero=0;
+				int empezar=0;
 				for (int j = 0; j < pedidosFabrica.length; j++) {
 					pedidosFabrica[j]= em.create(PedidoFabricaBD.class);
 					Date hoy = new Date();
+					//la fecha debe calcularse en base a las facturas personal
+					//se recorre la coleccion donde se guardan los meses y dependiendo de si existen se crean pedidos
+				
+					for (int i = empezar; i < contador.length; i++) {
+						if (contador[i] >0){
+							//quiere decir que hay pedidos en el mes que apunta i
+							puntero=i;
+							empezar=i+1;
+							break;//salgo del for con puntero
+							
+						}
+					}
+					//como sali del for tengo que buscar la mayor fecha
+					boolean esPrimero=true;
+					for (int i = 0; i < contador[puntero]; i++) {
+						//contador posee la cantidad de pedidos en el mes determinado por puntero
+						
+						int posicionFactura=fechasFacturasR[puntero][0];; 
+						if (esPrimero){
+							esPrimero=false;
+							hoy =facturasP[posicionFactura].getFecha();
+						}else{
+							if (hoy.compareTo(facturasP[posicionFactura].getFecha())>0){
+								hoy= facturasP[posicionFactura].getFecha();
+								
+								
+							}
+						}
+						
+					}
+					
+					System.out.println("fecha emision fabrica:"+hoy);
 					pedidosFabrica[j].setFechaEmision(hoy);
-					hoy.setMonth(hoy.getMonth()+1);
-					pedidosFabrica[j].setFechaRecepcion(hoy);
-					pedidosFabrica[j].setNumeroPedido(j+1);
+					//se setea un dia despues la recepcion del pedido a fabrica
+					Date hoy2= new Date();
+					hoy2=(Date) hoy.clone();
+					hoy2.setDate(hoy2.getDate()+1);
+					System.out.println("fecha recepción fabrica:"+hoy2);
+					pedidosFabrica[j].setFechaRecepcion(hoy2);
+					pedidosFabrica[j].setNumeroPedido(j);
 					pedidosFabrica[j].setRecibido(false);
 					pedidosFabrica[j].save();
 					
 				
 				}
-				int j = 0;
 				for (int i = 0; i < pedidosFabrica.length; i++) {
-					
-					while (true){
-						pedidos[j].setPedidoFabricaBD(pedidosFabrica[i]);
-						pedidos[j].save();
-						if (j % 10 == 0){
-							//si es multiplo de diez corto
-							break;
-							//cuando corto entra al bucle superior
-						}
-						j++;
+					System.out.println("PEDIDO A FABRICA Nº:"+pedidosFabrica[i].getID());
+					//por cada factura recorro el contador que tiene la cantidad de pedidos
+					for (int k = 0; k < contador[i]; k++) {
+						int posicion=fechasFacturasR[i][k];//la posicion adecuada del pedido
+						//se setea el pedido a fabrica
+						pedidos[posicion].setPedidoFabricaBD(pedidosFabrica[i]);
+						//facturasP[posicion].getPedidoPersonalBD().setPedidoFabricaBD(pedidosFabrica[i]);
+						//se guarda en bd
+						//facturasP[posicion].getPedidoPersonalBD().save();
+						pedidos[posicion].save();
+						System.out.println("El pedido personal:"+pedidos[posicion].getID()+" pertenece a "+pedidosFabrica[i].getID());
 					}
-					
+					if (pedidosFabrica[i].getColPedidoPersonalBD().length==0){
+						//si tiene pedidos no lo borro
+						em.delete(pedidosFabrica[i]);
+					}
 				}
+				System.out.println("Se cargaron todos los datos");
+				//seteo el pedido al pedido a fabrica
 				
-				//factutras a fabrica
-				FacturaFabricaBD []facturaF = new FacturaFabricaBD[10];
-				for (int j1 = 0; j1 < facturaF.length; j1++) {
-					facturaF[j1] = em.create(FacturaFabricaBD.class);
-					facturaF[j1].setNumero(j1+1);
-					facturaF[j1].setFecha(pedidosFabrica[j1].getFechaRecepcion());
-					facturaF[j1].setPagada(false);
-					facturaF[j1].setPedidoFabricaBD(pedidosFabrica[j1]);
-					facturaF[j1].setTipo(1);
-					facturaF[j1].save();
-				}
-				
-				for (int i = 1; i < pedidosFabrica.length; i++) {
-					facturaF[i].setPedidoFabricaBD(pedidosFabrica[i]);
-					facturaF[i].save();
-				}
+		
+				/*
+				 * No se crean las facturas  a fabrica porque existe un caso de uso que lo realiza.
+				 * 
+				 * */
 			
 		
 	}
