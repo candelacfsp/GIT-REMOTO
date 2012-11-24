@@ -1,5 +1,6 @@
 package negocio;
 
+import java.io.BufferedWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import org.apache.tomcat.jni.File;
+import org.jdom2.output.XMLOutputter;
 
 import excepciones.ProductoNoAsocTomoException;
 import excepciones.ProductoNoEncontradoException;
@@ -105,168 +109,190 @@ public class Catalogo {
 		tomos.add(tom1);
 	}
 
+	
+	
+	
+	
+	/**
+	 * delTomosCatVig
+	 * Este metodo se encarga de realizar la desasociacion de los productos que estan asociados al catalogoVigente
+	 * de la eliminacion de los tomos de BD y de la eliminacion de la tupla de el/los catalogosVigentes (Catalogos antiguos)
+	 * 
+	 */
+	 public void delTomosCatVig()throws SQLException{
+		 
+		 EntityManager em= new EntityManager(Constantes.URL, Constantes.USUARIO, Constantes.PASS);
+			//Como es un catalogoNuevo se deben eliminar todos los productos asignados de memoria y de BD,
+			//en el catalogo nuevo.
+			//1. Eliminar los productos de los tomos del catalogo nuevo en memoria y en BD
+		 
+		 	int tamanioTomos=tomos.size();
+		 	
+			for (int i = tamanioTomos-1; i > -1; i--) {
+				//Se recorren por cada uno de los tomos sus productos.
+				ArrayList<Producto> prods = tomos.get(i).getProductos();
+				int tamanio=prods.size();
+				
+				for (int j = tamanio-1; j > -1; j--) {
+					int codigo=prods.get(j).getCodigo();
+					//Se borra el producto de memoria.
+					prods.remove(prods.get(j));
+					//Se borra el producto de BD
+					ProductoBD[] productosBD=null;
+					productosBD= em.find(ProductoBD.class,"codigo=?",codigo);
+					if (productosBD.length > 0) {
+						productosBD[0].setTomoBD(null);
+						productosBD[0].save();	
+					}
+				}//FIn del for de los productos
+				
+				//2. Desaociar el/los tomos del catalogo nuevo en memoria y en BD
+				int codigoT=tomos.get(i).getCodigoTomo();
+				//Se borra el tomo de memoria
+				tomos.remove(tomos.get(i));
+				
+				//Se borra el tomo de BD.
+				TomoBD[] tomo = em.find(TomoBD.class,"codigoTomo=?",codigoT);
+				if(tomo.length>0){
+					tomo[0].setCatalogoBD(null);
+					tomo[0].save();
+					em.delete(tomo[0]);		
+				}
+				
+			}//Fin del for de los tomos 
+			
+			
+			//Se borra el primer catalogo.
+			CatalogoBD [] cat= em.find(CatalogoBD.class);
+			if(cat.length >1){ //Si existe mas de un catalogo cargado en la BD, se borra el ultimo.
+				int ultimoCatalogo= cat.length-1;
+				//Se borran todos los catalogos anteriores (en caso de que haya alguno)
+				//menos el ultimo catalogo.
+				for (int i = 0; i < ultimoCatalogo; i++) {
+					em.delete(cat[i]);		
+				}
+			}
+		 
+	 }
+	
+	
+
+	 /* cancelarAltaCatalogo:
+	  *  Los posibles estados para cancelarAltaCatalogo son:
+	 *Cancelar la asignacion de productos en el Alta de TOmo:
+	 		*Cancelar la asignacion de productos cuando no se tiene nignun producto asignado.
+	 		*Cancelar la asignacion de productos cuando se tiene un catalogo con uno o mas productos.
+	 */
 	/**
 	 * cancelarCatalogo
 	 * Este metodo se encarga de realizar la desasociacion del tomo y de los productos
 	 * en memoria y en BD si un usuario cancela el alta de tomo en el CU. 
 	 * "Asociacion de productos a Tomo".
 	 * Este metodo se llama en restablecerCat.jsp.
-	 * esCatNuevo sirve para detectar el tipo de catalogo para borarrlo en BD. La coleccion "codsTomosAsignados"
-	 * sirve para tener una lista de los codigos de tomos que se deben buscar y eliminar en memmoria y en BD.
+	 * La coleccion "codsTomosAsignados" sirve para tener una lista de los codigos de 
+	 * productos que se deben buscar y eliminar en memoria y en BD.
 	 * 		
 	 */
-	 /* Los posibles estados para cancelarAltaCatalogo son:
-	 *Cancelar la asignacion de productos en el Alta de TOmo comun.
-			*Cancelar la asignacion de productos cuando no asigne ninguno.
-			*Cancelar la asignacion de productos cuando asigne uno o mas productos
-	 *Cancelar la asignacion de productos en el Alta de TOmo llamado por el ALta de Catalogo.
-	 		*Cancelar la asignacion de productos cuando no se tiene nignun producto asignado.
-	 		*Cancelar la asignacion de productos cuando se tiene un catalogo con uno o mas productos.
-	 */
-	public void cancelarAltaCatalogo(boolean esCatNuevo, ArrayList<Integer> codsTomosAsignados){
-		
-
+	public void cancelarAltaCatalogo()throws SQLException{
 		EntityManager em= new EntityManager(Constantes.URL, Constantes.USUARIO, Constantes.PASS);
-		
-		
-		if(!esCatNuevo){//Si es un catalogoVigente tengo que eliminar de memoria y de BD solamente los productos asignados.
-			//Por cada uno de los codigos de los productos asignados se tiene que buscar su objetoBD y desasignar los productos
-			// y borrar la tupla tomo correspondiente.
-
-			//Si los codigosTomosAsignados=null, significa que el reestablecerCat fue llamado desde
-			//"cancelar" de un alta de tomo comun, por lo que solamente se tiene que setear la referencia de catalogoVigente
-			//a null. Cuando se llama de "Cancelar" del alta de tomo (llamado de alta de Catalogo), no se tiene problemas con 
-			// codsTomosAsignados ya que se tienen que borrar todos los productos y tomos cargados.
-			
-		  if(codsTomosAsignados!=null){
-				
-			
-			for (int i = 0; i < codsTomosAsignados.size(); i++) {
-				//Buscar los tomos en la coleccion de tomos del catalogoVigente y borrarlos 
-				//Se borra el tomo de memoria
-				for (int j = 0; j < tomos.size(); j++) {
-					if(tomos.get(j).getCodigoTomo()== codsTomosAsignados.get(i).intValue()){
-						tomos.remove(tomos.get(j));
-						break;
-					}
-					
-				}//Fin del for que recorre la coleccion de productos de Candela
-				//Se busca el tomo actual en BD y se desasginan los productos
-				TomoBD[] tomos=null;
-				try {
-					
-					//REVISAR! HACER EL FIND CON EL codsTomosAsignados.get(i).intValue() COMO CLAVE. 
-					
-					//Leo el tomo actual de la BD y busco su objeto BD para desasignarle los productos y eliminarlo
-					//Se busca el tomo en la BD segun su codigo.
-					
-					tomos = em.find(TomoBD.class,"codigoTomo=?",codsTomosAsignados.get(i).intValue());
-					if(tomos.length > 0){
-					
-						ProductoBD prods[]=null;
-						prods=tomos[0].getProductos();
-						
-						//Si el tomo tiene productos asociados se desasocian dichos productos. 
-						//Sino solamente se borra la tupla que correspodne al tomo.
-						if (prods.length >0 ){
-							for (int j2 = 0; j2 < prods.length; j2++) {
-								prods[j2].setTomoBD(null);
-								prods[j2].save();
-							}//Fin del for que recorre desasocia los productos del tomo en BD
-						
-						}
-						//Se borra el tomo
-						em.delete(tomos[0]);		
-					
-					}//Fin del IF de tomosBD
-					
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				
-			}//Fin del for que recorre la coleccion de Codigos de tomos asignados
-			
-		  }//Fin del IF de cosTomosAsignados
-			
-		}else{
-			
-		//Si es un catalogoNuevo se deben eliminar todos los productos asignados de memoria y de BD,
+		//Como es un catalogoNuevo se deben eliminar todos los productos asignados de memoria y de BD,
 		//en el catalogo nuevo.
-			
 		//1. Eliminar los productos de los tomos del catalogo nuevo en memoria y en BD
 		for (int i = 0; i < tomos.size(); i++) {
 			//Se recorren por cada uno de los tomos sus productos.
 			ArrayList<Producto> prods = tomos.get(i).getProductos();
-			for (int j = 0; j < prods.size(); j++) {
+			int tamanio=prods.size();
+			
+			for (int j = tamanio-1; j > -1; j--) {
 				int codigo=prods.get(j).getCodigo();
+				//Se borra el producto de memoria.
 				prods.remove(prods.get(j));
+				//Se borra el producto de BD
 				ProductoBD[] productosBD=null;
-				try {
-					 productosBD= em.find(ProductoBD.class,"codigo=?",codigo);
-					if (productosBD.length > 0) {
-						productosBD[0].setTomoBD(null);
-						productosBD[0].save();
-						
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				productosBD= em.find(ProductoBD.class,"codigo=?",codigo);
+				if (productosBD.length > 0) {
+					productosBD[0].setTomoBD(null);
+					productosBD[0].save();	
 				}
-				
 			}//FIn del for de los productos
-			
-			
 			
 			//2. Desaociar el/los tomos del catalogo nuevo en memoria y en BD
 			int codigoT=tomos.get(i).getCodigoTomo();
-			
+			//Se borra el tomo de memoria
 			tomos.remove(tomos.get(i));
-			try{
-				TomoBD[] tomo = em.find(TomoBD.class,"codigoTomo=?",codigoT);
-				if(tomo.length>0){
-					tomo[0].setCatalogoBD(null);
-					tomo[0].save();
-					em.delete(tomo[0]);
-					
-				}
-				
-				//Si es Catalogo nuevo se borra la tupla del catalogo nuevo en CatalogoBD que siempre es la ultima
-					//NOTA: Es necesario borrar el ultimo catalogo por que al cargar el sistema siempre se lee el ulitmo. Si no se borra
-					//la BD quedaria inconsistente ya que tendría un catalogo que no tiene al menos un tomo, con al menos un producto.
-					
-					CatalogoBD [] cat= em.find(CatalogoBD.class);
-					int ultimoCatalogo= cat.length-1;
-					em.delete(cat[ultimoCatalogo]);
-				
-			}catch(SQLException sql){
-				
-				sql.printStackTrace();
+			
+			//Se borra el tomo de BD.
+			TomoBD[] tomo = em.find(TomoBD.class,"codigoTomo=?",codigoT);
+			if(tomo.length>0){
+				tomo[0].setCatalogoBD(null);
+				tomo[0].save();
+				em.delete(tomo[0]);		
 			}
 			
 		}//Fin del for de los tomos 
 		
 		//3.Eliminar el catalogo nuevo de BD. La eliminacion del catalogo nuevo en memoria
-		//se realiza desde Candela que tiene la referencia en restablecerCat.jsp
-		try {
+				//se realiza desde Candela que tiene la referencia en restablecerCat.jsp
+				
+		//Si es Catalogo nuevo se borra la tupla del catalogo nuevo en CatalogoBD que siempre es la ultima.
+			//NOTA: Es necesario borrar el ultimo catalogo por que al cargar el sistema siempre se lee el ulitmo. Si no se borra
+			//la BD quedaria inconsistente ya que tendría un catalogo que no tiene al menos un tomo, con al menos un producto, cuando
+			//en realidad se estaria ignorando el CatalogoVigente en BD.
 			
-			CatalogoBD[] catalogo = em.find(CatalogoBD.class);
-			//Si se tiene mas de un catalogo, se borra el ultimo 
-			//sino no se borra.
-			if(catalogo.length >1){
-				//Se obtiene del conjunto de catalogos en la BD el ultimo.
-				int ID=(catalogo.length-1);
-				em.delete(catalogo[ID]);
-			}//Fin del IF de Catalogo.
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Error eliminando el catalogo de la BD!");
-		}	
-		
-		}//Fin del if de esCatNuevo
+			CatalogoBD [] cat= em.find(CatalogoBD.class);
+			if(cat.length >1){ //Si existe mas de un catalogo cargado en la BD, se borra el ultimo.
+				int ultimoCatalogo= cat.length-1;
+				em.delete(cat[ultimoCatalogo]);
+			}	
 	}
+	
+	/*Este metodo es llamado desde el CU : Alta de Tomo (comun).
+	 * Cancelar alta de tomo cancela un tomo en BD y en memoria considerando:
+		*Que se haya asociado al menos un producto al tomo
+		*Que NO se haya asociado ningun producto en el tomo actual
+	*/
+	public void cancelarAltaTomo(ArrayList<Integer> codigosProducto,int codigoTomo) throws SQLException{
+		
+		//Elimino el tomo de memoria ya sea que no tenga nigun producto o que tenga uno o mas.
+		//La desasociacion de los productos se realiza automaticamente al borrar el tomo de memoria.
+		for (int i = 0; i < tomos.size(); i++) {
+			if(tomos.get(i).getCodigoTomo() == codigoTomo){
+				tomos.remove(tomos.get(i));
+				break;
+			}
+		}//Fin del for que recorre los tomos.
+		
+			EntityManager em= new EntityManager(Constantes.URL,Constantes.USUARIO,Constantes.PASS);
+			//Si tengo productos que desaociar en BD 
+			if(codigosProducto!=null){	
+				for (int i = 0; i < codigosProducto.size(); i++) {
+				
+					ProductoBD [] prods=null;
+					prods=em.find(ProductoBD.class,"codigo=?",codigosProducto.get(i).intValue());
+					
+					if(prods.length > 0){
+						prods[0].setTomoBD(null);
+						prods[0].save();
+					}
+					
+					
+				}//Fin del for que recorre los productos del tomo	
+			
+			}//FIn del IF
+			
+			// Y se elimina la tupla del tomo en BD
+			TomoBD[] tomo;
+			tomo = em.find(TomoBD.class,"codigoTomo=?",codigoTomo);
+			
+			if(tomo.length >0 ){
+				em.delete(tomo[0]);	
+			}
+		
+	}
+	
+	
+	
+	
 	
 	
 	/**
@@ -510,7 +536,6 @@ public class Catalogo {
 		if(postomo<tomos.size()){ //Si encontre el Tomo, busco la posicion del producto en la coleccion de candela
 
 			int posprod=0;
-			//ArrayList<Producto> productosCand= candela.getProductos();
 			while (posprod<colProductosCand.size() && (colProductosCand.get(posprod).getCodigo()!=codigoProd)){
 				posprod++;
 			}

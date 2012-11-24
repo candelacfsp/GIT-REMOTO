@@ -18,8 +18,7 @@
 
 	if( fecha_fin!=null && (!fecha_fin.equals("")) ){
 	
-		SimpleDateFormat fechas= new SimpleDateFormat("yyyy-MM-dd");
-			
+		SimpleDateFormat fechas= new SimpleDateFormat("yyyy-MM-dd");	
 		Date fechaMayor=null;
 		
 		try{
@@ -36,29 +35,31 @@
 			//Se crea la fecha actual y se compara con la de inicio. La fecha de inicio no tiene que ser
 			// menor a la fecha actual. Puede ser igual.
 				
-				boolean resultado=fechaMayor.before(diaActual);
+				boolean resultado=fechaMayor.before(diaActual) ;
 				if(resultado==true){
-					JOptionPane panel= new JOptionPane();
+					
 					Date hoy= new Date();
-					candela_sesion.setAttribute("mensaje", "Error! seleccione una fecha superior a hoy:"+hoy.getDay()+"/"+hoy.getMonth()+"/"+hoy.getYear());
-					response.sendRedirect("formAltaCatalogoEmbed.jsp");
+					candela_sesion.setAttribute("mensaje", "Error! seleccione una fecha igual o superior a la fecha actual:"+hoy.getDay()+"/"+hoy.getMonth()+"/"+hoy.getYear());
+					response.sendRedirect("formaltaCatalogoEmbed.jsp");
 				}
-		
-			//1.Se llama a candela que creara un  catalogoNuevo y lo mantendra en memoria, hasta que el registro del catalogo este completo con todos sus datos
-			candela.altaCatalogo(fechaMayor); 
+			if(!response.isCommitted()){
+				//1.Se llama a candela que creara un  catalogoNuevo y lo mantendra en memoria, hasta que el registro del catalogo este completo con todos sus datos
+				candela.altaCatalogo(fechaMayor); 
+				
+				//TODO Cuando se llama al comando response.sendRedirect(), se baja hacia el directorio en el que se encuentra la pagina JSP
+				// por lo que si se quiere redireccionar a otra pagina que se encuentra mas arriba, se debe usar la sintaxis: ../, que sube un 
+				// directorio en el arbol de directorios, de lo contrario Tomcat no encontrara el recurso.
 			
-			//TODO Cuando se llama al comando response.sendRedirect(), se baja hacia el directorio en el que se encuentra la pagina JSP
-			// por lo que si se quiere redireccionar a otra pagina que se encuentra mas arriba, se debe usar la sintaxis: ../, que sube un 
-			// directorio en el arbol de directorios, de lo contrario Tomcat no encontrara el recurso.
-		
-			
-			response.sendRedirect("../AltaTomo/formAltaTomoEmbed.jsp");
-		}catch(ParseException pe){
-			
-			//JOptionPane panel= new JOptionPane();
-			//panel.showMessageDialog(null, "Error al capturar la fecha! vuelva a intentarlo");
+				response.sendRedirect("AltaTomo/formAltaTomoEmbed.jsp");
+			}
+		}catch(ParseException pe){	
 			candela_sesion.setAttribute("mensaje", "Error al capturar la fecha! vuelva a intentarlo");
 			response.sendRedirect("formAltaCatalogoEmbed.jsp");
+		}catch(SQLException sql){
+			//Si ocurre un error en BD se re-establece la referencia del catalogoNuevo
+			candela.setCatalogoNuevo(null);
+			response.sendRedirect("Error-O.jsp");
+			
 		}
 		
 	}  %>

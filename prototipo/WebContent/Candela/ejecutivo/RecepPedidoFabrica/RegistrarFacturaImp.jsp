@@ -26,7 +26,7 @@
 	//NOTA: Como el numero de pedido se recibe de un combobox no es necesario validarlo.
 	String tipofact = request.getParameter("tipoFactura");
 	String fechafact = request.getParameter("fechaFactura");
-	JOptionPane panel = new JOptionPane();
+	
 
 	if ((tipofact != null && (!tipofact.equals("")) && (fechafact != null && (!fechafact
 			.equals(""))))) {
@@ -34,9 +34,13 @@
 		Candela candela = (Candela) candela_sesion
 				.getAttribute("candela");
 
+		//TODO MODIFICADO RODRIGO 22-11-2012
+		//Se almacena el codigo de la factura en BD
+		String codfact= request.getParameter("codigofactura");
+		int codigofactura= Integer.parseInt(codfact);
+		
 		//Transforma a entero el numero de pedido a un valor entero
 		String nPedido = request.getParameter("nroPedido");
-
 		int nroPedido = Integer.parseInt(nPedido);
 
 		//Recuperar la coleccion de pedidos no facturados de candela.
@@ -73,7 +77,7 @@
 			//Se crea la factura fabrica en memoria y en BD.
 			
 			candela.agregarFacturaImpaga(peds.get(posPedido),
-					tipoFactura, fechaFactura);
+					tipoFactura, fechaFactura,codigofactura);
 			
 			candela_sesion.setAttribute("mensaje", "La factura se registró correctamente");
 			response.sendRedirect("redirect.jsp");

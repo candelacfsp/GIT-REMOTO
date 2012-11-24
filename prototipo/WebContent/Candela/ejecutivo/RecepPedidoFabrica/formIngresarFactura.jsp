@@ -69,16 +69,16 @@
 		SimpleDateFormat fechas= new SimpleDateFormat("yyyy-MM-dd");
 		Date fechaFactura= fechas.parse(fechafact,new ParsePosition(0));
 		
-		try{
-			candela.agregarFacturaImpaga(peds.get(posPedido), tipoFactura, fechaFactura);
+		//try{
+			//candela.agregarFacturaImpaga(peds.get(posPedido), tipoFactura, fechaFactura);
 		 
-		}catch(SQLException sql){
-			System.out.println("Error al intentar almacenar la factura impaga en la BD");
+		//}catch(SQLException sql){
+	//		System.out.println("Error al intentar almacenar la factura impaga en la BD");
 			%>
 				<jsp:forward page="errorFacturaBD.html"/>
 			<%
-			sql.printStackTrace();
-		}
+	//		sql.printStackTrace();
+	//	}
 		
 		//Redirigir a Jsp de Exito.
 		%>

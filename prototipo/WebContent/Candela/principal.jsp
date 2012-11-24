@@ -38,16 +38,10 @@ HttpSession candela_sesion = request.getSession(true);
 			
 			candela.iniciar();
 		} catch (SQLException sql) {
-			/* JOptionPane panel = new JOptionPane();
-			panel.showMessageDialog(null,
-					"Error de base de datos, imposible iniciar"); */
 			candela_sesion.setAttribute("mensaje", "Error de base de datos, imposible iniciar");
 			response.sendRedirect("index.jsp");
 			
 		} catch (IllegalStateException e1) {
-			/* JOptionPane panel = new JOptionPane();
-			panel.showMessageDialog(null,
-					"Error al iniciar el sistema... vuelva a internarlo"); */
 			candela_sesion.setAttribute("mensaje", "Error al iniciar el sistema... vuelva a internarlo");
 			response.sendRedirect("index.jsp");
 		}

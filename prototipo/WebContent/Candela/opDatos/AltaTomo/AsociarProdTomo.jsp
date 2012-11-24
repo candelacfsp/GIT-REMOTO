@@ -1,3 +1,4 @@
+<%@page import="com.sun.org.apache.bcel.internal.generic.INEG"%>
 <%@page import="javax.swing.JOptionPane"%>
 <%@page import="excepciones.TomoNoEncontradoException"%>
 <%@page import="java.sql.SQLException"%>
@@ -40,18 +41,14 @@
 	HttpSession candela_sesion = request.getSession();
 	Candela candela = (Candela) candela_sesion.getAttribute("candela");
 	String mensaje = (String) candela_sesion.getAttribute("mensaje");
-
-	
 	String codP = request.getParameter("codProducto");
 	String opcion = request.getParameter("opcion");
 	
-	JOptionPane panel = new JOptionPane();
+	
 	if (codP != null && (!codP.equals(""))) {
 		GeneradorXML xml = new GeneradorXML(candela);
-
 		String descripcion = (String) candela_sesion
 				.getAttribute("descripTomo");
-
 		//Catalogo catalogo= (Catalogo) candela_sesion.getAttribute("catalogoNuevo");
 		Catalogo catalogo = null;
 
@@ -97,10 +94,7 @@
 				Catalogo catVigente = candela.getCatalogoVigente();// ERROR EN ESTA COMPROBACION
 
 				if (catVigente.estaProdAsocTomo(codigoProducto) == true) { //Si el codigo de Producto figura en la coleccion de productos de otro tomo, ya esta asociado a otro tomo
-
-				/*	panel.showMessageDialog(null,
-							"El producto se encuentra asociado a otro tomo");*/
-					
+			
 				candela_sesion.setAttribute("mensaje", "El producto se encuentra asociado a otro tomo");
 				xml.generarProductosNoAsociados();
 					response.sendRedirect("formAsociarProdTomoEmbed.jsp");
@@ -137,34 +131,33 @@
 							.getAttribute("codigoTomo");
 					int codigoTomo = codT.intValue();
 
-					//INICIO DE BLOQUE DE PRUEBA
-					System.out.println("El codigo de tomo es: " + codT
-							+ " y el codigo de prod es: " + codP
-							+ " y la descripcion es: " + descripcion);
-					//FIN DE BLOQUE DE PRUEBA
-
+				
 					//2. Se asocia el producto al tomo en memoria y en BD.
 					catalogo.AsignarProdTomo(codigoProducto,
 							codigoTomo, candela.getColProductos(),
 							candela.esCatalogoNuevo(), descripcion);
-					/*int opc = panel.showConfirmDialog(null,
-							"¿Desea volver a asignar otro producto?",
-							"Carga de Producto",
-							JOptionPane.YES_NO_OPTION);*/
+							
 					
 					if (opcion.equals("si")) {
-						
-						
 						xml.generarTomosVigentes();
-						
 						xml.generarProductosNoAsociados();
-						response.sendRedirect("formAsociarProdTomoEmbed.jsp");
-					} else {
+						//Se tienen que almacenar los codigosProducto qeu se fueron asociados
+						//en la sesion de Candela. Los codigosProducto sirven para eliminar los productos
+						//del tomo dado de alta en memoria y en BD.
 						
-										
-						response.sendRedirect("redirigir.jsp");
+						ArrayList<Integer> codigosProducto=null;
+						codigosProducto= (ArrayList<Integer>)candela_sesion.getAttribute("codigosProducto");
+						if(codigosProducto==null){
+							codigosProducto=new ArrayList<Integer>();
+						}
+						//Se añade el codigo de producto y se añade a la sesion de Candela
+						codigosProducto.add(codigoProducto);
+						candela_sesion.setAttribute("codigosProducto", codigosProducto);	
+						
+						response.sendRedirect("formAsociarProdTomoEmbed.jsp");
+					}else {				
+							response.sendRedirect("redirigir.jsp");
 					}
-					
 				}
 
 			} catch (TomoNoEncontradoException tne) {
@@ -183,8 +176,7 @@
 			//Se creo correctamente el catalogo, con almenos un tomo y al menos un producto.
 
 		} catch (NumberFormatException nfe) {
-			panel.showMessageDialog(null,
-					"Error en el formato numérico");
+		
 			candela_sesion.setAttribute("mensaje", 	"Error en el formato numérico");
 			response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 		}

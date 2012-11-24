@@ -18,6 +18,15 @@ public class FacturaFabrica extends Factura{
 	private boolean pagada;
 	private PedidoFabrica pedidofab;
 	
+	//TODO MODIFICADO RODRIGO 22-11-2012
+	//EL codigo de factura se usa para que el usuario identifique la factura
+	//que llego de fabrica. En cambio el numero es usado por el sistema internamente
+	//para gestionar la carga de las facturas.
+	
+	private int codigofactura;
+	
+	
+	
 	/**
 	 * Constructor FacturaFabrica
 	 * Inicializa la Factura a fabrica con el pedido a fabrica correspondiente, el numero de factura, el tipo y
@@ -28,18 +37,20 @@ public class FacturaFabrica extends Factura{
 	 * @param tipo: tipo de la factura fabrica.
 	 * @param fecha: fecha de creacion de la factura a f�brica.
 	 */
-	 public FacturaFabrica(Connection em,PedidoFabrica ped, int numero, int tipo, Date fecha){
+	 public FacturaFabrica(Connection em,PedidoFabrica ped, int numero, int tipo, Date fecha,int codigofactura){
 		 //Constructor que por defecto crea una factura fabrica impaga. Se usa en CU pagoAFabrica
 		  super(em,numero,tipo,fecha);
 		 this.pagada=false;
 		 this.pedidofab=ped;
+		 this.codigofactura=codigofactura;
 	 }
 	 
-	 public FacturaFabrica(Connection em,PedidoFabrica ped, int numero, int tipo, Date fecha,boolean pagada){
+	 public FacturaFabrica(Connection em,PedidoFabrica ped, int numero, int tipo, Date fecha,boolean pagada,int codigofactura){
 		 //Constructor que por defecto crea una factura fabrica impaga. Se usa al cargar las facturas Fabrica en la coleccion de facts de Candela.
 		 super(em,numero,tipo,fecha);
 		 this.pagada=pagada;
 		 this.pedidofab=ped;
+		 this.codigofactura=codigofactura;
 	 }	 
 	 
 
@@ -78,6 +89,21 @@ public class FacturaFabrica extends Factura{
 	public boolean esPagada(){
 		return this.pagada;
 		
+	}
+	
+	//TODO MODIFICADO RODRIGO 22-11-2012
+	//EL codigo de factura se usa para que el usuario identifique la factura
+	//que llego de fabrica. En cambio el numero es usado por el sistema internamente
+	//para gestionar la carga de las facturas.
+	
+	public int getCodigo() {
+		
+		return this.codigofactura;
+	}
+	
+	public void setCodigo(int cod){
+		
+		this.codigofactura=cod;
 	}
 	 
 }
