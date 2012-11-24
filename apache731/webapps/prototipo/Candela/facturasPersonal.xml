@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Facturas_A_Personal>
-  <Factura numero="13" />
-  <Factura numero="16" />
-  <Factura numero="17" />
-  <Factura numero="18" />
-  <Factura numero="19" />
-  <Factura numero="20" />
-  <Factura numero="21" />
-  <Factura numero="14" />
-  <Factura numero="15" />
-  <Factura numero="23" />
-  <Factura numero="24" />
+  <Factura numero="2000" />
+  <Factura numero="2000" />
 </Facturas_A_Personal>

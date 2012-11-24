@@ -94,15 +94,16 @@
 							descripcion);
 
 					//Genero un XML con los productos Libres llamado: productosDisponibles.xml.
-
+				
+			
+			
+				
 					//gen.generarProdCatNoAsociados();
 					//ver esto 9 - 9 -12
-					gen.generarProductosNoAsociados();
+					gen.generarProductosNoAsociados(0);
 					//se actualiza el archivo xml que posee los tomos que que se pueden dar de baja
-					gen.generarTomosVigentes();
-					gen.generarXMLTomos();
-					
-
+					gen.generarTomosVigentes(0);
+					gen.generarXMLTomos(500);
 					response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 				} else {
 					//No se llama a restablecerCat.jsp, ya que las primeras modificaciones en BD

@@ -54,9 +54,9 @@
 				//Despues de dar de baja un tomo en el sistema,se llama a generarTomosXML()
 				//que actualiza el XML que contiene los tomos actuales y desde donde lee AS2.
 				GeneradorXML gen=new GeneradorXML(candela);
-				gen.generarXMLTomos();
-				gen.generarProductosNoAsociados();
-				gen.generarTomosVigentes();
+				gen.generarXMLTomos(0);
+				gen.generarProductosNoAsociados(0);
+				gen.generarTomosVigentes(500);
 				//Si no se lanzo ninguna excepcion, se guarda un mensaje de exito en la sesion!.
 				candela_sesion.setAttribute("mensaje", "Tomo dado de baja correctamente!");
 				response.sendRedirect("bajaTomo.jsp");

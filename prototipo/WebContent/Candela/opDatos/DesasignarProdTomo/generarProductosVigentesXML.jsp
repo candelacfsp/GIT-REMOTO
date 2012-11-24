@@ -24,7 +24,7 @@
 	
 	
 	GeneradorXML gen= new GeneradorXML(cand);
-	gen.generarProductosVigentes(numeroTomo); 
+	gen.generarProductosVigentes(numeroTomo,500); 
 	
 %>
 

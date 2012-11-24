@@ -1,18 +1,19 @@
 package negocio;
 
+import java.sql.Connection;
 import java.util.Date;
 
-import net.java.ao.EntityManager;
+
 
 public abstract class Factura {
 	
-	private EntityManager em;
+	private Connection conexion;
 	private int numero;
 	private int tipo;
 	private Date fecha;
 	
-	public Factura(EntityManager em, int numero, int tipo, Date fecha){
-		this.em=em;
+	public Factura(Connection conexion, int numero, int tipo, Date fecha){
+		this.conexion=conexion;
 		this.numero=numero;
 		this.tipo=tipo;
 		this.fecha=fecha;
@@ -20,14 +21,14 @@ public abstract class Factura {
 	
 	 
 	
-	public EntityManager getEm() {
-		return em;
+	public Connection getConexion() {
+		return conexion;
 	}
 
 
 
-	public void setEm(EntityManager em) {
-		this.em = em;
+	public void setConexion(Connection em) {
+		this.conexion = em;
 	}
 
 

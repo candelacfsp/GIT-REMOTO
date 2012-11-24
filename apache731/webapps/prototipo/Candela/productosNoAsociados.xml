@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ProductosNoAsociados>
-  <Producto codigo="2100" descripcion="Colonia para cuerpo" />
-  <Producto codigo="2200" descripcion="Shampoo para tratamiento capilar" />
-  <Producto codigo="2300" descripcion="Sandalias" />
-  <Producto codigo="2400" descripcion="Pullover de nailon" />
-  <Producto codigo="2500" descripcion="Bufanda " />
-  <Producto codigo="2600" descripcion="Spray fijador" />
-  <Producto codigo="2700" descripcion="Talco para pies" />
-  <Producto codigo="2800" descripcion="Quitaesmalte" />
-  <Producto codigo="2900" descripcion="Chomba" />
-  <Producto codigo="3000" descripcion="Mocasines" />
-  <Producto codigo="3100" descripcion="Campera de cuero" />
+  <Producto codigo="1200" descripcion="crema para cuerpo" />
+  <Producto codigo="1900" descripcion="Producto de prueba" />
+  <Producto codigo="100" descripcion="Producto Obsoleto :( " />
 </ProductosNoAsociados>

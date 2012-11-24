@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Productos>
+  <Producto codigo="10000" descripcion="vaso para bebe" precio="35.03" cantidad="5" tipoProducto="30" />
+  <Producto codigo="9400" descripcion="pava de acero inoxidable" precio="3.29" cantidad="64" tipoProducto="30" />
+  <Producto codigo="9300" descripcion="bombilla inoxidable" precio="17.16" cantidad="95" tipoProducto="30" />
+  <Producto codigo="9200" descripcion="mate de loza" precio="8.24" cantidad="20" tipoProducto="30" />
+  <Producto codigo="9000" descripcion="pisapapas" precio="1.28" cantidad="81" tipoProducto="30" />
+  <Producto codigo="8800" descripcion="rallador de queso" precio="45.56" cantidad="72" tipoProducto="30" />
+  <Producto codigo="8700" descripcion="corta papas" precio="3.2" cantidad="6" tipoProducto="30" />
+  <Producto codigo="8600" descripcion="balde para hielo" precio="12.54" cantidad="50" tipoProducto="30" />
+  <Producto codigo="8500" descripcion="pinza de hielo" precio="16.49" cantidad="26" tipoProducto="30" />
+  <Producto codigo="8400" descripcion="pinza para ensalada" precio="3.82" cantidad="22" tipoProducto="30" />
+  <Producto codigo="8300" descripcion="juego de cubiertos tramontina" precio="1.75" cantidad="94" tipoProducto="30" />
+  <Producto codigo="8200" descripcion="juego de cubiertos de bronce" precio="25.66" cantidad="9" tipoProducto="30" />
+  <Producto codigo="8000" descripcion="Juego de cubiertos acero inoxidable" precio="52.75" cantidad="63" tipoProducto="30" />
+  <Producto codigo="7900" descripcion="Ensaladera de vidrio" precio="58.22" cantidad="96" tipoProducto="30" />
+  <Producto codigo="9100" descripcion="mate de metal" precio="1.26" cantidad="25" tipoProducto="30" />
+  <Producto codigo="800" descripcion="Sparks" precio="34.33" cantidad="30" tipoProducto="10" />
+  <Producto codigo="1100" descripcion="Camisa entallada" precio="40.57" cantidad="55" tipoProducto="10" />
+  <Producto codigo="1200" descripcion="campera canguro" precio="22.56" cantidad="98" tipoProducto="10" />
+  <Producto codigo="1300" descripcion="campera gabardina" precio="8.15" cantidad="60" tipoProducto="10" />
+  <Producto codigo="1400" descripcion="campera de cuero" precio="1.3" cantidad="73" tipoProducto="10" />
+  <Producto codigo="1500" descripcion="Abrigos trenchs" precio="4.69" cantidad="53" tipoProducto="10" />
+  <Producto codigo="1600" descripcion="Campera microfibra" precio="13.35" cantidad="35" tipoProducto="10" />
+  <Producto codigo="1700" descripcion="Campera tapado" precio="6.66" cantidad="44" tipoProducto="10" />
+  <Producto codigo="1800" descripcion="Saco" precio="29.83" cantidad="50" tipoProducto="10" />
+  <Producto codigo="1900" descripcion="Chaleco" precio="15.87" cantidad="25" tipoProducto="10" />
+  <Producto codigo="2000" descripcion="Short Rugby" precio="54.18" cantidad="63" tipoProducto="10" />
+  <Producto codigo="2100" descripcion="Calza chupin" precio="35.25" cantidad="84" tipoProducto="10" />
+  <Producto codigo="2200" descripcion="Traje de neoprene" precio="18.06" cantidad="80" tipoProducto="10" />
+  <Producto codigo="2300" descripcion="camisetas de futbol" precio="26.58" cantidad="20" tipoProducto="10" />
+  <Producto codigo="2400" descripcion="Remeras adidas" precio="2.1" cantidad="20" tipoProducto="10" />
+  <Producto codigo="2500" descripcion="Guantes wind" precio="5.88" cantidad="24" tipoProducto="10" />
+  <Producto codigo="2600" descripcion="shamps perfume" precio="1.53" cantidad="14" tipoProducto="20" />
+  <Producto codigo="2700" descripcion="bolsa de filesina" precio="9.79" cantidad="37" tipoProducto="20" />
+  <Producto codigo="2800" descripcion="fame lady gaga perfume" precio="6.12" cantidad="21" tipoProducto="20" />
+  <Producto codigo="2900" descripcion="perfume antonio banderas" precio="14.8" cantidad="25" tipoProducto="20" />
+  <Producto codigo="3000" descripcion="lady millions" precio="55.45" cantidad="34" tipoProducto="20" />
+  <Producto codigo="3100" descripcion="perfume nina" precio="60.6" cantidad="9" tipoProducto="20" />
+  <Producto codigo="3200" descripcion="alcohol de cereal" precio="63.19" cantidad="0" tipoProducto="20" />
+  <Producto codigo="3300" descripcion="esmalte" precio="5.54" cantidad="11" tipoProducto="20" />
+  <Producto codigo="3400" descripcion="perfume carolina herrera" precio="16.42" cantidad="79" tipoProducto="20" />
+  <Producto codigo="3500" descripcion="kenzo flowers" precio="2.15" cantidad="36" tipoProducto="20" />
+  <Producto codigo="3600" descripcion="gel de limpieza" precio="81.35" cantidad="47" tipoProducto="20" />
+  <Producto codigo="3700" descripcion="tonico facial" precio="23.04" cantidad="31" tipoProducto="20" />
+  <Producto codigo="3800" descripcion="gel hidratante" precio="3.73" cantidad="58" tipoProducto="20" />
+  <Producto codigo="3900" descripcion="corrector de arrugas" precio="9.69" cantidad="28" tipoProducto="20" />
+  <Producto codigo="4000" descripcion="maquillar" precio="68.56" cantidad="47" tipoProducto="20" />
+  <Producto codigo="4200" descripcion="mascara removedora" precio="34.0" cantidad="71" tipoProducto="20" />
+  <Producto codigo="4300" descripcion="Locion anti acne" precio="49.77" cantidad="65" tipoProducto="20" />
+  <Producto codigo="4400" descripcion="jabon secativo" precio="28.2" cantidad="31" tipoProducto="20" />
+  <Producto codigo="4500" descripcion="portacosmeticos" precio="9.22" cantidad="55" tipoProducto="20" />
+  <Producto codigo="4600" descripcion="aceite de argan" precio="3.32" cantidad="51" tipoProducto="20" />
+  <Producto codigo="4700" descripcion="demaquillante dual" precio="26.26" cantidad="58" tipoProducto="20" />
+  <Producto codigo="4800" descripcion="organoil crema dia" precio="7.76" cantidad="25" tipoProducto="20" />
+  <Producto codigo="4900" descripcion="organoil crema noche" precio="13.08" cantidad="32" tipoProducto="20" />
+  <Producto codigo="5000" descripcion="organoil crema contorno" precio="46.95" cantidad="3" tipoProducto="20" />
+  <Producto codigo="5100" descripcion="Holla essen grande" precio="27.43" cantidad="33" tipoProducto="20" />
+  <Producto codigo="5200" descripcion="Holla essen mediana" precio="53.89" cantidad="96" tipoProducto="20" />
+  <Producto codigo="5300" descripcion="Holla essen sarten" precio="1.76" cantidad="65" tipoProducto="20" />
+  <Producto codigo="5400" descripcion="Panquequera essen" precio="9.3" cantidad="47" tipoProducto="20" />
+  <Producto codigo="5500" descripcion="Holla horno essen" precio="9.51" cantidad="27" tipoProducto="20" />
+  <Producto codigo="5600" descripcion="Holla bifera essen" precio="1.0" cantidad="78" tipoProducto="20" />
+  <Producto codigo="5700" descripcion="hervidor essen" precio="23.68" cantidad="94" tipoProducto="20" />
+  <Producto codigo="5800" descripcion="Holla essen chica" precio="67.73" cantidad="19" tipoProducto="20" />
+  <Producto codigo="5900" descripcion="Holla horno essen con teflon" precio="42.79" cantidad="67" tipoProducto="20" />
+  <Producto codigo="6000" descripcion="Rallador de metal" precio="23.83" cantidad="18" tipoProducto="20" />
+  <Producto codigo="6100" descripcion="cascanueces de metal" precio="1.21" cantidad="60" tipoProducto="20" />
+  <Producto codigo="6200" descripcion="picador de hielo" precio="47.07" cantidad="49" tipoProducto="20" />
+  <Producto codigo="6300" descripcion="colador de mano tamaño 1" precio="42.98" cantidad="34" tipoProducto="20" />
+  <Producto codigo="6400" descripcion="colador de fideos plastico" precio="1.27" cantidad="70" tipoProducto="20" />
+  <Producto codigo="6500" descripcion="colador de mano tamaño 2" precio="8.71" cantidad="51" tipoProducto="20" />
+  <Producto codigo="6600" descripcion="colador de fideos metal" precio="4.38" cantidad="28" tipoProducto="20" />
+  <Producto codigo="6700" descripcion="vasos de cocina" precio="13.36" cantidad="21" tipoProducto="20" />
+  <Producto codigo="6800" descripcion="copas semil cristal" precio="28.38" cantidad="17" tipoProducto="20" />
+  <Producto codigo="6900" descripcion="vasos para whisky" precio="26.85" cantidad="64" tipoProducto="20" />
+  <Producto codigo="7000" descripcion="fuente de vidrio tamaño 1 metal" precio="45.24" cantidad="29" tipoProducto="20" />
+  <Producto codigo="7100" descripcion="fuente de vidrio tamaño 2 metal" precio="5.3" cantidad="23" tipoProducto="20" />
+  <Producto codigo="7200" descripcion="fuente de vidrio tamaño 3 metal" precio="23.13" cantidad="41" tipoProducto="20" />
+  <Producto codigo="7300" descripcion="fuente de vidrio tamaño 1 plastico" precio="62.46" cantidad="24" tipoProducto="20" />
+  <Producto codigo="7400" descripcion="fuente de vidrio tamaño 2 plastico" precio="3.04" cantidad="60" tipoProducto="20" />
+  <Producto codigo="7500" descripcion="fuente de vidrio tamaño 3 plastico" precio="30.9" cantidad="3" tipoProducto="20" />
+  <Producto codigo="100" descripcion="Jean Taverniti" precio="9.93" cantidad="20" tipoProducto="10" />
+  <Producto codigo="500" descripcion="Chomba Taverniti" precio="61.26" cantidad="146" tipoProducto="10" />
+  <Producto codigo="4100" descripcion="jabon hipoalergenico" precio="6.22" cantidad="118" tipoProducto="20" />
+  <Producto codigo="900" descripcion="chombas tommy Hilfier" precio="22.49" cantidad="108" tipoProducto="10" />
+  <Producto codigo="7700" descripcion="Vaso para mesa" precio="42.5" cantidad="67" tipoProducto="30" />
+  <Producto codigo="7800" descripcion="Ensaladera de plastico" precio="7.17" cantidad="43" tipoProducto="30" />
+  <Producto codigo="8100" descripcion="juego de cubiertos plata" precio="2.66" cantidad="32" tipoProducto="30" />
+  <Producto codigo="8900" descripcion="cortador de queso" precio="27.92" cantidad="80" tipoProducto="30" />
+  <Producto codigo="7600" descripcion="fuente para pescado" precio="90.28" cantidad="41" tipoProducto="30" />
+  <Producto codigo="1000" descripcion="blusas" precio="3.93" cantidad="2" tipoProducto="10" />
+  <Producto codigo="700" descripcion="Camisa de vestir" precio="7.68" cantidad="61" tipoProducto="10" />
+  <Producto codigo="200" descripcion="Jean Fox" precio="7.89" cantidad="38" tipoProducto="10" />
+  <Producto codigo="400" descripcion="Chomba Prescott" precio="31.55" cantidad="10" tipoProducto="10" />
+  <Producto codigo="300" descripcion="Jean Store" precio="74.94" cantidad="49" tipoProducto="10" />
+  <Producto codigo="20000" descripcion="Brillo labial" precio="9.566523938442097" cantidad="53" tipoProducto="-1" />
+  <Producto codigo="600" descripcion="Camisas Polo Ralph" precio="14.95" cantidad="39" tipoProducto="10" />
+  <Producto codigo="30000" descripcion="Arqueador de pestañas" precio="8.043191264151714" cantidad="36" tipoProducto="-1" />
+  <Producto codigo="40000" descripcion="Mascara para pestañas" precio="10.039369630874832" cantidad="88" tipoProducto="-1" />
+  <Producto codigo="50000" descripcion="Base maquillaje" precio="3.0064149628961006" cantidad="16" tipoProducto="-1" />
+  <Producto codigo="60000" descripcion="Base maquillaje con filtro solar" precio="16.871969232135648" cantidad="63" tipoProducto="-1" />
+  <Producto codigo="80000" descripcion="Lima de carton para uñas" precio="51.02297980469037" cantidad="20" tipoProducto="-1" />
+  <Producto codigo="100000" descripcion="Lapiz delineador de ojos" precio="1.0" cantidad="51" tipoProducto="-1" />
+  <Producto codigo="70000" descripcion="Calcio para uñas" precio="7.240678054251113" cantidad="95" tipoProducto="-1" />
+  <Producto codigo="90000" descripcion="Rubor" precio="60.80867395109343" cantidad="87" tipoProducto="-1" />
+  <Producto codigo="10000" descripcion="Lapiz labial" precio="14.930084989721237" cantidad="89" tipoProducto="-1" />
+  <Producto codigo="10001" descripcion="Mate 2" precio="4.5" cantidad="0" tipoProducto="30" />
+  <Producto codigo="9900" descripcion="platos para bebe" precio="15.62" cantidad="13" tipoProducto="30" />
+  <Producto codigo="9600" descripcion="termo de plastico" precio="24.61" cantidad="16" tipoProducto="30" />
+  <Producto codigo="9500" descripcion="termo de acero inoxidable" precio="44.44" cantidad="67" tipoProducto="30" />
+  <Producto codigo="9700" descripcion="temporizador" precio="5.83" cantidad="60" tipoProducto="30" />
+  <Producto codigo="9800" descripcion="juego de tazas" precio="3.98" cantidad="1" tipoProducto="30" />
+</Productos>

@@ -40,7 +40,7 @@
 		}
 		if (!response.isCommitted()) {
 			GeneradorXML xml = new GeneradorXML(candela);
-			xml.generarXMLProductos();
+			xml.generarXMLProductos(500);
 			/*JOptionPane panel = new JOptionPane();
 			int opc = panel.showConfirmDialog(null,
 					"¿Desea volver a modificar otro producto?",

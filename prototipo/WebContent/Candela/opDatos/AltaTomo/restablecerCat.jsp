@@ -36,9 +36,9 @@
 			}
 			//Se actualizan los XML que son leidos por los demas CU
 			//se actualiza el archivo xml que posee los tomos que que se pueden dar de baja		
-			gen.generarProductosNoAsociados();
-			gen.generarTomosVigentes();
-			gen.generarXMLTomos();
+			gen.generarProductosNoAsociados(0);
+			gen.generarTomosVigentes(0);
+			gen.generarXMLTomos(500);
 			response.sendRedirect("../AltaCatalogo/formaltaCatalogoEmbed.jsp");
 	
 		} else {
@@ -48,10 +48,10 @@
 				candela_sesion.removeAttribute("CodigosTomos");
 			}
 			//Se actualizan los XML que son leidos por los demas CU
-			gen.generarProductosNoAsociados();
+			gen.generarProductosNoAsociados(0);
 			//se actualiza el archivo xml que posee los tomos que que se pueden dar de baja
-			gen.generarTomosVigentes();
-			gen.generarXMLTomos();
+			gen.generarTomosVigentes(0);
+			gen.generarXMLTomos(500);
 			
 			response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 		}

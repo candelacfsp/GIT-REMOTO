@@ -1,13 +1,18 @@
 package negocio;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import persistencia.ProductoBD;
 import persistencia.TomoBD;
 import utilidades.Constantes;
 
 import net.java.ao.EntityManager;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 /**
  * Esta clase contiene la informacion relativa a los tomos en Candela, asi como los una coleccion con los productos
  * asociados al tomo.
@@ -18,14 +23,15 @@ public class Tomo {
 	private int codigoTomo;
 	private String descripcion=null;
 	private ArrayList<Producto> productos=null;
-	private EntityManager em=null;
+	private Connection conexion=null;
+	
+	
 	/**
 	 * Constructor de la clase tomo, que inicializa la misma con su manejador de entidades.
 	 * @param em
 	 */
-	public Tomo( EntityManager em){
- 
-		this.em=em;
+	public Tomo( Connection em){
+		this.conexion=em;
 		this.productos=new ArrayList<Producto>();
 		
 	}
@@ -67,7 +73,7 @@ public class Tomo {
 
 	/**
 	 * setCodigoTomo
-	 * Setea el código de un determinado tomo.
+	 * Setea el cï¿½digo de un determinado tomo.
 	 * @param codigoTomo: codigo para un tomo determinado.
 	 */
 	public void setCodigoTomo(int codigoTomo) {
@@ -91,64 +97,54 @@ public class Tomo {
 	 * @param codigoDeTomo: numero del tomo.
 	 * @return: un numero que indica el resultado de la operacion.
 	 */
-	public void AsignarProdTomo(int codDeProd, int codigoDeTomo) throws SQLException{
-		//1.Leer el Producto de la BD
-		ProductoBD prods[]=null;
+	public void AsignarProdTomo(int codDeProd, int codigoDeTomo, String descripcion) throws SQLException{
 		
-		//try {
-			prods=em.find(ProductoBD.class,"codigo= ?",codDeProd);
-		/*} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.out.println("Error al encontrar el producto en la BD");
-			System.exit(Constantes.EXCEPCION_SQL);
-		}*/
-  
-		//2. Leer el tomo de la BD			
-			 
-		TomoBD[] tomo=null;
-	//	try {
-			tomo = em.find(TomoBD.class,"codigotomo= ?",codigoDeTomo);
-			
-	/*	} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("Error al encontrar el Tomo en la BD!");
-				System.exit(Constantes.EXCEPCION_SQL);
-		} */
+		//2.Se  llama a los procedimientos almacenados.
+		CallableStatement sentencia=null;
+
+		sentencia= conexion.prepareCall("{call asignarprodtomo(?,?,?)}");
+
+		//Seteo los argumentos de la funcion.
+		sentencia.setInt(1, codDeProd);
+		sentencia.setInt(2, codigoDeTomo);
+		sentencia.setString(3,descripcion);
+	
+		sentencia.execute();
 		
-		//3.Asignar el Producto persistente al tomo
-		prods[0].setTomoBD(tomo[0]);
-		prods[0].save();
-		
-	//	return Constantes.PRODUCTO_ASIGNADO;
 		
 	}
 	/**
 	 * desasignarProdTomo
 	 * Desasigna un producto de un tomo seleccionado.
-	 * @param codDeProd: número del producto a desasignar.
-	 * @param codDeTomo: número de tomo del que desasignara el producto.
-	 * @return: un numero indicando el resultado de la operación.
+	 * @param codDeProd: nï¿½mero del producto a desasignar.
+	 * @param codDeTomo: nï¿½mero de tomo del que desasignara el producto.
+	 * @return: un numero indicando el resultado de la operaciï¿½n.
 	 */
 	public void desasignarProdTomo(int codDeProd, int codDeTomo) throws SQLException{
-		// Buscar el ProductoBD y el tomoBD y desasignar el producto del tomoBD
-		ProductoBD [] prods=null;
-		//try {
-			prods= em.find(ProductoBD.class,"codigo = ?",codDeProd);
-		/*} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Error al borrar la asociacion entre tom y producto de la BD");
-			System.exit(Constantes.EXCEPCION_SQL);
-		}*/
-		prods[0].setTomoBD(null); //Seteo el tomoBD de producto en NULL
-		prods[0].save();
-		
-	//	return Constantes.PRODUCTO_DESASIGNADO_OK;
+		//2.Se  llama a los procedimientos almacenados.
+		CallableStatement sentencia=null;
+
+		sentencia= conexion.prepareCall("{call desasignarprodtomo(?,?)}");
+
+		//Seteo los argumentos de la funcion.
+		sentencia.setInt(1, codDeProd);
+		sentencia.setInt(2, codDeTomo);
+	
+		sentencia.execute();
 	}
 	
-
-
-
+	//Metodos necesarios para jasper!!!!!!
+	public List getListaProductos(){
+		return this.getProductos();
+	}
+	public void setListaProductos(List productos){
+		this.productos = (ArrayList<Producto>) productos;
+	}
+	public void addProducto(Producto producto){
+		this.productos.add(producto);
+	}
+	
+	public JRDataSource getColProductos(){
+		return new JRBeanCollectionDataSource(this.productos);
+	}
 }

@@ -27,7 +27,7 @@
 	//Se muestran todos los detalles de las facturas fabrica pagadas con sus detalles de pedidos de personal.
 	
 		GeneradorXML gen1= new GeneradorXML(candela);
-		gen1.generarFacturasFabricaPagadas(facturas);
+		gen1.generarFacturasFabricaPagadas(facturas,500);
 	
 	
 		

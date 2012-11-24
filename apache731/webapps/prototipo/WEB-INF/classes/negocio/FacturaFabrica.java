@@ -1,12 +1,13 @@
 package negocio;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 
 import net.java.ao.EntityManager;
 /***
- * Esta clase contiene la informacion relacionada con las facturas a fábrica, asi como la referencia a su
- * pedido de fábrica correspondiente.
+ * Esta clase contiene la informacion relacionada con las facturas a fï¿½brica, asi como la referencia a su
+ * pedido de fï¿½brica correspondiente.
  * @see Factura
  * @author "Huincalef Rodrigo-Mansilla Damian"
  *
@@ -22,21 +23,30 @@ public class FacturaFabrica extends Factura{
 	 * Inicializa la Factura a fabrica con el pedido a fabrica correspondiente, el numero de factura, el tipo y
 	 * la fecha de creacion de la factura, ademas de su correspondiente manejador de entidades.
 	 * @param em: manejador de entidades empleado para manipular la escritura a la base de datos.
-	 * @param ped: número de pedido a fabrica al que referecia la factura a Fabrica.
-	 * @param numero: número de factura a fabrica.
+	 * @param ped: nï¿½mero de pedido a fabrica al que referecia la factura a Fabrica.
+	 * @param numero: nï¿½mero de factura a fabrica.
 	 * @param tipo: tipo de la factura fabrica.
-	 * @param fecha: fecha de creacion de la factura a fábrica.
+	 * @param fecha: fecha de creacion de la factura a fï¿½brica.
 	 */
-	 public FacturaFabrica(EntityManager em,PedidoFabrica ped, int numero, int tipo, Date fecha){
-		 super(em,numero,tipo,fecha);
+	 public FacturaFabrica(Connection em,PedidoFabrica ped, int numero, int tipo, Date fecha){
+		 //Constructor que por defecto crea una factura fabrica impaga. Se usa en CU pagoAFabrica
+		  super(em,numero,tipo,fecha);
 		 this.pagada=false;
 		 this.pedidofab=ped;
 	 }
+	 
+	 public FacturaFabrica(Connection em,PedidoFabrica ped, int numero, int tipo, Date fecha,boolean pagada){
+		 //Constructor que por defecto crea una factura fabrica impaga. Se usa al cargar las facturas Fabrica en la coleccion de facts de Candela.
+		 super(em,numero,tipo,fecha);
+		 this.pagada=pagada;
+		 this.pedidofab=ped;
+	 }	 
+	 
 
 	 /**
 	  * getPedidofab
-	  * Obtiene el pedido fábrica correspondiente a la factura de fabrica.
-	  * @return: la referencia al pedido fabrica que corresponde con la factura fábrica.
+	  * Obtiene el pedido fï¿½brica correspondiente a la factura de fabrica.
+	  * @return: la referencia al pedido fabrica que corresponde con la factura fï¿½brica.
 	  */
 	public PedidoFabrica getPedidofab() {
 		return pedidofab;
@@ -53,7 +63,7 @@ public class FacturaFabrica extends Factura{
 	}
 	/**
 	 * setPagada
-	 * Este metodo cambia el estado de la factura a fábrica.
+	 * Este metodo cambia el estado de la factura a fï¿½brica.
 	 * @param pagada: estado de la factura a fabrica. Verdadero para indicar que esta pagada o Falso,
 	 * para indicar que todavia no ha sido abonada.
 	 */
@@ -62,7 +72,7 @@ public class FacturaFabrica extends Factura{
 	}
 	/**
 	 * esPagada
-	 * Este metodo indica si una factura a fábrica esta pagada o no, retornando su estado.
+	 * Este metodo indica si una factura a fï¿½brica esta pagada o no, retornando su estado.
 	 * @return: un estado indicando si la factura a fabrica esta pagada o no.
 	 */
 	public boolean esPagada(){

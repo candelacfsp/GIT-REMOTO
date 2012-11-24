@@ -42,8 +42,8 @@
 			panel.showMessageDialog(null, "Producto asignado correctamente al tomo");*/
 			candela_sesion.setAttribute("mensaje", "Producto asignado correctamente al tomo");
 			GeneradorXML xml= new GeneradorXML(candela);
-			xml.generarProductosNoAsociados();
-			xml.generarTomosVigentes();
+			xml.generarProductosNoAsociados(0);
+			xml.generarTomosVigentes(500);
 			response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 		}catch(TomoNoEncontradoException tne){
 			tne.printStackTrace();

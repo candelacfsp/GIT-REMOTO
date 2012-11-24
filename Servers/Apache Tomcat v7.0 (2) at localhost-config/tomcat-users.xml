@@ -26,8 +26,10 @@
   <!.. ..> that surrounds them.
 -->
 <!--
+  <role rolename="manager-gui"/>
   <role rolename="tomcat"/>
   <role rolename="role1"/>
+  <user username="damian" password="33345146" roles="manager-gui"/>
   <user username="tomcat" password="tomcat" roles="tomcat"/>
   <user username="both" password="tomcat" roles="tomcat,role1"/>
   <user username="role1" password="tomcat" roles="role1"/>

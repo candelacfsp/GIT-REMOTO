@@ -30,7 +30,7 @@
 
 			//Generar un XML que guarda un snapshot del catalogo actual.
 
-			gen.generarHistorico();
+			gen.generarHistorico(500);
 			Catalogo catVig = candela.getCatalogoVigente();
 			ArrayList<Producto> prodMemoria = candela.getProductos();
 			for (int i = 0; i < prodMemoria.size(); i++) {
@@ -53,10 +53,10 @@
 
 		}
 		//Generar los xmls actualizados del catalogo
-		gen.generarXMLProductos();
-		gen.generarTomosVigentes();
-		gen.generarProductosNoAsociados();
-		gen.generarXMLTomos();
+		gen.generarXMLProductos(0);
+		gen.generarTomosVigentes(0);
+		gen.generarProductosNoAsociados(0);
+		gen.generarXMLTomos(500);
 
 		//Remover atributos de la sesion
 		candela_sesion.removeAttribute("descripTomo");

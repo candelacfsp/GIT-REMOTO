@@ -85,7 +85,7 @@
 						"El producto no existe, vuelva a intentarlo...");*/
 			
 			candela_sesion.setAttribute("mensaje","El producto no existe, vuelva a intentarlo..." );
-				xml.generarProductosNoAsociados();
+				xml.generarProductosNoAsociados(500);
 				response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 			} else { //Si el producto existe
 
@@ -102,7 +102,7 @@
 							"El producto se encuentra asociado a otro tomo");*/
 					
 				candela_sesion.setAttribute("mensaje", "El producto se encuentra asociado a otro tomo");
-				xml.generarProductosNoAsociados();
+				xml.generarProductosNoAsociados(500);
 					response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 
 				}
@@ -115,7 +115,7 @@
 				catNuevo = candela.getCatalogoNuevo();
 				if (catNuevo.estaProdAsocTomo(codigoProducto) == true) {
 
-					xml.generarProductosNoAsociados();
+					xml.generarProductosNoAsociados(500);
 					candela_sesion.setAttribute("mensaje", "El producto se encuentra asociado al tomo");
 					response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 				}
@@ -153,11 +153,15 @@
 							JOptionPane.YES_NO_OPTION);*/
 					
 					if (opcion.equals("si")) {
-						
-						
-						xml.generarTomosVigentes();
-						
-						xml.generarProductosNoAsociados();
+						long time_start = System.currentTimeMillis();
+				
+					
+					
+						xml.generarTomosVigentes(0);
+						xml.generarProductosNoAsociados(500);
+						long time_end = System.currentTimeMillis();
+						System.out.println("TIEMPO TOTAL:"+(time_end - time_start));
+						//Thread.sleep(2000);
 						response.sendRedirect("formAsociarProdTomoEmbed.jsp");
 					} else {
 						

@@ -2,7 +2,7 @@
 <ProductosEnStock>
   <Producto codigo="500" descripcion=" Crema exfoliante" precio="19.99" cantidad="1" tipo="1" />
   <Producto codigo="200" descripcion="Lapiz labial" precio="21.0" cantidad="18" tipo="1" />
-  <Producto codigo="600" descripcion="Esmalte de calcio" precio="18.35" cantidad="4" tipo="1" />
+  <Producto codigo="600" descripcion="Esmalte de calcio" precio="18.35" cantidad="6" tipo="1" />
   <Producto codigo="400" descripcion=" Crema para manos" precio="43.21" cantidad="21" tipo="1" />
   <Producto codigo="300" descripcion="Gel" precio="54.33" cantidad="12" tipo="1" />
   <Producto codigo="700" descripcion="Crema para cuerpo" precio="21.0" cantidad="1" tipo="1" />

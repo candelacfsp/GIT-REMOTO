@@ -18,46 +18,62 @@
 	String cantidad = request.getParameter("cantidad");
 	String precio = request.getParameter("precio");
 	String descripcion = request.getParameter("descripcion");
-	String opcion= request.getParameter("opcion");
+	String mensajeEstado= request.getParameter("mensaje");
 
+	HttpSession candela_sesion = request.getSession();
+	Candela candela = (Candela) candela_sesion
+			.getAttribute("candela");
+	if (mensajeEstado == null){
 	if ((codigo != null) && (precio != null) && (cantidad != null)
-			&& (descripcion != null) && (opcion!=null)) {
+			&& (descripcion != null)) {
 
-		HttpSession candela_sesion = request.getSession();
-		Candela candela = (Candela) candela_sesion
-				.getAttribute("candela");
-	
 		try {
 			candela.altaDeProducto(Integer.parseInt(codigo),
 					descripcion, Double.parseDouble(precio),
 					Integer.parseInt(cantidad));
-			
+
 		} catch (SQLException s) {
 			s.printStackTrace();
 			response.sendRedirect("../Error-O.jsp");
+			candela_sesion.setAttribute("opcion", null);
 		} catch (ProductoExisteExcepcion p) {
-		
-			
-			candela_sesion.setAttribute("mensaje","Error: el producto existe! imposible dar alta" );
+
+			candela_sesion.setAttribute("mensaje",
+					"Error: el producto existe! imposible dar alta");
+			candela_sesion.setAttribute("descripcionProducto", descripcion);
+			candela_sesion.setAttribute("precioProducto", precio);
+			candela_sesion.setAttribute("cantidadProducto",cantidad);
 			response.sendRedirect("altaProducto.jsp");
 
-		}catch(NumberFormatException formato){
-		
-			candela_sesion.setAttribute("mensaje", "El formato del precio es inapropiado, la plantilla es: ENTERO.DECIMAL");
+		} catch (NumberFormatException formato) {
+
+			candela_sesion
+					.setAttribute("mensaje",
+							"El formato del precio es inapropiado, la plantilla es: ENTERO.DECIMAL");
+			
 			response.sendRedirect("altaProducto.jsp");
 		}
 		if (!response.isCommitted()) {
 			//Debo llamar al generador de XML
 			GeneradorXML xml = new GeneradorXML(candela);
-			xml.generarXMLProductos();
-			xml.generarProductosNoAsociados();
-			
-			if (opcion.equals("si")) {
-				response.sendRedirect("altaProducto.jsp");
-			} else {
-				response.sendRedirect("../vistaOpDatos-producto.jsp");
-			}
-
+			xml.generarXMLProductos(0);
+			xml.generarProductosNoAsociados(500);
+			//envio de vuelta a alta pregunta para que se le pregunte al usuarios
+			//por medio del swf
+			candela_sesion.setAttribute("mensaje", "pregunta");
+			response.sendRedirect("altaProducto.jsp");
+		
+		}
+	
+	}
+	}else{
+		//debo reenviar al alta producto dependiendo del si o no
+		if (mensajeEstado.equals("si")){
+			candela_sesion.setAttribute("mensaje", null);
+			response.sendRedirect("altaProducto.jsp");
+		}else{
+			candela_sesion.setAttribute("mensaje", null);
+			response.sendRedirect("../vistaOpDatos-producto.jsp");
 		}
 	}
 %>

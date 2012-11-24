@@ -46,7 +46,7 @@
 		// dniVendDirect.xml
 		Candela cand= (Candela)candela_sesion.getAttribute("candela");
 		GeneradorXML genDnis= new GeneradorXML(cand);
-		genDnis.generarDnisVendDir();
+		genDnis.generarDnisVendDir(500);
 		
 %>
 <% 		if(mensaje!=null){ %>

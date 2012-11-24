@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProductosNoAsociados>
+  <Producto codigo="10000" descripcion="vaso para bebe" />
+  <Producto codigo="9400" descripcion="pava de acero inoxidable" />
+  <Producto codigo="9300" descripcion="bombilla inoxidable" />
+  <Producto codigo="9200" descripcion="mate de loza" />
+  <Producto codigo="9000" descripcion="pisapapas" />
+  <Producto codigo="8800" descripcion="rallador de queso" />
+  <Producto codigo="8700" descripcion="corta papas" />
+  <Producto codigo="8600" descripcion="balde para hielo" />
+  <Producto codigo="8500" descripcion="pinza de hielo" />
+  <Producto codigo="8400" descripcion="pinza para ensalada" />
+  <Producto codigo="8300" descripcion="juego de cubiertos tramontina" />
+  <Producto codigo="8200" descripcion="juego de cubiertos de bronce" />
+  <Producto codigo="8000" descripcion="Juego de cubiertos acero inoxidable" />
+  <Producto codigo="7900" descripcion="Ensaladera de vidrio" />
+  <Producto codigo="9100" descripcion="mate de metal" />
+  <Producto codigo="800" descripcion="Sparks" />
+  <Producto codigo="1100" descripcion="Camisa entallada" />
+  <Producto codigo="1200" descripcion="campera canguro" />
+  <Producto codigo="1300" descripcion="campera gabardina" />
+  <Producto codigo="1400" descripcion="campera de cuero" />
+  <Producto codigo="1500" descripcion="Abrigos trenchs" />
+  <Producto codigo="1600" descripcion="Campera microfibra" />
+  <Producto codigo="1700" descripcion="Campera tapado" />
+  <Producto codigo="1800" descripcion="Saco" />
+  <Producto codigo="1900" descripcion="Chaleco" />
+  <Producto codigo="2000" descripcion="Short Rugby" />
+  <Producto codigo="2100" descripcion="Calza chupin" />
+  <Producto codigo="2200" descripcion="Traje de neoprene" />
+  <Producto codigo="2300" descripcion="camisetas de futbol" />
+  <Producto codigo="2400" descripcion="Remeras adidas" />
+  <Producto codigo="2500" descripcion="Guantes wind" />
+  <Producto codigo="2600" descripcion="shamps perfume" />
+  <Producto codigo="2700" descripcion="bolsa de filesina" />
+  <Producto codigo="2800" descripcion="fame lady gaga perfume" />
+  <Producto codigo="2900" descripcion="perfume antonio banderas" />
+  <Producto codigo="3000" descripcion="lady millions" />
+  <Producto codigo="3100" descripcion="perfume nina" />
+  <Producto codigo="3200" descripcion="alcohol de cereal" />
+  <Producto codigo="3300" descripcion="esmalte" />
+  <Producto codigo="3400" descripcion="perfume carolina herrera" />
+  <Producto codigo="3500" descripcion="kenzo flowers" />
+  <Producto codigo="3600" descripcion="gel de limpieza" />
+  <Producto codigo="3700" descripcion="tonico facial" />
+  <Producto codigo="3800" descripcion="gel hidratante" />
+  <Producto codigo="3900" descripcion="corrector de arrugas" />
+  <Producto codigo="4000" descripcion="maquillar" />
+  <Producto codigo="4200" descripcion="mascara removedora" />
+  <Producto codigo="4300" descripcion="Locion anti acne" />
+  <Producto codigo="4400" descripcion="jabon secativo" />
+  <Producto codigo="4500" descripcion="portacosmeticos" />
+  <Producto codigo="4600" descripcion="aceite de argan" />
+  <Producto codigo="4700" descripcion="demaquillante dual" />
+  <Producto codigo="4800" descripcion="organoil crema dia" />
+  <Producto codigo="4900" descripcion="organoil crema noche" />
+  <Producto codigo="5000" descripcion="organoil crema contorno" />
+  <Producto codigo="5100" descripcion="Holla essen grande" />
+  <Producto codigo="5200" descripcion="Holla essen mediana" />
+  <Producto codigo="5300" descripcion="Holla essen sarten" />
+  <Producto codigo="5400" descripcion="Panquequera essen" />
+  <Producto codigo="5500" descripcion="Holla horno essen" />
+  <Producto codigo="5600" descripcion="Holla bifera essen" />
+  <Producto codigo="5700" descripcion="hervidor essen" />
+  <Producto codigo="5800" descripcion="Holla essen chica" />
+  <Producto codigo="5900" descripcion="Holla horno essen con teflon" />
+  <Producto codigo="6000" descripcion="Rallador de metal" />
+  <Producto codigo="6100" descripcion="cascanueces de metal" />
+  <Producto codigo="6200" descripcion="picador de hielo" />
+  <Producto codigo="6300" descripcion="colador de mano tamaño 1" />
+  <Producto codigo="6400" descripcion="colador de fideos plastico" />
+  <Producto codigo="6500" descripcion="colador de mano tamaño 2" />
+  <Producto codigo="6600" descripcion="colador de fideos metal" />
+  <Producto codigo="6700" descripcion="vasos de cocina" />
+  <Producto codigo="6800" descripcion="copas semil cristal" />
+  <Producto codigo="6900" descripcion="vasos para whisky" />
+  <Producto codigo="7000" descripcion="fuente de vidrio tamaño 1 metal" />
+  <Producto codigo="7100" descripcion="fuente de vidrio tamaño 2 metal" />
+  <Producto codigo="7200" descripcion="fuente de vidrio tamaño 3 metal" />
+  <Producto codigo="7300" descripcion="fuente de vidrio tamaño 1 plastico" />
+  <Producto codigo="7400" descripcion="fuente de vidrio tamaño 2 plastico" />
+  <Producto codigo="7500" descripcion="fuente de vidrio tamaño 3 plastico" />
+  <Producto codigo="100" descripcion="Jean Taverniti" />
+  <Producto codigo="500" descripcion="Chomba Taverniti" />
+  <Producto codigo="4100" descripcion="jabon hipoalergenico" />
+  <Producto codigo="900" descripcion="chombas tommy Hilfier" />
+  <Producto codigo="7700" descripcion="Vaso para mesa" />
+  <Producto codigo="7800" descripcion="Ensaladera de plastico" />
+  <Producto codigo="8100" descripcion="juego de cubiertos plata" />
+  <Producto codigo="8900" descripcion="cortador de queso" />
+  <Producto codigo="7600" descripcion="fuente para pescado" />
+  <Producto codigo="1000" descripcion="blusas" />
+  <Producto codigo="700" descripcion="Camisa de vestir" />
+  <Producto codigo="200" descripcion="Jean Fox" />
+  <Producto codigo="400" descripcion="Chomba Prescott" />
+  <Producto codigo="300" descripcion="Jean Store" />
+  <Producto codigo="20000" descripcion="Brillo labial" />
+  <Producto codigo="600" descripcion="Camisas Polo Ralph" />
+  <Producto codigo="30000" descripcion="Arqueador de pestañas" />
+  <Producto codigo="40000" descripcion="Mascara para pestañas" />
+  <Producto codigo="50000" descripcion="Base maquillaje" />
+  <Producto codigo="60000" descripcion="Base maquillaje con filtro solar" />
+  <Producto codigo="80000" descripcion="Lima de carton para uñas" />
+  <Producto codigo="100000" descripcion="Lapiz delineador de ojos" />
+  <Producto codigo="70000" descripcion="Calcio para uñas" />
+  <Producto codigo="90000" descripcion="Rubor" />
+  <Producto codigo="10000" descripcion="Lapiz labial" />
+  <Producto codigo="10001" descripcion="Mate 2" />
+  <Producto codigo="9900" descripcion="platos para bebe" />
+  <Producto codigo="9600" descripcion="termo de plastico" />
+  <Producto codigo="9500" descripcion="termo de acero inoxidable" />
+  <Producto codigo="9700" descripcion="temporizador" />
+  <Producto codigo="9800" descripcion="juego de tazas" />
+</ProductosNoAsociados>

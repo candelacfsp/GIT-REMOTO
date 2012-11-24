@@ -1,13 +1,11 @@
 package negocio;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import persistencia.PedidoPersonalBD;
-import persistencia.ProductoBD;
-
-import net.java.ao.EntityManager;
 
 public class PedidoPersonal extends Pedido{
 
@@ -27,8 +25,8 @@ public class PedidoPersonal extends Pedido{
 	 * @param fecha_emision: fecha de emision de un pedido de personal
 	 * @param fecha_recepcion: fecha de recepcion de un pedido de personal
 	 */
-	public PedidoPersonal(EntityManager em,ArrayList<DetallePedidoPersonal> detalles,int nroPedido, Date fecha_emision,Date fecha_recepcion){
-		super(em,nroPedido,fecha_emision,fecha_recepcion);
+	public PedidoPersonal(Connection conexion,ArrayList<DetallePedidoPersonal> detalles,int nroPedido, Date fecha_emision,Date fecha_recepcion){
+		super(conexion,nroPedido,fecha_emision,fecha_recepcion);
 		this.detalles=detalles;
 		
 	}
@@ -58,30 +56,40 @@ public class PedidoPersonal extends Pedido{
 	}
 
 
-	public PedidoPersonalBD crearPedido(ArrayList<DetallePedidoPersonal> colDetalles, ArrayList<Producto> colProductos) {
+	public void crearPedido(ArrayList<DetallePedidoPersonal> colDetalles,ArrayList<Producto> colProductos) throws SQLException {
+		
+		CallableStatement sentencia=null;
 
-		//creo un pedidoBD para almacenar el pedido
-		PedidoPersonalBD pedido= null;
-		try {
-			pedido= this.getEm().create(PedidoPersonalBD.class);
-		} catch (SQLException e) {
-			System.out.println("Error al crear un pedido");
-			e.printStackTrace();
-		}
-		if (pedido!= null){
-			pedido.setFechaEmision(getFecha_emision());
-			pedido.setFechaRecepcion(getFecha_recepcion());
-			pedido.setNumeroPedido(getNumeroPedido());
-			 //TODO ver si se setea aquí a pedidofabrica
-			pedido.save();
-			for (int i = 0; i < colDetalles.size(); i++) {
-				
-				//por cada uno de los detalles los almaceno en base de datos
-				colDetalles.get(i).crearDetalle(pedido, colDetalles.get(i));
-			}
+		sentencia= super.getConnection().prepareCall("{call crearpedido(?,?,?)}");
+		
+		
+		java.sql.Date fecha1= new java.sql.Date(this.getFecha_emision().getYear(),this.getFecha_emision().getMonth(),this.getFecha_emision().getDate());
+		java.sql.Date fecha2= new java.sql.Date(this.getFecha_recepcion().getYear(),this.getFecha_recepcion().getMonth(), this.getFecha_recepcion().getDate());
+	
+		
+		//Seteo los argumentos de la funcion.
+		sentencia.setDate(1, fecha1);
+		sentencia.setDate(2, fecha2);
+		
+		sentencia.setInt(3,this.getNumeroPedido());
+
+		//Seteo parametro de salida
+
+		//sentencia.registerOutParameter(1, java.sql.Types.VARCHAR);
+		
+		
+		sentencia.execute();
+		
+		
+		for (int i = 0; i < colDetalles.size(); i++) {
+			
+			//por cada uno de los detalles los almaceno en base de datos
+			colDetalles.get(i).crearDetalle(this, colProductos);
+			
+			
 			
 		}
-		return pedido;
+			
 		
 	}
 	

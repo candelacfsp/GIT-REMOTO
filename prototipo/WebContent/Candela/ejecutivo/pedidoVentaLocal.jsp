@@ -19,120 +19,140 @@
 	String estado = request.getParameter("estado");
 	String talle = request.getParameter("talle");
 	String color = request.getParameter("color");
-	String cancelar= request.getParameter("cancelar");
+	String cancelar = request.getParameter("cancelar");
 	HttpSession candela_sesion = request.getSession();
+	Candela candela = (Candela) candela_sesion.getAttribute("candela");
 
-	if (cancelar!= null){
-	candela_sesion.setAttribute("colDetalles", null);
-		response.sendRedirect("vistaEjecutivo-stock.jsp");
-	}
-	if (!response.isCommitted()){
-	if (userName != null && codigo != null) {
-	
-		Candela candela = (Candela) candela_sesion
-				.getAttribute("candela");
-		if (estado.equals("si")) {
-			candela_sesion.setAttribute("estado", estado);
-			candela_sesion.setAttribute("userName", userName);
-			for (int i = 0; i < candela.getColProductos().size(); i++) {
-				//busco el producto que me pasaron por parametros
-				if (candela.getColProductos().get(i).getCodigo() == Integer
-						.parseInt(codigo)) {
-					//si lo encuentro creo un producto con los datos
-					Producto producto = candela.getColProductos()
-							.get(i);
-					producto.setCantidadEnStock(Integer
-							.parseInt(cantidadStock));
-					//creo el detalle almacenandolo en el array de candela
-					ArrayList<DetallePedidoPersonal> colDetalles = (ArrayList<DetallePedidoPersonal>) candela_sesion
-							.getAttribute("colDetalles");
-
-					DetallePedidoPersonal detalle = new DetallePedidoPersonal(
-							candela.getConexion(), producto);
-					if (color != null && talle != null) {
-						detalle.setColor(color);
-						detalle.setTalle(talle);
-						detalle.setCantidad(Integer.parseInt(cantidadStock));
-
-						colDetalles.add(detalle);
-					}
-					candela.actualizarColProdConDetalle(colDetalles);
-					response.sendRedirect("pedidoVentaLocalEmbed.jsp");
-
+	ArrayList<DetallePedidoPersonal> colDetalles = (ArrayList<DetallePedidoPersonal>) candela_sesion
+			.getAttribute("colDetalles");
+	if (cancelar != null) {
+		//recorro los detalles
+		for (int i = 0; i < colDetalles.size(); i++) {
+			//recorro los productos de candela y busco el detalle asociado a un producto
+			
+			for (int j = 0; j < candela.getColProductos().size(); j++) {
+				if (candela.getColProductos().get(j).getCodigo()== colDetalles.get(i).getProd().getCodigo()){
+					//Devuelvo la cantidad seteada en el detalle
+					candela.getColProductos().get(j).setCantidadEnStock(candela.getColProductos().get(j).getCantidadEnStock()+colDetalles.get(i).getCantidad());
+					break;//recorro el otro detalle
 				}
 			}
-		} else {//si selecciono que no!
-			candela_sesion.removeAttribute("estado");
-			candela_sesion.removeAttribute("userName");
-			
-			if (!response.isCommitted()) {//pregunto si ya se desplego en otra pagina
-				//referencio a la coleccion de detalles
-				ArrayList<DetallePedidoPersonal> colDetalles = (ArrayList<DetallePedidoPersonal>) candela_sesion
-						.getAttribute("colDetalles");
-				if (colDetalles.size()== 0) {//si es null la creo
-					colDetalles = new ArrayList<DetallePedidoPersonal>();
+		}
+		//elimino los detalles
+		colDetalles.clear();
+		GeneradorXML xml = new GeneradorXML(candela);
+		xml.generarXMLProductosEnStock(500);
+		candela_sesion.setAttribute("estado", null);
+		candela_sesion.setAttribute("userName", null);
+		response.sendRedirect("vistaEjecutivo-stock.jsp");
+
+	}
+	if (!response.isCommitted()) {
+		if (userName != null && codigo != null) {
+
+			if (estado.equals("si")) {
+				candela_sesion.setAttribute("estado", estado);
+				candela_sesion.setAttribute("userName", userName);
+				for (int i = 0; i < candela.getColProductos().size(); i++) {
+					//busco el producto que me pasaron por parametros
+					if (candela.getColProductos().get(i).getCodigo() == Integer
+							.parseInt(codigo)) {
+						//si lo encuentro creo un producto con los datos
+						Producto producto = new Producto(candela.getConexion()); 
+						
+						producto=candela.getColProductos()
+								.get(i);
+						//creo el detalle almacenandolo en el array de candela
+
+						DetallePedidoPersonal detalle = new DetallePedidoPersonal(
+								candela.getConexion(), producto);
+						if (color != null && talle != null) {
+							detalle.setColor(color);
+							detalle.setTalle(talle);
+							detalle.setCantidad(Integer
+									.parseInt(cantidadStock));
+							detalle.setPrecio(Integer
+									.parseInt(cantidadStock)
+									* detalle.getProd().getPrecio());
+							colDetalles.add(detalle);
+						}
+						candela.actualizarColProdConDetalle(colDetalles);
+						response.sendRedirect("pedidoVentaLocalEmbed.jsp");
+						break;//salgo del for
+						
+					}//fin del if
 				}
-				for (int i = 0; i < candela.getColUsuarios().size(); i++) {
-					//busco al usuario y si lo encuentro
-					if (candela.getColUsuarios().get(i).getNombreUsr()
-							.equals(userName)) {
-						//busco el producto con el codigo proporcionado
-						for (int j = 0; j < candela.getColProductos()
-								.size(); j++) {
-							System.out.println("candela:"
-									+ candela.getColProductos().get(j)
-											.getCodigo() + "codigo:"
-									+ codigo);
-							if (candela.getColProductos().get(j)
-									.getCodigo() == Integer
-									.parseInt(codigo)) {
-								//Creo el producto seleccionado
-								Producto producto = candela
-										.getColProductos().get(j);
+			} else {//si selecciono que no!
+				candela_sesion.removeAttribute("estado");
+				candela_sesion.removeAttribute("userName");
 
-								//creo el detalle almacenandolo en el array de candela siempre y cuando cumpla
-								//con que la cantidad solicitada es menor
-								if (Integer.parseInt(cantidadStock) <= producto
-										.getCantidadEnStock()) {
+				if (!response.isCommitted()) {//pregunto si ya se desplego en otra pagina
+					//referencio a la coleccion de detalles
 
-									DetallePedidoPersonal detalle = new DetallePedidoPersonal(
-											candela.getConexion(), producto);
-									if (color != null && talle != null) {
-										detalle.setColor(color);
-										detalle.setTalle(talle);
+					for (int i = 0; i < candela.getColUsuarios().size(); i++) {
+						//busco al usuario y si lo encuentro
+						if (candela.getColUsuarios().get(i)
+								.getNombreUsr().equals(userName)) {
+							//busco el producto con el codigo proporcionado
+							for (int j = 0; j < candela
+									.getColProductos().size(); j++) {
+								System.out.println("candela:"
+										+ candela.getColProductos()
+												.get(j).getCodigo()
+										+ "codigo:" + codigo);
+								if (candela.getColProductos().get(j)
+										.getCodigo() == Integer
+										.parseInt(codigo)) {
+									//Creo el producto seleccionado
+									Producto producto = candela
+											.getColProductos().get(j);
 
+									//creo el detalle almacenandolo en el array de candela siempre y cuando cumpla
+									//con que la cantidad solicitada es menor
+									if (Integer.parseInt(cantidadStock) <= producto
+											.getCantidadEnStock()) {
+
+										DetallePedidoPersonal detalle = new DetallePedidoPersonal(
+												candela.getConexion(),
+												producto);
+										if (color != null
+												&& talle != null) {
+											detalle.setColor(color);
+											detalle.setTalle(talle);
+
+											
+										}//guardo el detalle y lo almaceno en la coleccion de detalles
+										//salgo del if de color y talle
 										detalle.setCantidad(Integer
 												.parseInt(cantidadStock));
 
 										colDetalles.add(detalle);
-									}//guardo el detalle y lo almaceno en la coleccion de detalles
-								 //salgo del if de color y talle
+									}
+								}//aca termina el if de si encuentro el producto o no
+							}// termino de armar el paquete de colecciones de detalle ciclo for
+							try {
+								if (colDetalles.size() > 0) {
+									candela.actualizarColProdConDetalle(colDetalles);
+									candela.ventaEnLocal(candela
+											.getColUsuarios().get(i),
+											colDetalles);
+									//si todo va bien redirijo a vista ejecutivo
+									//debería vaciar colDetalles
+									colDetalles.clear();
 								}
-							}//aca termina el if de si encuentro el producto o no
-						}// termino de armar el paquete de colecciones de detalle ciclo for
-						try {
-							if (colDetalles.size() > 0){
-							candela.actualizarColProdConDetalle(colDetalles);
-							candela.ventaEnLocal(candela
-									.getColUsuarios().get(i),
-									colDetalles);
-							//si todo va bien redirijo a vista ejecutivo
-							//debería vaciar colDetalles
-							colDetalles.clear();
-							}
-							response.sendRedirect("vistaEjecutivo-stock.jsp");
-							
-						} catch (SQLException sql) {
-							sql.printStackTrace();
-							response.sendRedirect("Error-E.jsp");
-						} //fin del catch
+								response.sendRedirect("vistaEjecutivo-stock.jsp");
 
-					}// fin del si encuentro el usuario
-				}// fin del for que busca un usuario
-			}// fin del if de commit
+							} catch (SQLException sql) {
+								sql.printStackTrace();
+								response.sendRedirect("Error-E.jsp");
+							} //fin del catch
 
-		} // fin del else, si eligió el usuario NO
+						}// fin del si encuentro el usuario
+					}// fin del for que busca un usuario
+				}// fin del if de commit
 
-	} //si los parametros vienen con null
+			} // fin del else, si eligió el usuario NO
+
+		} //si los parametros vienen con null
 	}
 %>

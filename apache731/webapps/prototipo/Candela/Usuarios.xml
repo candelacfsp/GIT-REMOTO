@@ -1,31 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Usuarios>
   <usuario nombre="Rodrigo" apellido="Huincalef" dni="35887888" userName="Rodrigo" tipoDeUsuario="3" />
+  <usuario nombre="Damian" apellido="Mansilla" dni="33345146" userName="Damian" tipoDeUsuario="4" />
   <usuario nombre="Vader" apellido="Darth" dni="32000111" userName="Vader" tipoDeUsuario="2">
-    <facturasImpagas factura="23" />
-    <facturasImpagas factura="24" />
+    <facturasImpagas factura="2000" />
   </usuario>
-  <usuario nombre="Luke" apellido="SkyWalker" dni="32222111" userName="Luke" tipoDeUsuario="1" />
-  <usuario nombre="Marta" apellido="Lopez" dni="11111111" userName="Marta" tipoDeUsuario="1">
-    <facturasImpagas factura="16" />
-    <facturasImpagas factura="17" />
-    <facturasImpagas factura="18" />
-    <facturasImpagas factura="15" />
+  <usuario nombre="Luke" apellido="SkyWalker" dni="32222111" userName="Luke" tipoDeUsuario="1">
+    <facturasImpagas factura="2000" />
   </usuario>
-  <usuario nombre="Admin" apellido="Admin" dni="33345146" userName="Admin" tipoDeUsuario="4" />
-  <usuario nombre="Claudio" apellido="Riquelme" dni="22222222" userName="Claudio" tipoDeUsuario="1" />
-  <usuario nombre="Marcelo" apellido="Gutierrez" dni="33333333" userName="Marcelo" tipoDeUsuario="1">
-    <facturasImpagas factura="13" />
-    <facturasImpagas factura="19" />
-    <facturasImpagas factura="20" />
-    <facturasImpagas factura="21" />
-    <facturasImpagas factura="14" />
-  </usuario>
-  <usuario nombre="Gloria" apellido="Bianchi" dni="44444444" userName="Gloria" tipoDeUsuario="1" />
-  <usuario nombre="Gabriel" apellido="postgres" dni="55555555" userName="Gabriel" tipoDeUsuario="1" />
-  <usuario nombre="Anahi" apellido="Griffhis" dni="66666666" userName="Anahi" tipoDeUsuario="1" />
-  <usuario nombre="Jonhatan" apellido="WIlliams" dni="77777777" userName="Jonhatan" tipoDeUsuario="1" />
-  <usuario nombre="Cristian" apellido="Ballejos" dni="88888888" userName="Cristian" tipoDeUsuario="1" />
-  <usuario nombre="Davies" apellido="Sepulveda" dni="99999999" userName="Davies" tipoDeUsuario="1" />
-  <usuario nombre="Carolina" apellido="Kovacic" dni="10000000" userName="Carolina" tipoDeUsuario="1" />
 </Usuarios>

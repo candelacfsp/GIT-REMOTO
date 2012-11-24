@@ -36,7 +36,8 @@
 		try{
 			Catalogo catalogo= candela.getCatalogoVigente();
 			catalogo.bajaTomo(codigoTomo);
-			//Si no se lanzo ninguna excepcion, se redirige al HTML de exito!
+			
+			
 			
 		}catch(SQLException sql){
 			
@@ -56,7 +57,12 @@
 				gen.generarXMLTomos();
 				gen.generarProductosNoAsociados();
 				gen.generarTomosVigentes();
-				response.sendRedirect("tomoDadoBaja.jsp");
+				//Si no se lanzo ninguna excepcion, se guarda un mensaje de exito en la sesion!.
+				candela_sesion.setAttribute("mensaje", "Tomo dado de baja correctamente!");
+				response.sendRedirect("bajaTomo.jsp");
+				
+				
+				//response.sendRedirect("tomoDadoBaja.jsp");
 		}
 		
 	}

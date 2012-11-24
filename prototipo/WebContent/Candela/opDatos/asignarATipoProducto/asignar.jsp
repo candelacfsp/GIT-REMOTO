@@ -40,8 +40,8 @@
 		}
 		if (!response.isCommitted()) {
 			GeneradorXML xml = new GeneradorXML(candela);
-			xml.generarXMLProductos();
-			xml.generarXMLTipoDeProductos();
+			xml.generarXMLProductos(0);
+			xml.generarXMLTipoDeProductos(500);
 			response.sendRedirect("../vistaOpDatos-producto.jsp");
 		}
 	}

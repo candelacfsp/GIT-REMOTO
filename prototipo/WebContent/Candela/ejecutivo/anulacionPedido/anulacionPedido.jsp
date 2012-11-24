@@ -55,7 +55,7 @@
 		}
 		if (!response.isCommitted()){
 			GeneradorXML xml = new GeneradorXML(candela);
-			xml.generarXMLUsuarios();
+			xml.generarXMLUsuarios(500);
 			response.sendRedirect("../vistaEjecutivo.jsp");
 		}
 		

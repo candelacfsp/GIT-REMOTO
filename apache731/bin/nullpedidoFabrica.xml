@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Pedidos_a_fabrica>
+  <pedido nroPedido="2" />
+  <pedido nroPedido="3" />
+  <pedido nroPedido="4" />
+  <pedido nroPedido="5" />
+  <pedido nroPedido="6" />
+  <pedido nroPedido="7" />
+  <pedido nroPedido="8" />
+  <pedido nroPedido="9" />
+</Pedidos_a_fabrica>

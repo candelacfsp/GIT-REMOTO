@@ -49,8 +49,8 @@
 						//panel.showMessageDialog(null, "Producto desasignado correctamente!");
 						candela_sesion.setAttribute("mensaje", "Producto desasignado correctamente!");
 						GeneradorXML xml = new GeneradorXML(candela);
-						xml.generarProductosNoAsociados();
-						xml.generarTomosVigentes();
+						xml.generarProductosNoAsociados(0);
+						xml.generarTomosVigentes(500);
 						response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 					}else{
 				 			if(nombre!=null){
@@ -59,8 +59,8 @@
 								panel.showMessageDialog(null, "Producto desasignado correctamente!");
 								candela_sesion.setAttribute("mensaje", "Producto desasignado correctamente!");
 								GeneradorXML xml = new GeneradorXML(candela);
-								xml.generarProductosNoAsociados();
-								xml.generarTomosVigentes();
+								xml.generarProductosNoAsociados(0);
+								xml.generarTomosVigentes(500);
 								response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 				 			}
 

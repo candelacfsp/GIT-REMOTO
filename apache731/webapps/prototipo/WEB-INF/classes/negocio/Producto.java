@@ -1,5 +1,7 @@
 package negocio;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,7 +19,7 @@ import net.java.ao.EntityManager;
 
 public class Producto {
 
-	private EntityManager em=null;
+	private Connection conexion=null;
 	private int codigo;
 	private String descripcion;
 	private int cantidadEnStock;
@@ -25,8 +27,8 @@ public class Producto {
 	private int TipoProducto;
 
 
-	public Producto(EntityManager em){
-		this.em=em;
+	public Producto(Connection em){
+		this.conexion=em;
 
 	}
 	/***
@@ -38,27 +40,26 @@ public class Producto {
 	 * @throws ProductoNoExisteExcepcion 
 	 * @throws SQLException 
 	 */
-	public void modDeProducto(int codigo, double precio, int cantidad, ArrayList<Producto> colProductos) throws ProductoNoExisteExcepcion, SQLException {
+	public void modDeProducto(int codigo, double precio, int cantidad, ArrayList<Producto> colProductos) throws  SQLException {
+		//Se crea el objeto PreparedStatement
+		CallableStatement sentencia=null;
+
+		sentencia= conexion.prepareCall("{call modificacionProducto(?,?,?)}");
+
+		
+
 		//recorro la coleccion de productos
 		for (int i = 0; i < colProductos.size(); i++) {
-			//si encuentro el producto se modifica
+			//si encuentro el producto se llama al procedimiento almacenado que lo modifica
 			if (colProductos.get(i).getCodigo()== codigo){
+				//Se setean los parametros del proc. almacenado y se ejecuta.
+				
+				sentencia.setInt(1, codigo);
+				sentencia.setDouble(2, precio);
+				sentencia.setInt(3, cantidad);
 
-				ProductoBD modificar []= null;
-
-				try {
-					modificar= em.find(ProductoBD.class,"codigo=?",codigo);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					throw new SQLException();
-				}
-
-
-				modificar[0].setCantidadEnStock(cantidad);
-				modificar[0].setPrecio(precio);
-				modificar[0].save();
-
+				sentencia.execute();
+				
 			}
 		}
 
@@ -84,18 +85,17 @@ public class Producto {
 				for (int j = 0; j < colTipoDeProducto.size(); j++) {
 					if (colTipoDeProducto.get(j).getCodTipoProd()==codigoTProducto){
 						tipoProductoEncontrado=true;
-						ProductoBD prod []=null;
-						try {
-							prod=em.find(ProductoBD.class, "codigo=?",codigoproducto);
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							throw new SQLException();
+						
+						//Se prepara el procedimiento almacenado
+						CallableStatement sentencia=null;
 
-						}
-						prod[0].setTipoDeProductoBD(colTipoDeProducto.get(j));
-						prod[0].save();
-						colTipoDeProducto.get(j).save();
+						sentencia= conexion.prepareCall("{call asignaratipoprod(?,?)}");
 
+						//Se setean los parametros y se ejecuta la sentencia
+						sentencia.setInt(1, codigoproducto);
+						sentencia.setInt(2, codigoTProducto);
+						sentencia.execute();
+		
 					}
 				}
 				if (!tipoProductoEncontrado){
@@ -134,39 +134,29 @@ public class Producto {
 
 			}
 		}
-		if (!encontrado){
-			//si no encontre el codigo
-			ProductoBD productonuevo=null;
+		if (!encontrado){	//si no encontre el codigo
 
+			//Creo el producto en la BD
+			//Se prepara el procedimiento almacenado
+			CallableStatement sentencia=null;
+			sentencia= conexion.prepareCall("{call altadeproducto(?,?,?,?)}");
 
-
-			productonuevo=em.create(ProductoBD.class);
-
-			if (productonuevo != null){
-				productonuevo.setCodigo(codigo);
-
-				productonuevo.setDescripcion(descripcion);
-				productonuevo.setPrecio(precio);
-				productonuevo.setCantidadEnStock(cantidad);
-
-
-
-				productonuevo.save();
-
-				Producto prod=new Producto(this.em);
-
+			//Se setean los parametros y se ejecuta la sentencia
+			sentencia.setInt(1, codigo);
+			sentencia.setString(2, descripcion);
+			sentencia.setDouble(3, precio);
+			sentencia.setInt(4, cantidad);
+			sentencia.execute();
+				
+				//Creo el producto en memoria
+				Producto prod=new Producto(this.conexion);
 				prod.setCantidadEnStock(cantidad);
 				prod.setCodigo(codigo);
 				prod.setDescripcion(descripcion);
 				prod.setPrecio(precio);
-
-
+				prod.setTipoProducto(-1);
+				//TODO DAMIAN modificación, desde memoria para poder detectar en el flash sobre el generador.
 				colProductos.add(prod);
-
-
-			}else{
-				throw new SQLException();
-			}
 
 		}else{
 			throw new ProductoExisteExcepcion();
@@ -183,42 +173,49 @@ public class Producto {
 	 * @throws ProductoNoExisteExcepcion 
 	 * @see altaDeProducto
 	 */
-	public void bajaDeProducto(int codigo, ArrayList<Producto> colProductos) throws SQLException, TomoAsignadoExcepcion, ProductoNoExisteExcepcion {
+	public void bajaDeProducto(int codigo, ArrayList<Producto> colProductos, ArrayList<Tomo> tomos) throws SQLException, TomoAsignadoExcepcion, ProductoNoExisteExcepcion {
 		//Se recorre la coleccion en busca del producto
 
 		for (int i = 0; i < colProductos.size(); i++) {
 			if(colProductos.get(i).getCodigo()== codigo){
 				//si se encuentra el producto
-				TomoBD tomos []=null;
+				
+				
 
-				tomos= em.find(TomoBD.class);
-
-
-				if (tomos[0]!=null){
+				if (tomos!=null){
 					//Si no encuentro ningun tomo asignado al producto, procedo a eliminarlo
-					for (int j = 0; j < tomos.length; j++) {
-						for (int k = 0; k < tomos[j].getProductos().length; k++) {
-							if (tomos[j].getProductos()[k].getCodigo()==colProductos.get(i).getCodigo()){
+					for (int j = 0; j < tomos.size(); j++) {
+						for (int k = 0; k < tomos.get(j).getProductos().size(); k++) {
+							if (tomos.get(j).getProductos().get(k).getCodigo()==colProductos.get(i).getCodigo()){
 								throw new TomoAsignadoExcepcion();
 							}
 						}
 					}
 				}
 
+				//Crear proc almacenado y ejecutarlo
+				CallableStatement sentencia=null;
 
-				ProductoBD prod1[];
-				try {
-					prod1 = em.find(ProductoBD.class, "codigo=?", codigo);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				sentencia= conexion.prepareCall("{call bajadeproducto(?)}");
+
+				//Seteo los argumentos de la funcion.
+				sentencia.setInt(1, codigo);
+
+				//Seteo parametro de salida
+
+				sentencia.registerOutParameter(1, java.sql.Types.BOOLEAN);
+				
+				
+				sentencia.execute();
+				
+				boolean resultado=false;
+				
+				resultado= sentencia.getBoolean(1);
+				if(resultado==false){
 					throw new ProductoNoExisteExcepcion();
 				}
-
-
-
-				em.delete(prod1[0]);
-				//Se quita de la coleccion de productos
+				
+				//Se quita de la coleccion de productos en memoria
 				colProductos.remove(i);
 
 			}

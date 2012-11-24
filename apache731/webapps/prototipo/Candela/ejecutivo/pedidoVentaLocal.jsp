@@ -19,12 +19,21 @@
 	String estado = request.getParameter("estado");
 	String talle = request.getParameter("talle");
 	String color = request.getParameter("color");
+	String cancelar= request.getParameter("cancelar");
+	HttpSession candela_sesion = request.getSession();
 
+	if (cancelar!= null){
+	candela_sesion.setAttribute("colDetalles", null);
+		response.sendRedirect("vistaEjecutivo-stock.jsp");
+	}
+	if (!response.isCommitted()){
 	if (userName != null && codigo != null) {
-		HttpSession candela_sesion = request.getSession();
+	
 		Candela candela = (Candela) candela_sesion
 				.getAttribute("candela");
 		if (estado.equals("si")) {
+			candela_sesion.setAttribute("estado", estado);
+			candela_sesion.setAttribute("userName", userName);
 			for (int i = 0; i < candela.getColProductos().size(); i++) {
 				//busco el producto que me pasaron por parametros
 				if (candela.getColProductos().get(i).getCodigo() == Integer
@@ -48,11 +57,14 @@
 						colDetalles.add(detalle);
 					}
 					candela.actualizarColProdConDetalle(colDetalles);
-					response.sendRedirect("pedidoVentaLocal.jsp");
+					response.sendRedirect("pedidoVentaLocalEmbed.jsp");
 
 				}
 			}
 		} else {//si selecciono que no!
+			candela_sesion.removeAttribute("estado");
+			candela_sesion.removeAttribute("userName");
+			
 			if (!response.isCommitted()) {//pregunto si ya se desplego en otra pagina
 				//referencio a la coleccion de detalles
 				ArrayList<DetallePedidoPersonal> colDetalles = (ArrayList<DetallePedidoPersonal>) candela_sesion
@@ -122,4 +134,5 @@
 		} // fin del else, si eligió el usuario NO
 
 	} //si los parametros vienen con null
+	}
 %>

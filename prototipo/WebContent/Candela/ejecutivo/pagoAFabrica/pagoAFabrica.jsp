@@ -51,7 +51,7 @@
 					candela_sesion.setAttribute("mensaje", "La factura a fábrica se ha registrado como paga correctamente");
 					
 					GeneradorXML xml= new GeneradorXML(candela);
-					xml.generarXMLFacturasFabrica();
+					xml.generarXMLFacturasFabrica(500);
 					response.sendRedirect("pagoFabrica.jsp");
 					
 					//response.sendRedirect("../vistaEjecutivo.swf");

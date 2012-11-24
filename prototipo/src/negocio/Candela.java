@@ -1257,7 +1257,7 @@ public class Candela {
 								}
 								
 								GeneradorXML xml = new GeneradorXML(this);
-								xml.generarXMLUsuarios();
+								xml.generarXMLUsuarios(100);
 								
 								
 							}else{
@@ -1366,9 +1366,9 @@ public class Candela {
 
 		//TODO ver si es necesario actualizar tambien los productos...
 		//genero los pedidos
-		xml.generarXMLPedidoPersonal();
+		xml.generarXMLPedidoPersonal(0);
 		//genero las facturas
-		xml.generarXMLFacturasPersonal();
+		xml.generarXMLFacturasPersonal(500);
 
 
 
@@ -1398,7 +1398,7 @@ public class Candela {
 
 		}
 		GeneradorXML xml = new GeneradorXML(this);
-		xml.generarXMLProductosEnStock();
+		xml.generarXMLProductosEnStock(500);
 	}
 	//TODO [DAMIAN] 11-9-2012 agregue nuevos get a set
 	public String getDirectorio() {

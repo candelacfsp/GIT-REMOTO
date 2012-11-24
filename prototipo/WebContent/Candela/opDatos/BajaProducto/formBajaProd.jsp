@@ -38,8 +38,8 @@ String opcion= request.getParameter("opcion");
 		}
 		if (!response.isCommitted()) {
 			GeneradorXML xml = new GeneradorXML(candela);
-			xml.generarProductosNoAsociados();
-			xml.generarXMLProductos();
+			xml.generarProductosNoAsociados(0);
+			xml.generarXMLProductos(500);
 			
 			if (opcion.equals("si")) {
 				response.sendRedirect("bajaProducto.jsp");

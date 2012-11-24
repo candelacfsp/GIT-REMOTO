@@ -41,7 +41,6 @@
 					JOptionPane panel= new JOptionPane();
 					Date hoy= new Date();
 					candela_sesion.setAttribute("mensaje", "Error! seleccione una fecha superior a hoy:"+hoy.getDay()+"/"+hoy.getMonth()+"/"+hoy.getYear());
-					//panel.showMessageDialog(null, "Error! seleccione una fecha superior a hoy:"+hoy.getDay()+"/"+hoy.getMonth()+"/"+hoy.getYear());
 					response.sendRedirect("formAltaCatalogoEmbed.jsp");
 				}
 		

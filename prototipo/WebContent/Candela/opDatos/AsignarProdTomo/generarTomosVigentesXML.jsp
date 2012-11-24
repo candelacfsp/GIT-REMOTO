@@ -20,7 +20,7 @@
 	Candela cand=(Candela) candela_sesion.getAttribute("candela");
 	
 	GeneradorXML gen= new GeneradorXML(cand);
-	gen.generarTomosVigentes();
+	gen.generarTomosVigentes(500);
 
 %>
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tipos_De_Productos>
+  <TipoDeProducto codigo="10" descripcion="Indumentaria" />
+  <TipoDeProducto codigo="20" descripcion="Cosmeticos" />
+  <TipoDeProducto codigo="30" descripcion="Articulos para el hogar" />
+</Tipos_De_Productos>

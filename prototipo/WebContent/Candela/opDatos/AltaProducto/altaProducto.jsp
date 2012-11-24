@@ -17,6 +17,12 @@
 	HttpSession candela_sesion = request.getSession(false);
 	Integer tipoUsr = (Integer) candela_sesion.getAttribute("tipoUsr");
 	String mensaje = (String) candela_sesion.getAttribute("mensaje");
+	String descripcionProducto= (String) candela_sesion.getAttribute("descripcionProducto");
+	String precioProducto= (String) candela_sesion.getAttribute("precioProducto");
+	String cantidadProducto=(String) candela_sesion.getAttribute("cantidadProducto");
+	
+	
+	
 	if (tipoUsr == null) {
 		response.sendRedirect("../../Index.swf");
 
@@ -40,7 +46,7 @@
 <body>
 	<center>
 		<%
-			if (mensaje != null) {
+			if ((mensaje != null) && (descripcionProducto==null) && (cantidadProducto==null )&&(precioProducto==null)) {
 		%>
 		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 			codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10.0.0.0"
@@ -53,9 +59,11 @@
 				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 		</object>
 		<%
-			mensaje=null;
-			candela_sesion.setAttribute("mensaje", mensaje);
-			} else {
+			mensaje = null;
+					candela_sesion.setAttribute("mensaje", mensaje);
+				} else {
+					if ((mensaje == null)&& (descripcionProducto==null) && (cantidadProducto==null )&&(precioProducto==null)){
+					
 		%>
 		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 			codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10.0.0.0"
@@ -67,13 +75,33 @@
 				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 		</object>
 		<%
+			}else{
+		%>		
+				
+		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+			codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10.0.0.0"
+			width="800" height="600">
+			<param name="movie" value="altaProducto.swf" />
+			<param name="quality" value="high" />
+			<embed src="altaProducto.swf?mensaje=<%=mensaje%>&cantidadProducto=<%=cantidadProducto%>&precioProducto=<%=precioProducto%>&descripcionProducto=<%=descripcionProducto%>" quality="high"
+				type="application/x-shockwave-flash" width="800" height="600"
+				pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
+		</object>
+		<%
+		candela_sesion.setAttribute("mensaje", null);
+		candela_sesion.setAttribute("cantidadProducto", null);
+		candela_sesion.setAttribute("descripcionProducto", null);
+		candela_sesion.setAttribute("precioProducto", null);
 			}
-		%>
+				}%>
+		
+
+
 	</center>
 </body>
 </html>
-
-
 <%
 	}
 %>
+
+

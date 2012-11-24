@@ -1,4 +1,4 @@
-package negocio;
+/*package negocio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,10 +7,10 @@ import persistencia.usuarioBD;
 
 public class Main {
 
-	/**
+	*//**
 	 * @param args
 	 * @throws SQLException 
-	 */
+	 *//*
 	public static void main(String[] args) throws SQLException {
 		//Prueba de venta en local
 
@@ -43,3 +43,4 @@ public class Main {
 	}
 
 }
+*/

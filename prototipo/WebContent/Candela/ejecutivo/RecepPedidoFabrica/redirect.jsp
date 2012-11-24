@@ -20,7 +20,7 @@
 	
 	GeneradorXML gen=new GeneradorXML(cand);
 	//Se generanlos pedidos fabrica marcados y sus facturas fabricas impagas
-	gen.generarXMLPedidoFabrica();
-	gen.generarXMLFacturasFabrica();
+	gen.generarXMLPedidoFabrica(0);
+	gen.generarXMLFacturasFabrica(500);
 	response.sendRedirect("recepPedidoFabrica.jsp");
 %>

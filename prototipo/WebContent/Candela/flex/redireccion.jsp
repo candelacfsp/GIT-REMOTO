@@ -48,7 +48,7 @@ Candela candela = (Candela) candela_sesion
 		.getAttribute("candela");
 
 GeneradorXML xml = new GeneradorXML(candela);
-xml.generarXMLVentas();
+xml.generarXMLVentas(500);
 %>
 <center>
 	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"

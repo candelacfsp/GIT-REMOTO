@@ -57,7 +57,7 @@
 					//Redirigir a un JSP que muestre las facturas Impagas y que registre el pago de la Factura
 					//Antes de redirigir se debe crear un XML de facturasImpagas del vendedor
 					GeneradorXML gen = new GeneradorXML(candela);
-					gen.generarFacturasImpagasUsuario(dni);
+					gen.generarFacturasImpagasUsuario(dni,500);
 					response.sendRedirect("mostrarFacturaImpaga.jsp");
 
 				} else {//Sino tiene facturas impagas, se muestra un mensaje indicando que no posee facturas impagas en AS2

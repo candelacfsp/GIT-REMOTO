@@ -1,2 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Pedidos_a_fabrica />
+<Pedidos_a_fabrica>
+  <pedido nroPedido="3000" />
+</Pedidos_a_fabrica>

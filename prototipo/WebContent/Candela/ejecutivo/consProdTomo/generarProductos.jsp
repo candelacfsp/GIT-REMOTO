@@ -33,7 +33,7 @@
 	// y obtener su tipo de prod.
 	
 	GeneradorXML gen=new GeneradorXML(cand);
-	gen.generarDatosProdAsocTomo(nroTomo);
+	gen.generarDatosProdAsocTomo(nroTomo,500);
 	
 %>
 

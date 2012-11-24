@@ -5,7 +5,9 @@ import java.io.*;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -25,27 +27,69 @@ import negocio.FacturaPersonal;
 import negocio.PedidoFabrica;
 import negocio.PedidoPersonal;
 import negocio.Producto;
-import negocio.TipoDeProducto;
 import negocio.Tomo;
 import negocio.Usuario;
 
 public class GeneradorXML {
 	private Candela candela;
 	private String directorioActual;
-	public GeneradorXML(Candela candela, String directorioActual){
-		this.candela= candela;
-		this.directorioActual=directorioActual;
-		this.directorioActual=this.directorioActual+"Candela";
-		
 
-	}
+
 	public GeneradorXML(Candela candela){
 		this.candela=candela;
 		this.directorioActual= candela.getDirectorio();
 	}
-	
+
+
+
+	/**
+	 * Este metodo genera un xml llamado: dniVendDirect.xml con los Dnis
+	 * de los vendedores y directores, que son usados en una busqueda
+	 * sensitiva en el caso de uso PagoDeFactImpaga.
+	 * Luego desde AS2 se realiza el filtrado segun lo que ingresa el usuario
+	 * en el textfield. 
+	 */
+	synchronized public void generarDnisVendDir(){
+		ArrayList<usuarioBD> usuarios= candela.getColUsuarios();
+
+		Element root= new Element("DNIS-vend-directores");
+
+		for (int i = 0; i < usuarios.size(); i++) {
+			if(usuarios.get(i).getTipoDeUsrBD().getnroTipoUsr()==Constantes.VENDEDOR
+					|| usuarios.get(i).getTipoDeUsrBD().getnroTipoUsr()==Constantes.DIRECTOR){
+				//Si es un usuario vendedor o director, se agrega al XML
+				Element dni= new Element("dni");
+				dni.setAttribute("nroDni",Integer.toString(usuarios.get(i).getDni()));
+				root.addContent(dni);
+			}
+		}//FIn del for de usuarios
+
+		Document doc = new Document(root);//Creamos el documento
+
+		try {
+
+			System.out.println("El directorio actual es: "+directorioActual);
+			XMLOutputter salida = new XMLOutputter(Format.getPrettyFormat());
+			FileOutputStream file = new FileOutputStream(directorioActual+"dniVendDirect.xml");
+			salida.output(doc, file);
+			file.flush();
+			file.close();
+			salida.output(doc, System.out);
+
+
+		} catch (Exception e) {
+			System.out.println("Error al crear XML de Dnis de Vendedores/Directores- Sentitive Search");
+
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+
 	//TODO el filtrado de los xmls se debe realizar desde AS2
-	public  void generarXMLProductos(){
+	synchronized public  void generarXMLProductos(){
 		ArrayList<Producto> colProductos = candela.getProductos();
 		Element root = new Element("Productos");
 		for (int i = 0; i < colProductos.size(); i++) {
@@ -84,7 +128,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLTipoDeProductos(){
+	synchronized public void generarXMLTipoDeProductos(){
 		ArrayList<TipoDeProductoBD> colTipoDeProducto = candela.getColTipoDeProducto();
 		Element root = new Element("Tipos_De_Productos");
 		for (int i = 0; i < colTipoDeProducto.size(); i++) {
@@ -115,7 +159,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLTipoDeUsr(){
+	synchronized public void generarXMLTipoDeUsr(){
 		ArrayList<TipoDeUsrBD> colTipoDeUsr = candela.getColTipoUsr();
 		Element root = new Element("Tipos_De_Usuarios");
 		for (int i = 0; i < colTipoDeUsr.size(); i++) {
@@ -127,10 +171,7 @@ public class GeneradorXML {
 		}
 
 		Document doc = new Document(root);//Creamos el documento
-
 		try {
-
-
 			XMLOutputter salida = new XMLOutputter(Format.getPrettyFormat());
 			FileOutputStream file = new FileOutputStream(directorioActual+"TipoDeUsr.xml");
 			salida.output(doc, file);
@@ -143,8 +184,8 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLUsuarios(){
-		ArrayList<usuarioBD> colUsuarios = candela.getColUsuarios();
+	synchronized public void generarXMLUsuarios(){
+		ArrayList<Usuario> colUsuarios = candela.getcolUSRSOFTWARE();
 		Element root = new Element("Usuarios");
 		for (int i = 0; i < colUsuarios.size(); i++) {
 			Element usuario = new Element("usuario");
@@ -152,12 +193,13 @@ public class GeneradorXML {
 					colUsuarios.get(i).getNombre());
 			usuario.setAttribute("apellido",colUsuarios.get(i).getApellido());
 			usuario.setAttribute("dni",Integer.toString(colUsuarios.get(i).getDni()));
-			usuario.setAttribute("userName",colUsuarios.get(i).getNombreUsr());
-
-			for (int j = 0; j < colUsuarios.get(i).getColFacturas().length; j++) {
-				if (!colUsuarios.get(i).getColFacturas()[j].getPagada()){
+			usuario.setAttribute("userName",colUsuarios.get(i).getNombreUsuario());
+			usuario.setAttribute("tipoDeUsuario",Integer.toString(colUsuarios.get(i).getTipoDeUsuario()));			
+			for (int j = 0; j < colUsuarios.get(i).getFacturaPers().size(); j++) {
+				if (!colUsuarios.get(i).getFacturaPers().get(j).getPagada()){
+					//NOTA el atributo factura = pedido, no se cambia por motivos de reestructuraciòn del código
 					Element facturas=new Element("facturasImpagas");
-					facturas.setAttribute("factura",Integer.toString(colUsuarios.get(i).getColFacturas()[j].getNumero()));
+					facturas.setAttribute("factura",Integer.toString(colUsuarios.get(i).getFacturaPers().get(j).getPedidoPers().getNumeroPedido()));
 					usuario.addContent(facturas);
 
 
@@ -167,7 +209,6 @@ public class GeneradorXML {
 
 			root.addContent(usuario);
 		}
-
 		Document doc = new Document(root);//Creamos el documento
 
 		try {
@@ -185,7 +226,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLTomos(){
+	synchronized public void generarXMLTomos(){
 		Catalogo catalogo= candela.getCatalogoVigente();
 		ArrayList<Tomo> colTomos= catalogo.getTomos();
 
@@ -215,7 +256,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLFacturasFabrica(){
+	synchronized public void generarXMLFacturasFabrica(){
 		ArrayList<FacturaFabrica>facturaFabrica=candela.getFacturasFabrica();
 
 
@@ -247,7 +288,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLFacturasPersonal(){
+	synchronized public void generarXMLFacturasPersonal(){
 		ArrayList<FacturaPersonal>facturaPersonal=candela.getFacturasPersonal();
 		Element root = new Element("Facturas_A_Personal");
 		for (int i = 0; i < facturaPersonal.size(); i++) {
@@ -277,7 +318,7 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLPedidoFabrica(){
+	synchronized	public void generarXMLPedidoFabrica(){
 		ArrayList<PedidoFabrica>pedidoFabrica=candela.getPedidosFabricaNoFacturados();
 		Element root = new Element("Pedidos_a_fabrica");
 		for (int i = 0; i < pedidoFabrica.size(); i++) {
@@ -309,7 +350,7 @@ public class GeneradorXML {
 	}
 
 
-	public void generarXMLPedidoPersonal(){
+	synchronized public void generarXMLPedidoPersonal(){
 		ArrayList<PedidoPersonal>pedidoPersonal=candela.getPedidosPersonal();
 		Element root = new Element("Pedidos_personal");
 		for (int i = 0; i < pedidoPersonal.size(); i++) {
@@ -338,12 +379,12 @@ public class GeneradorXML {
 			e.printStackTrace();
 		}
 	}
-	public void generarXMLProductosEnStock(){
+	synchronized public void generarXMLProductosEnStock(){
 		ArrayList<Producto>productos=candela.getColProductos();
 		Element root = new Element("ProductosEnStock");
 		for (int i = 0; i < productos.size(); i++) {
 
-			if (productos.get(i).getCantidadEnStock() > 0){
+			if (productos.get(i).getCantidadEnStock() > 0 && productos.get(i).getTipoProducto()>0){
 				Element producto = new Element("Producto");
 				producto.setAttribute("codigo",
 						Integer.toString(productos.get(i).getCodigo()));
@@ -353,6 +394,7 @@ public class GeneradorXML {
 						Double.toString(productos.get(i).getPrecio()));
 				producto.setAttribute("cantidad", Integer.toString(productos
 						.get(i).getCantidadEnStock()));
+				producto.setAttribute("tipo",Integer.toString(productos.get(i).getTipoProducto()));
 
 				root.addContent(producto);
 			}
@@ -380,7 +422,7 @@ public class GeneradorXML {
 
 
 
-	public void generarXMLVentas(){
+	synchronized public void generarXMLVentas(){
 
 		ArrayList<Lista> tipos= new ArrayList<Lista>();
 
@@ -389,7 +431,7 @@ public class GeneradorXML {
 		Date hoy= new Date();
 		for (int i = 0; i < facturas.size(); i++) {
 			//si la fecha de la factura supera a la de 3 meses se incluye en el trimestre
-			if (facturas.get(i).getFecha().getMonth()>=(hoy.getMonth()-3)){
+			if ((facturas.get(i).getFecha().getMonth()>=(hoy.getMonth()-3)) && (facturas.get(i).esPagada())){
 				//obtengo los pedidos de las facturas
 
 				//TODO ver el tema de utilizar DATE debe sumarle 1 al mes (0-11)
@@ -420,7 +462,7 @@ public class GeneradorXML {
 									}
 								}
 								if (!mesEncontrado){
-									ColMeses mes= new GeneradorXML.Lista(codigo).new ColMeses(mesFactura,1);
+									ColMeses mes= new GeneradorXML.Lista(codigo,tipos.get(l).getDescripcion()).new ColMeses(mesFactura,1);
 									meses.add(mes);
 									tipos.get(l).setMes(meses);
 								}
@@ -431,12 +473,18 @@ public class GeneradorXML {
 						if (!encontrado){
 
 							//si no encuentro el tipo de codigo
-							Lista lista = new Lista(codigo);
-							ArrayList<ColMeses> meses= new ArrayList<GeneradorXML.Lista.ColMeses>();
-							ColMeses mes = new GeneradorXML.Lista(codigo).new ColMeses(mesFactura,1);
-							meses.add(mes);
-							lista.setMes(meses);
-							tipos.add(lista);
+							//tengo que crear la tupla lista
+							for (int l = 0; l < candela.getColTipoDeProducto().size(); l++) {
+								if (candela.getColTipoDeProducto().get(l).getCodTipoProd()== codigo){
+									Lista lista = new Lista(codigo,candela.getColTipoDeProducto().get(l).getDescripcion());
+									ArrayList<ColMeses> meses= new ArrayList<GeneradorXML.Lista.ColMeses>();
+									ColMeses mes = new GeneradorXML.Lista(codigo,candela.getColTipoDeProducto().get(l).getDescripcion()).new ColMeses(mesFactura,1);
+									meses.add(mes);
+									lista.setMes(meses);
+									tipos.add(lista);
+								}
+							}
+
 
 						}
 
@@ -450,6 +498,7 @@ public class GeneradorXML {
 			if (tipos.get(i)!= null){
 				Element tipoProd= new Element("tipoProducto");
 				tipoProd.setAttribute("codigo",Integer.toString(tipos.get(i).getCodigo()));
+				tipoProd.setAttribute("descripcion",tipos.get(i).getDescripcion());
 				for (int j = 0; j < tipos.get(i).getMes().size(); j++) {
 					if (tipos.get(i).getMes().get(j)!= null){
 						Element mes= new Element("mes");
@@ -473,9 +522,9 @@ public class GeneradorXML {
 
 
 			XMLOutputter salida = new XMLOutputter(Format.getPrettyFormat());
-			FileOutputStream file = new FileOutputStream(directorioActual+"ventas.xml");
+			FileOutputStream file = new FileOutputStream(candela.getDirectorio()+"flex/ventas.xml");
 			salida.output(doc, file);
-
+			System.out.println(candela.getDirectorio()+"flex/ventas.xml");
 			file.flush();
 			file.close();
 			salida.output(doc, System.out);
@@ -486,9 +535,7 @@ public class GeneradorXML {
 		}
 	}
 
-	public void generarFacturasImpagasUsuario(int dni){
-
-
+	synchronized public void generarFacturasImpagasUsuario(int dni){
 
 		Element root=null;
 		//Se busca el Vendedor en memoria por medio de su DNI.
@@ -501,44 +548,37 @@ public class GeneradorXML {
 			//Recorrer sus facturas impagas
 			ArrayList<FacturaPersonal> factsImpUsr=candela.getcolUSRSOFTWARE().get(i).obtenerFactImpagas();
 			if(factsImpUsr!=null){// SI el usuario tiene facturas impagas, se crea el elemento raiz y se a�aden sus hijos
-
 				root=new Element("facturas_impagas");
 
 				//Se recorre la coleccion de facts impagas y se a�aden los hijos
-
 				for (int j = 0; j < factsImpUsr.size(); j++) {
 					Element factImp= new Element("facturaImpaga");
 					factImp.setAttribute("numeroFact", Integer.toString(factsImpUsr.get(j).getNumero()));
 					factImp.setAttribute("tipoFact", Integer.toString(factsImpUsr.get(j).getTipo()));
+					factImp.setAttribute("total", Float.toString(factsImpUsr.get(j).total()));
 
+					GregorianCalendar gc= (GregorianCalendar) Calendar.getInstance();
+					gc.setGregorianChange(factsImpUsr.get(j).getFecha());
 
-					//Se castea la fecha de la factura a String
-					SimpleDateFormat formato=new SimpleDateFormat("aaaa-MM-dd");
-					String fecha= formato.format( factsImpUsr.get(j).getFecha()); 
-
-
+					String fecha= gc.get(Calendar.YEAR)+"-"+gc.get(Calendar.MONTH)+"-"+gc.get(Calendar.DAY_OF_MONTH);
 					factImp.setAttribute("fechaFact", fecha);
 
-
 					//Se crea el subnodo detalle de Factura
-					Element detalle= new Element("detalle");
+					//Element detalle= new Element("detalle");
 					ArrayList<DetallePedidoPersonal> detsFacts= factsImpUsr.get(j).getPedidoPers().getDetalles();
-
 					for (int k = 0; k < detsFacts.size(); k++) {
+						Element detalle= new Element("detalle");
 						detalle.setAttribute("codigoProd",Integer.toString(detsFacts.get(k).getProd().getCodigo()));
 						detalle.setAttribute("descrip",detsFacts.get(k).getProd().getDescripcion());
-						detalle.setAttribute("cantProd",Double.toString(detsFacts.get(k).getCantidad()));
+						detalle.setAttribute("cantProd",Integer.toString(detsFacts.get(k).getCantidad()));
 						detalle.setAttribute("precio", Double.toString(detsFacts.get(k).getProd().getPrecio()));
 
-
+						//Se a�ade detalle al nodo superior factImp
+						factImp.addContent(detalle);	
 					}
-					//Se a�ade detalle al nodo superior factImp
-					factImp.addContent(detalle);
-
 					//Se a�ade el elemento a la raiz del XML
 					root.addContent(factImp);
 				}
-
 			}
 			//Se crea el documento con la raiz root
 			Document doc=new Document(root);
@@ -565,7 +605,9 @@ public class GeneradorXML {
 
 
 
-	public  void generarTodo(){
+	synchronized	public  void generarTodo(){
+		long time_start = System.currentTimeMillis();
+
 		this.generarXMLProductos();
 		this.generarXMLFacturasFabrica();
 		this.generarXMLFacturasPersonal();
@@ -576,15 +618,23 @@ public class GeneradorXML {
 		this.generarXMLUsuarios();
 		this.generarXMLProductosEnStock();
 		this.generarXMLVentas();
-		this.generarXMLProductosEnStock();
 		this.generarXMLPedidoFabrica();//Son pedidos Fabrica no recibidos.
 		this.generarProductosNoAsociados();
+		this.generarTomosVigentes();
+		//nuevos xml 
+		this.generarDnisVendDir();
+		this.generarXMLPedidoFabrica();
+		long time_end = System.currentTimeMillis();
+		System.out.println("TIEMPO TOTAL:"+(time_end - time_start));
+
+		System.out.println("Directorio:"+this.directorioActual);
+
 	}
 
 
 
 
-	public void generarFacturasFabricaPagadas(ArrayList<FacturaFabrica>facturas){
+	synchronized public void generarFacturasFabricaPagadas(ArrayList<FacturaFabrica>facturas){
 
 		Element root= new Element("FacturasFabPagadas");
 		Element detallesPers=null;
@@ -670,7 +720,7 @@ public class GeneradorXML {
 	 * determinado tomo, para colocar en un DataGrid.
 	 * @param nroTomo: numero del tomo del qeu se generaran los datos XML de los productos.
 	 */
-	public  void generarDatosProdAsocTomo(int nroTomo){
+	synchronized public  void generarDatosProdAsocTomo(int nroTomo){
 
 
 		ArrayList<Tomo>tomos=candela.getCatalogoVigente().getTomos();
@@ -688,7 +738,22 @@ public class GeneradorXML {
 					producto.setAttribute("precio", Double.toString(prodsTomo.get(j).getPrecio()));
 					producto.setAttribute("cantidad", Integer.toString(prodsTomo.get(j).getCantidadEnStock()));
 
-					producto.setAttribute("tipoDeProducto", Integer.toString(prodsTomo.get(j).getTipoProducto()));
+
+					//Si el tipo de producto es null, el atributo tipoDeProducto se setea en N/A,
+					//sino se recorre la coleccion de tipos de producto de candela buscando ese tipo de producto.
+					if(prodsTomo.get(j).getTipoProducto()==-1){
+						producto.setAttribute("tipoDeProducto", "N/A");
+
+					}else{
+						ArrayList<TipoDeProductoBD> tiposDeProducto = candela.getColTipoDeProducto();
+						for (int k = 0; k < tiposDeProducto.size(); k++) {
+							if(tiposDeProducto.get(k).getCodTipoProd()==prodsTomo.get(j).getTipoProducto()){
+								String descripcion=tiposDeProducto.get(k).getDescripcion();
+								producto.setAttribute("tipoDeProducto", descripcion);
+
+							}
+						}
+					}
 
 
 					root.addContent(producto);
@@ -722,7 +787,7 @@ public class GeneradorXML {
 	 * Este metodo genera los codigos de los tomos vigentes en un catalogo.
 	 * 
 	 */
-	public void generarTomosVigentes(){
+	synchronized public void generarTomosVigentes(){
 
 		Catalogo catalogo= candela.getCatalogoVigente();
 		ArrayList<Tomo> colTomos= catalogo.getTomos();
@@ -732,6 +797,15 @@ public class GeneradorXML {
 		for (int i = 0; i < colTomos.size(); i++) {
 			Element tomo = new Element("tomo");
 			tomo.setAttribute("codigo", Integer.toString(colTomos.get(i).getCodigoTomo()));
+			tomo.setAttribute("descripcion",colTomos.get(i).getDescripcion());
+			ArrayList<Producto> productos = colTomos.get(i).getProductos();
+			for (int j = 0; j < productos.size(); j++) {
+				Element producto = new Element("producto");
+				producto.setAttribute("codigoProducto",Integer.toString((productos.get(j).getCodigo())));
+				producto.setAttribute("descripcion",productos.get(j).getDescripcion());
+				producto.setAttribute("precio",Double.toString(productos.get(j).getPrecio()));
+				tomo.addContent(producto);
+			}
 			root.addContent(tomo);
 		}
 
@@ -745,6 +819,7 @@ public class GeneradorXML {
 			salida.output(doc, file);
 			file.flush();
 			file.close();
+
 			salida.output(doc, System.out);
 
 		} catch (Exception e) {
@@ -760,7 +835,7 @@ public class GeneradorXML {
 	 * @param numeroTomo
 	 */
 
-	public void generarProductosVigentes(int nroTomo){
+	synchronized public void generarProductosVigentes(int nroTomo){
 
 
 
@@ -807,15 +882,17 @@ public class GeneradorXML {
 	/***
 	 * Generar Productos no asociados
 	 */
-	public void generarProductosNoAsociados(){
+	synchronized public void generarProductosNoAsociados(){
 
 		Element root = new Element("ProductosNoAsociados");
 		ArrayList<Producto> productosMemoria = candela.getColProductos();
 		//Recorro toda la memoria con todos los productos
 		for (int i = 0; i < productosMemoria.size(); i++) {
+			System.out.println("Codigo de producto:"+productosMemoria.get(i).getCodigo());
 			if (!buscarProductoAsociado(productosMemoria.get(i).getCodigo())){
 				Element producto = new Element("Producto");
 				producto.setAttribute("codigo", Integer.toString(productosMemoria.get(i).getCodigo()));
+				producto.setAttribute("descripcion",productosMemoria.get(i).getDescripcion());
 				root.addContent(producto);
 			}
 		}
@@ -846,19 +923,22 @@ public class GeneradorXML {
 	 * @param codigo
 	 * @return
 	 */
-	private boolean buscarProductoAsociado(int codigo){
-		
-		ArrayList<Tomo>tomos=candela.getCatalogoVigente().getTomos();
-		
+	public boolean buscarProductoAsociado(int codigo){
+
+		ArrayList<Tomo>tomos=null;
+		tomos=candela.getCatalogoVigente().getTomos();
+
+
+		//TODO [DAMIAN] preguntar, porque tomos viene null, esta implementado el getcatalogovigente
 		boolean encontrado=false;
 		int i = 0;
 		//busco dentro de los tomos
-		while (!encontrado && i < tomos.size() ){
+		while (!encontrado && (i < tomos.size() )){
 			ArrayList<Producto> productosTomo = tomos.get(i).getProductos();
 			int j = 0;
 			i++;
 			//busco dentro de los productos de los tomos
-			while (!encontrado && j < productosTomo.size()){
+			while (!encontrado && (j < productosTomo.size())){
 				//si lo encuentro AVISO
 				if (productosTomo.get(j).getCodigo()== codigo){
 					encontrado= true;
@@ -866,24 +946,57 @@ public class GeneradorXML {
 				j++;
 			}
 		}
+		if (!encontrado && candela.getCatalogoNuevo()!=null && candela.esCatalogoNuevo()){
+
+
+			tomos=candela.getCatalogoNuevo().getTomos();
+
+
+			//TODO [DAMIAN] preguntar, porque tomos viene null, esta implementado el getcatalogovigente
+
+			i=0;
+			//busco dentro de los tomos
+			while (!encontrado && (i < tomos.size() )){
+				ArrayList<Producto> productosTomo = tomos.get(i).getProductos();
+				int j = 0;
+				i++;
+				//busco dentro de los productos de los tomos
+				while (!encontrado && (j < productosTomo.size())){
+					//si lo encuentro AVISO
+					if (productosTomo.get(j).getCodigo()== codigo){
+						encontrado= true;
+					}
+					j++;
+				}
+			}
+
+		}
 		return encontrado;
-		
+
 
 
 	}
-	
+
 
 	public class Lista{
 		int codigo;
+		String descripcion;
 		ArrayList<ColMeses> mes;
-		public Lista(int codigo){
+		public Lista(int codigo, String descripcion){
 			this.codigo= codigo;
 			this.mes=  new ArrayList<Lista.ColMeses>();
+			this.descripcion=descripcion;
 		}
 		public int getCodigo() {
 			return codigo;
 		}
 
+		public String getDescripcion() {
+			return descripcion;
+		}
+		public void setDescripcion(String descripcion) {
+			this.descripcion = descripcion;
+		}
 		public void setCodigo(int codigo) {
 			this.codigo = codigo;
 		}
@@ -922,17 +1035,119 @@ public class GeneradorXML {
 		}
 	}
 
+	/***
+	 * Este método genera un xml con un snapshot de la tabla catalogovigente-->tomo-->producto que
+	 * se emplean para las estadisticas y es llamado cuando se crea un nuevo catalogo
+	 */
+	synchronized public void generarHistorico(){
+
+
+		Catalogo catalogo = candela.getCatalogoVigente();
+		Element root = new Element("Catalogo");
+		root.setAttribute("anio",Integer.toString(catalogo.getAnioVigencia()));
+		ArrayList<TipoDeProductoBD> tiposProducto = candela.getColTipoDeProducto();
+		ArrayList<Tomo> tomos = catalogo.getTomos();
+		//Recorro toda la memoria con todos los productos
+		for (int i = 0; i < tomos.size(); i++) {
+			Element tomo= new Element ("Tomo");
+			tomo.setAttribute("codigoTomo",Integer.toString(tomos.get(i).getCodigoTomo()));
+			tomo.setAttribute("descripcion",tomos.get(i).getDescripcion());
+
+			ArrayList<Producto> prod = tomos.get(i).getProductos();
+
+			for (int j = 0; j < prod.size(); j++) {
+				Element producto= new Element("Producto");
+				producto.setAttribute("codigo",
+						Integer.toString(prod.get(j).getCodigo()));
+				producto.setAttribute("descripcion", prod.get(j).getDescripcion());
+				producto.setAttribute("precio", Double.toString(prod.get(j).getPrecio()));
+				producto.setAttribute("cantidad", Integer.toString(prod.get(j).getCantidadEnStock()));
+				producto.setAttribute("tipoDeProducto", Integer.toString(prod.get(j).getTipoProducto()));
+				for (int k = 0; k < tiposProducto.size(); k++) {
+					if (tiposProducto.get(k).getCodTipoProd() == prod.get(j).getTipoProducto()){
+						producto.setAttribute("descripcionTipoProd",tiposProducto.get(k).getDescripcion());
+
+					}
+
+				}	
+
+				tomo.addContent(producto);
+
+			}
+			root.addContent(tomo);
+		}
+		Document doc = new Document(root);//Creamos el documento
+
+		try {
+
+
+			XMLOutputter salida = new XMLOutputter(Format.getPrettyFormat());
+			Calendar cal =  GregorianCalendar.getInstance();
+
+			FileOutputStream file = new FileOutputStream(directorioActual+"historico/historico-"+cal.getTime()+".xml");
+			salida.output(doc, file);
+
+			file.flush();
+			file.close();
+			salida.output(doc, System.out);
+
+		} catch (Exception e) {
+			System.out.println("Error al crear XML historico");
+			e.printStackTrace();
+		}
+
+
+	}
+
 
 	public static void main (String args[]) throws SQLException{
 		Candela candela= new Candela();
 		candela.iniciar();
-		GeneradorXML generador= new GeneradorXML(candela, "/home/damian/apache-tomcat/webapps/prototipo/Candela");
+		GeneradorXML generador= new GeneradorXML(candela);
 		generador.generarTodo();
-	
-		
-		
+
+
+
 
 	}
-	
+
+	public String pruebaCadenaXML(){
+
+		String enviar=null;
+
+		ArrayList<Producto> colProductos = candela.getProductos();
+		Element root = new Element("Productos");
+		for (int i = 0; i < colProductos.size(); i++) {
+			Element producto = new Element("Producto");
+			producto.setAttribute("codigo",
+					Integer.toString(colProductos.get(i).getCodigo()));
+			producto.setAttribute("descripcion", colProductos.get(i)
+					.getDescripcion());
+			producto.setAttribute("precio",
+					Double.toString(colProductos.get(i).getPrecio()));
+			producto.setAttribute("cantidad", Integer.toString(colProductos
+					.get(i).getCantidadEnStock()));
+			producto.setAttribute("tipoProducto",Integer.toString(colProductos.get(i).getTipoProducto()));
+
+			root.addContent(producto);
+
+		}
+		Document doc = new Document(root);//Creamos el documento
+
+		try {
+
+
+			XMLOutputter salida = new XMLOutputter(Format.getPrettyFormat());
+			enviar = salida.outputString(doc);
+			return enviar;
+
+		} catch (Exception e) {
+			System.out.println("Error al crear XML de Producto");
+			e.printStackTrace();
+		}
+		return enviar;
+
+	}
+
 }
 

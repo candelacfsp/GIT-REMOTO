@@ -1,34 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Productos>
-  <Producto codigo="500" descripcion=" Crema exfoliante" precio="19.99" cantidad="1" tipoProducto="1" />
-  <Producto codigo="200" descripcion="Lapiz labial" precio="21.0" cantidad="18" tipoProducto="1" />
-  <Producto codigo="600" descripcion="Esmalte de calcio" precio="18.35" cantidad="6" tipoProducto="1" />
-  <Producto codigo="400" descripcion=" Crema para manos" precio="43.21" cantidad="21" tipoProducto="1" />
-  <Producto codigo="2100" descripcion="Colonia para cuerpo" precio="15.22" cantidad="0" tipoProducto="-1" />
-  <Producto codigo="2200" descripcion="Shampoo para tratamiento capilar" precio="15.99" cantidad="7" tipoProducto="-1" />
-  <Producto codigo="2300" descripcion="Sandalias" precio="16.77" cantidad="0" tipoProducto="-1" />
-  <Producto codigo="2400" descripcion="Pullover de nailon" precio="22.33" cantidad="2" tipoProducto="-1" />
-  <Producto codigo="2500" descripcion="Bufanda " precio="21.33" cantidad="0" tipoProducto="-1" />
-  <Producto codigo="100" descripcion="Crema exfoliante" precio="21.99" cantidad="0" tipoProducto="1" />
-  <Producto codigo="300" descripcion="Gel" precio="54.33" cantidad="12" tipoProducto="1" />
-  <Producto codigo="700" descripcion="Crema para cuerpo" precio="21.0" cantidad="1" tipoProducto="1" />
-  <Producto codigo="800" descripcion="Jabon de Glicerina" precio="13.24" cantidad="0" tipoProducto="1" />
-  <Producto codigo="900" descripcion="Shampoo Head and Shoulders" precio="67.88" cantidad="0" tipoProducto="1" />
-  <Producto codigo="1000" descripcion="Maquillaje Vini" precio="69.88" cantidad="0" tipoProducto="1" />
-  <Producto codigo="1200" descripcion="Remera Nike" precio="69.88" cantidad="0" tipoProducto="2" />
-  <Producto codigo="1300" descripcion="Jeans Tavernitti" precio="69.88" cantidad="0" tipoProducto="2" />
+  <Producto codigo="1200" descripcion="crema para cuerpo" precio="69.88" cantidad="0" tipoProducto="1" />
+  <Producto codigo="300" descripcion="Perfume LaCloaca" precio="600.99" cantidad="0" tipoProducto="1" />
+  <Producto codigo="400" descripcion=" Crema para manos" precio="43.21" cantidad="23" tipoProducto="1" />
+  <Producto codigo="500" descripcion=" Crema exfoliante" precio="19.99" cantidad="10" tipoProducto="1" />
+  <Producto codigo="600" descripcion="Esmalte para u�as" precio="18.35" cantidad="11" tipoProducto="1" />
+  <Producto codigo="700" descripcion="Remera Gastada" precio="21.0" cantidad="1" tipoProducto="2" />
+  <Producto codigo="800" descripcion="Medias de Nailon" precio="13.24" cantidad="0" tipoProducto="2" />
+  <Producto codigo="900" descripcion="Remera manga corta" precio="67.88" cantidad="0" tipoProducto="2" />
+  <Producto codigo="1000" descripcion=" Swetter" precio="69.88" cantidad="0" tipoProducto="2" />
   <Producto codigo="1100" descripcion=" Medias" precio="77.9" cantidad="0" tipoProducto="2" />
-  <Producto codigo="1400" descripcion="Remera Escote en V" precio="36.0" cantidad="6" tipoProducto="2" />
-  <Producto codigo="1500" descripcion="Medias de lana" precio="23.3" cantidad="145" tipoProducto="2" />
-  <Producto codigo="1600" descripcion="Remera de Ubuntu" precio="232.0" cantidad="6" tipoProducto="2" />
-  <Producto codigo="1700" descripcion="Chalina Gris" precio="120.1" cantidad="22" tipoProducto="2" />
-  <Producto codigo="1800" descripcion="Campera de Jean" precio="149.9" cantidad="10" tipoProducto="2" />
-  <Producto codigo="1900" descripcion="Bermuda" precio="22.2" cantidad="0" tipoProducto="2" />
-  <Producto codigo="2000" descripcion="Swetter" precio="13.22" cantidad="2" tipoProducto="2" />
-  <Producto codigo="2600" descripcion="Spray fijador" precio="25.0" cantidad="10" tipoProducto="1" />
-  <Producto codigo="2700" descripcion="Talco para pies" precio="39.99" cantidad="5" tipoProducto="1" />
-  <Producto codigo="2800" descripcion="Quitaesmalte" precio="23.44" cantidad="20" tipoProducto="1" />
-  <Producto codigo="2900" descripcion="Chomba" precio="152.2" cantidad="0" tipoProducto="2" />
-  <Producto codigo="3000" descripcion="Mocasines" precio="400.0" cantidad="23" tipoProducto="2" />
-  <Producto codigo="3100" descripcion="Campera de cuero" precio="900.0" cantidad="15" tipoProducto="2" />
+  <Producto codigo="200" descripcion="Pintalabios" precio="100.0" cantidad="100" tipoProducto="1" />
+  <Producto codigo="1900" descripcion="Producto de prueba" precio="12.3" cantidad="63" tipoProducto="2" />
+  <Producto codigo="100" descripcion="Producto Obsoleto :( " precio="21.99" cantidad="50" tipoProducto="1" />
 </Productos>
