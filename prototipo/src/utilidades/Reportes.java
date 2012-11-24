@@ -4,6 +4,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -116,8 +118,26 @@ public class Reportes {
 							if(colfacts[k].getPagada()){
 								DetallePedidoPersonalBD [] dets=colfacts[k].getPedidoPersonalBD().getColDetallesPedidoPersonalBD();
 								for (int l = 0; l < dets.length; l++) {
+							
 									System.out.println("el precio es:"+dets[l].getPrecio());
-									importe+=dets[l].getPrecio();
+									Double d= new Double(dets[l].getPrecio());
+										
+									DecimalFormat df= new DecimalFormat("####.##");
+									String nro=df.format(dets[l].getPrecio());
+									String [] nroIntermedio= nro.split(",");
+									String nroIntermedio2="";
+									if(nroIntermedio.length >1){
+										//Se une la parte decimal y la parte entera
+										nroIntermedio2=nroIntermedio[0]+"."+nroIntermedio[1];
+									}else{
+										if(nroIntermedio.length >0){
+											nroIntermedio2=nroIntermedio[0];												
+										}
+									}	
+									importe+=Double.parseDouble(nroIntermedio2);		
+										//VERSION VIEJA
+										//importe+=dets[l].getPrecio();	
+
 								}//FIn del for de calculo de importe
 
 							}

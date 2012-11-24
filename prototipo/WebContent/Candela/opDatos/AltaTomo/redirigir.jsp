@@ -20,10 +20,16 @@
 
 		HttpSession candela_sesion = request.getSession();
 		Candela candela = (Candela) candela_sesion.getAttribute("candela");
-
+		GeneradorXML gen = new GeneradorXML(candela);
+		
+		
+		//TODO MODIFICADO RODRIGO 23-11-2012
+		
+		//VERSION VIEJA QUE DETECTA SI EL CATALOGO ES NUEVO O ES VIEJO Y REDIRIJE A UNA VISTA 
+		//DETERMINADA SEGUN EL TIPO DE CATALOGO.
 		//Se emplea una variable booleana para revisar si debe redirigirse al alta de catalogo o
 		// alta de tomo. Si esta var es verdadera se redirige a Catalogo, sino se redirige a altaTomo
-		boolean redirigirAAltaCatalogo;
+		/*boolean redirigirAAltaCatalogo;
 		GeneradorXML gen = new GeneradorXML(candela);
 		if (candela.esCatalogoNuevo() == true) {
 			redirigirAAltaCatalogo = true;
@@ -51,7 +57,8 @@
 		} else {
 			redirigirAAltaCatalogo = false;
 
-		}
+		}*/
+		
 		//Generar los xmls actualizados del catalogo
 		gen.generarXMLProductos(0);
 		gen.generarTomosVigentes(0);
@@ -61,6 +68,7 @@
 		//Remover atributos de la sesion
 		candela_sesion.removeAttribute("descripTomo");
 		candela_sesion.removeAttribute("codigoTomo");
+		candela_sesion.removeAttribute("codigosProducto");
 		response.sendRedirect("../vistaOpDatos-catalogo.jsp");
 	%>
 

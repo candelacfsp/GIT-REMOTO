@@ -41,8 +41,8 @@
 			candela_sesion.setAttribute("mensaje","No puede dar de alta un tomo sin dar de alta un catalogo previamente.Antes de intentar dar de alta un tomo, dirijase al Alta de Cátalogo.");
 			response.sendRedirect("../formAltaTomoEmbed.jsp");
 		} else {
-
-			if (candela.getCatalogoVigente().tomoExiste(nro_tomo) == false) { //Si el tomo no esta en la coleccion de tomos del catalogoVigente de Candela, se obtiene el catalogo nuevo y se añade un nuevo tomo
+			//Si el tomo no esta en la coleccion de tomos del catalogoVigente de Candela, se obtiene el catalogo nuevo y se añade un nuevo tomo
+			if (candela.getCatalogoVigente().tomoExiste(nro_tomo) == false) { 
 				candela_sesion.setAttribute("codigoTomo", new Integer(
 						nro_tomo));
 
@@ -69,24 +69,10 @@
 					sumatoria += candela.getCatalogoVigente()
 							.getTomos().get(j).getProductos().size();
 				}
-				if (colProductos.size() > sumatoria) { //Se verifica que se cuenete con un producto sin asignar a ningun producto en el sistema.
+				if (colProductos.size() > sumatoria) { //Se verifica que se cuenete con un producto sin asignar a ningun tomo en el sistema.
 
 					catalogo.altaTomo(nro_tomo, descripcion,
 							candela.esCatalogoNuevo());
-					//Se recupera la coleccion de numeros de tomos de la sesion, que luego sirve para discriminar los tomos
-					//dados de alta en un "Alta de Tomo" comun
-					
-					ArrayList<Integer> codigos=null;
-					
-					if(candela_sesion.getAttribute("CodigosTomos")==null){//SI no existe la coleccion en la sesion se crea
-						 codigos=new ArrayList<Integer>();
-						candela_sesion.setAttribute("CodigosTomos", codigos);
-					}else{//sino se recupera.
-						codigos=(ArrayList<Integer>)candela_sesion.getAttribute("CodigosTomos");
-					}	
-					//Se añade el codigo de tomo añadido a Candela y se sobreescribe en la sesion.
-					codigos.add(nro_tomo);
-					candela_sesion.setAttribute("CodigosTomos", codigos);
 					
 					//Guardar la descripcion en la session, ya que si se pasa de nuevo se pierde parte de la 
 					//descripcion
@@ -94,11 +80,15 @@
 							descripcion);
 
 					//Genero un XML con los productos Libres llamado: productosDisponibles.xml.
+<<<<<<< HEAD
 				
 			
 			
 				
 					//gen.generarProdCatNoAsociados();
+=======
+
+>>>>>>> 8cb5f45b42b4e1dc075a4aeed5d2e757de2f97e1
 					//ver esto 9 - 9 -12
 					gen.generarProductosNoAsociados(0);
 					//se actualiza el archivo xml que posee los tomos que que se pueden dar de baja

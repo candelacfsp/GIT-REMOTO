@@ -17,10 +17,9 @@
 		candela_sesion.removeAttribute("nombreUsr");
 		candela_sesion.removeAttribute("tipoUsr");
 		candela_sesion.invalidate();
-		
-		
+	
 	}
-	response.sendRedirect("Index.swf");
+	response.sendRedirect("index.jsp");
 	
 %>
 <body>

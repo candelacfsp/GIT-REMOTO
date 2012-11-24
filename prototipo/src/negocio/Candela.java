@@ -578,6 +578,9 @@ public class Candela {
 
 	}//Fin de Carga de PedidoFabrica
 
+	
+	
+	
 	private void cargarFacturasFabrica() {
 		//Encontrar todas las facturas a Fabrica
 		FacturaFabricaBD [] facturasFab=null;
@@ -599,10 +602,12 @@ public class Candela {
 				while( posPedidoFab<pedidosFabricaNoFacturados.size() && nroPedFab!=pedidosFabricaNoFacturados.get(posPedidoFab).getNumeroPedido()){
 					posPedidoFab++;
 				}
+				//TODO MODIFICADO RODRIGO 22-11-2012
 				facturasFabrica.add(new FacturaFabrica(conexion,pedidosFabricaNoFacturados.get(posPedidoFab),facturasFab[i].getNumero(),facturasFab[i].getTipo(),
-						facturasFab[i].getFecha(),facturasFab[i].getPagada()));
+						facturasFab[i].getFecha(),facturasFab[i].getPagada(), facturasFab[i].getCodigoFactura()));
 			}//Fin de recorrido FacturasFabBD
 		}else{
+			facturasFabrica= new ArrayList<FacturaFabrica>();
 			System.out.println("No se detectaron facturas a fabrica cargadas en la BD! ");
 		}
 	}//Fin de Carga de Facturas a Fabrica
@@ -965,17 +970,13 @@ public class Candela {
 	 * @param fecha_inicio: fecha a partir de la que el catalogo tiene vigencia
 	 * @param fecha_fin: fecha hasta la que el catalogo tiene vigencia.
 	 * @return: una nueva instancia de un objeto Catalogo.
+	 * @throws SQLException 
 	 */
-	public void altaCatalogo(Date fecha_inicio){
-		//catalogoNuevo=new Catalogo(em,fecha_inicio,fecha_fin); //CATALOGO TENTATIVO A SER CREADO
-		//return new Catalogo(em,fecha_inicio,fecha_fin);
-		try {
-			this.catalogoNuevo= new Catalogo(this.conexion, fecha_inicio);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Excepcion al dar de alta el catalogo!!! ");
-			e.printStackTrace();
-		}
+	public void altaCatalogo(Date fecha_inicio) throws SQLException{
+		
+		
+		this.catalogoNuevo= new Catalogo(this.conexion, fecha_inicio);
+		
 	}
 
 
@@ -1075,11 +1076,12 @@ public class Candela {
 	 * @return: la posicion de la factura fabrica en la coleccion de facturas de Candela o -1 si no 
 	 * encuentra la factura fabrica.
 	 */
-	public int verificarFacturaFabrica(int numeroFactFabrica){
+	public int verificarFacturaFabrica(int codigoFacturaFabrica){
 		int resultado=-1;
 
+		//TODO MODIFICADO RODRIGO 22-11-2012
 		int posFacturaFab=0;
-		while(posFacturaFab<facturasFabrica.size() && facturasFabrica.get(posFacturaFab).getNumero()!=numeroFactFabrica){
+		while(posFacturaFab<facturasFabrica.size() && facturasFabrica.get(posFacturaFab).getCodigo()!=codigoFacturaFabrica){
 			posFacturaFab++;
 		}
 
@@ -1119,15 +1121,14 @@ public class Candela {
 	 * @param tipoFactura
 	 * @param fechaFactura
 	 */
-	public void agregarFacturaImpaga(PedidoFabrica pedidofab, int tipoFactura, Date fechaFactura) throws SQLException{
-
+	public void agregarFacturaImpaga(PedidoFabrica pedidofab, int tipoFactura, Date fechaFactura, int codigofactura) throws SQLException{
 
 		//Se recupera el ultimo numero de factura de Candela y se lo incrementa (autonumerico)
 
 		int nroFactFab= this.facturasFabrica.size()+1;
 
-
-		FacturaFabrica fb= new FacturaFabrica(this.conexion,pedidofab,nroFactFab,tipoFactura,fechaFactura);
+		//TODO MODIFICADO RODRIGO
+		FacturaFabrica fb= new FacturaFabrica(this.conexion,pedidofab,nroFactFab,tipoFactura,fechaFactura,codigofactura);
 
 
 		//Crear y a�adir la facturaImpaga del pedido seleccionado.
@@ -1141,6 +1142,9 @@ public class Candela {
 			factfab.setTipo(tipoFactura);
 			factfab.setFecha(fechaFactura);
 			factfab.setPagada(false);
+			//TODO MODIFICADO RODRIGO 22-11-2012
+			factfab.setCodigoFactura(codigofactura);
+			
 			//Buscar el pedido a fabrica de esa facturaFabrica
 			PedidoFabricaBD [] pedd= this.em.find(PedidoFabricaBD.class,"numeropedido=?",pedidofab.getNumeroPedido());
 

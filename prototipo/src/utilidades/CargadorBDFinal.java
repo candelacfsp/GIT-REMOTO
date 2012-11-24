@@ -34,8 +34,18 @@ public class CargadorBDFinal {
 	 */
 	public static void main(String[] args) {
 
+<<<<<<< HEAD
 		EntityManager em= new EntityManager("jdbc:postgresql://localhost/prototipo",Constantes.USUARIO,Constantes.PASS);
 		GeneradorBD gd = new GeneradorBD(Constantes.URL,Constantes.USUARIO,Constantes.PASS);
+=======
+		//EntityManager em= new EntityManager("jdbc:postgresql://localhost/BackupDatos",Constantes.USUARIO,Constantes.PASS);
+		//GeneradorBD gd = new GeneradorBD("jdbc:postgresql://localhost/BackupDatos",Constantes.USUARIO,Constantes.PASS);
+	
+		EntityManager em= new EntityManager("jdbc:postgresql://localhost/prototipo",Constantes.USUARIO,Constantes.PASS);
+		GeneradorBD gd = new GeneradorBD("jdbc:postgresql://localhost/prototipo",Constantes.USUARIO,Constantes.PASS);
+		
+		
+>>>>>>> 8cb5f45b42b4e1dc075a4aeed5d2e757de2f97e1
 		gd.generarEsquema();
 		CargadorBDFinal cargador= new CargadorBDFinal();
 		

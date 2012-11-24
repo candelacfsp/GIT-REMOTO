@@ -19,7 +19,7 @@ public class GeneradorBD {
 	}
 	public static void main(String[] args) {
 		GeneradorBD gb= new GeneradorBD(Constantes.URL, Constantes.USUARIO, Constantes.PASS);
-
+		gb.generarEsquema();
 	}
 	public void generarEsquema(){
 		EntityManager em= new EntityManager(url,usuario,pass);

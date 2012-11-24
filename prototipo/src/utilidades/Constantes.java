@@ -54,5 +54,9 @@ public class Constantes {
 	
 	public static final int EXCEPCION_SQL=1;
 	
-
+	//Formato decimal del ranking de vendedores
+	public static final int MAXIMO_CARACTERES=7;
+	
+	public static final int CORRIMIENTO_DECIMAL=100;
+	
 }

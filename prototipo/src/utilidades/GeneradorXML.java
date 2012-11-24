@@ -60,7 +60,9 @@ public class GeneradorXML {
 				//Si es un usuario vendedor o director, se agrega al XML
 				Element dni= new Element("dni");
 				dni.setAttribute("nroDni",Integer.toString(usuarios.get(i).getDni()));
+				dni.setAttribute("nombre",(usuarios.get(i).getApellido()+" "+usuarios.get(i).getNombre()) );
 				root.addContent(dni);
+				
 			}
 		}//FIn del for de usuarios
 
@@ -273,8 +275,8 @@ public class GeneradorXML {
 		for (int i = 0; i < facturaFabrica.size(); i++) {
 			if (!facturaFabrica.get(i).esPagada()){
 				Element factura = new Element("Factura");
-				factura.setAttribute("numero",Integer.toString(facturaFabrica.get(i).getNumero()));
-
+				//factura.setAttribute("numero",Integer.toString(facturaFabrica.get(i).getNumero()));
+				factura.setAttribute("numero",Integer.toString(facturaFabrica.get(i).getCodigo()));
 				root.addContent(factura);
 			}
 		}

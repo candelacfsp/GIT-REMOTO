@@ -23,7 +23,7 @@
 		//1.Buscar la facturaFabrica en la coleccion de facturas de Candela.
 		int posFacturaFab=0;
 		posFacturaFab=candela.verificarFacturaFabrica(numeroFactFab);
-		//JOptionPane panel= new JOptionPane();
+		
 		
 		if(posFacturaFab!=Constantes.ERROR){//Si la factura existe
 			
@@ -31,7 +31,6 @@
 			
 				//Se guarda cada una de las facturas seleccionadas por el usuario en la sesion de Candela,
 				// que luego es tomada por un .jsp que muestra los elementos de la coleccion
-				
 			
 				//Se crea una coleccion con las facturasFabrica pagadas en la sesion. Si el elemento no existe en la sesion,
 				//entonces se crea.
@@ -53,10 +52,7 @@
 					GeneradorXML xml= new GeneradorXML(candela);
 					xml.generarXMLFacturasFabrica(500);
 					response.sendRedirect("pagoFabrica.jsp");
-					
-					//response.sendRedirect("../vistaEjecutivo.swf");
-					
-				
+			
 				}catch(SQLException sql){
 					//Se vuelve a setear la factura Fabrica como Impaga
 					candela.getFacturasFabrica().get(posFacturaFab).setPagada(false);
@@ -68,7 +64,7 @@
 			
 			}else{
 				if (!response.isCommitted()){
-					//panel.showMessageDialog(null, "La factura se encuentra pagada!");
+				
 			
 					candela_sesion.setAttribute("mensaje","La factura se encuentra pagada!");
 					response.sendRedirect("pagoFabrica.jsp");
@@ -77,8 +73,6 @@
 			
 		}else{ //Si la factua no existe
 			if (!response.isCommitted()){
-			//	panel.showMessageDialog(null, "La factura seleccionada no existe!");
-			//response.sendRedirect("../vistaEjecutivo.swf");
 				candela_sesion.setAttribute("mensaje", "La factura seleccionada no existe!");
 				response.sendRedirect("pagoFabrica.jsp");
 			}

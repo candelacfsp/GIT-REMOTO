@@ -19,6 +19,10 @@ public interface FacturaFabricaBD extends Entity {
 	public void setPagada(boolean pagada);
 	public boolean getPagada();
 	
+	//TODO MODIFICADO RODRIGO 22-11-2012
+	public void setCodigoFactura(int codigofactura);
+	public int getCodigoFactura();
+	
 	@OneToMany
 	public PedidoPersonalBD [] getColPedidosPersonalBD();
 	
